@@ -67,10 +67,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "Aakash Astro",
+  name: "Startalks",
   url: "/",
   description:
-    "Personalised Vedic astrology reports — Kundli Milan, Wealth, Past Life and more, in your native language.",
+    "Startalks is a personal AI astrologer trained on classical Vedic Jyotish — instant answers in 9 Indian languages, 24/7.",
 };
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
@@ -78,32 +78,33 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Aakash Astro — Personalised Vedic Astrology Reports" },
+      { title: "Startalks — Your Personal AI Astrologer, 24/7 Vedic Wisdom" },
       {
         name: "description",
         content:
-          "Discover Kundli Milan, Wealth, Past Life and more. Precise Vedic astrology reports written in your language — trusted by 2M+ seekers.",
+          "Chat with an AI astrologer trained on classical Parashara & Jaimini methods. Instant Kundli, marriage, career and timing answers in 9 Indian languages.",
       },
-      { name: "author", content: "Aakash Astro" },
+      { name: "author", content: "Startalks" },
       { name: "theme-color", content: "#f2ead8" },
-      { property: "og:title", content: "Aakash Astro — Personalised Vedic Astrology Reports" },
+      { property: "og:title", content: "Startalks — Your Personal AI Astrologer" },
       {
         property: "og:description",
-        content: "Kundli, Wealth & Past Life reports in your native language. Trusted by 2M+ seekers.",
+        content: "Vedic AI astrologer available 24/7 in 9 Indian languages. No appointments, no waiting.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/" },
-      { property: "og:site_name", content: "Aakash Astro" },
+      { property: "og:site_name", content: "Startalks" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Aakash Astro — Vedic Astrology Reports" },
+      { name: "twitter:title", content: "Startalks — Your Personal AI Astrologer" },
       {
         name: "twitter:description",
-        content: "Personalised astrology reports in your native language.",
+        content: "AI astrologer trained on classical Vedic methods, in 9 Indian languages.",
       },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.png", type: "image/png" },
+      { rel: "apple-touch-icon", href: "/favicon.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
