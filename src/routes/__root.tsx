@@ -67,10 +67,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "Startalks",
+  name: "AstroVaanii",
   url: "/",
   description:
-    "Startalks is a personal AI astrologer trained on classical Vedic Jyotish — instant answers in 9 Indian languages, 24/7.",
+    "AstroVaanii is Vaanii, a personal AI astrologer trained on classical Vedic Jyotish — instant today & tomorrow predictions in 9 Indian languages, 24/7.",
 };
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
