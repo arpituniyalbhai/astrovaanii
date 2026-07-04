@@ -78,24 +78,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Startalks — Your Personal AI Astrologer, 24/7 Vedic Wisdom" },
+      { title: "AstroVaanii — Vaanii, Your Personal AI Astrologer 24/7" },
       {
         name: "description",
         content:
-          "Chat with an AI astrologer trained on classical Parashara & Jaimini methods. Instant Kundli, marriage, career and timing answers in 9 Indian languages.",
+          "Chat with Vaanii, an AI astrologer trained on classical Parashara & Jaimini methods. Get today & tomorrow predictions in 9 Indian languages.",
       },
-      { name: "author", content: "Startalks" },
+      { name: "author", content: "AstroVaanii" },
       { name: "theme-color", content: "#f2ead8" },
-      { property: "og:title", content: "Startalks — Your Personal AI Astrologer" },
+      { property: "og:title", content: "AstroVaanii — Meet Vaanii, Your AI Astrologer" },
       {
         property: "og:description",
-        content: "Vedic AI astrologer available 24/7 in 9 Indian languages. No appointments, no waiting.",
+        content: "Vedic AI astrologer available 24/7 in 9 Indian languages. Ask today's and tomorrow's prediction, anytime.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/" },
-      { property: "og:site_name", content: "Startalks" },
+      { property: "og:site_name", content: "AstroVaanii" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Startalks — Your Personal AI Astrologer" },
+      { name: "twitter:title", content: "AstroVaanii — Meet Vaanii, Your AI Astrologer" },
       {
         name: "twitter:description",
         content: "AI astrologer trained on classical Vedic methods, in 9 Indian languages.",
