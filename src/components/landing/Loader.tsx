@@ -35,8 +35,8 @@ export function Loader() {
           </g>
         </svg>
         <div className="absolute inset-x-0 -bottom-10 text-center">
-          <span className="font-display text-lg tracking-wide text-primary">Star</span>
-          <span className="ml-1 font-display text-lg text-foreground/60">talks</span>
+          <span className="font-display text-lg tracking-wide text-primary">Astro</span>
+          <span className="ml-1 font-display text-lg text-foreground/60">Vaanii</span>
         </div>
       </div>
     </div>
