@@ -289,35 +289,52 @@ function DailyPrediction() {
             </div>
           </Reveal>
 
-          {/* Sign picker + what you get */}
+          {/* How we see your prediction */}
           <Reveal delay={120}>
             <div className="rounded-3xl border border-border bg-card/70 p-6 backdrop-blur">
               <div className="flex items-baseline justify-between">
-                <h3 className="font-display text-xl">Pick your Rashi</h3>
-                <span className="text-xs uppercase tracking-widest text-muted-foreground">
-                  {day === "today" ? "For today" : "For tomorrow"}
-                </span>
+                <h3 className="font-display text-xl">
+                  How we see your <span className="text-primary">{day}'s</span> prediction
+                </h3>
               </div>
-              <div className="mt-5 grid grid-cols-3 gap-2 sm:grid-cols-4">
-                {signs.map((z) => (
-                  <button
-                    key={z.s}
-                    className="group rounded-2xl border border-border bg-background p-3 text-left transition hover:border-primary hover:bg-[color:var(--accent)]/50"
-                  >
-                    <div className="font-display text-sm text-foreground">{z.s}</div>
-                    <div className="text-[11px] text-muted-foreground">{z.g}</div>
-                  </button>
-                ))}
-              </div>
+              <p className="mt-2 text-sm text-muted-foreground">
+                No sun-sign horoscopes. Three real inputs, one personal reading.
+              </p>
 
-              <ul className="mt-6 space-y-3 border-t border-border pt-5 text-sm text-foreground/90">
-                <li className="flex gap-3"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Best muhurta windows down to the hour</li>
-                <li className="flex gap-3"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Career, love, health &amp; money at a glance</li>
-                <li className="flex gap-3"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Follow-up in any of 9 languages</li>
-              </ul>
+              <ol className="mt-6 space-y-5">
+                <li className="flex gap-4">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-primary/40 bg-primary/10 font-display text-sm text-primary">1</span>
+                  <div>
+                    <div className="font-display text-base">Your birth details</div>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      Date, exact time and place of birth — the foundation of your personal Kundli.
+                    </p>
+                  </div>
+                </li>
+                <li className="flex gap-4">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-primary/40 bg-primary/10 font-display text-sm text-primary">2</span>
+                  <div>
+                    <div className="font-display text-base">Real-time planetary positions</div>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      We pull live transits from a NASA-grade ephemeris API — the same precision used in
+                      space missions, updated every minute.
+                    </p>
+                  </div>
+                </li>
+                <li className="flex gap-4">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-primary/40 bg-primary/10 font-display text-sm text-primary">3</span>
+                  <div>
+                    <div className="font-display text-base">Analyzed by Vaanii AI</div>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      Vaanii cross-reads your chart against today's transits using classical Parashara
+                      rules — and explains it in plain language.
+                    </p>
+                  </div>
+                </li>
+              </ol>
 
-              <a href="#meet" className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-primary px-5 py-3 text-sm font-medium text-primary-foreground hover:opacity-90">
-                Ask Vaanii for my {day}'s reading
+              <a href="#meet" className="mt-7 inline-flex w-full items-center justify-center rounded-full bg-primary px-5 py-3 text-sm font-medium text-primary-foreground hover:opacity-90">
+                Get my {day}'s reading
               </a>
             </div>
           </Reveal>
