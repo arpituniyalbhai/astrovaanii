@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Loader } from "@/components/landing/Loader";
 import { Reveal } from "@/components/landing/Reveal";
@@ -57,9 +57,9 @@ function Nav() {
           <a href="#how" className="hover:text-foreground">How it works</a>
           <a href="#faq" className="hover:text-foreground">FAQ</a>
         </nav>
-        <a href="#meet" className="rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90">
+        <Link to="/signup" className="rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90">
           Start chat
-        </a>
+        </Link>
       </div>
     </header>
   );
@@ -92,9 +92,9 @@ function Hero() {
           </Reveal>
           <Reveal delay={240}>
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <a href="#meet" className="rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 hover:opacity-90">
+              <Link to="/signup" className="rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 hover:opacity-90">
                 Chat with Vaanii
-              </a>
+              </Link>
               <a href="#daily" className="rounded-full border border-border bg-card/60 px-6 py-3 text-sm font-medium hover:bg-card">
                 Today &amp; tomorrow →
               </a>
@@ -673,9 +673,9 @@ function CTA() {
           </p>
         </Reveal>
         <Reveal delay={200}>
-          <a href="#meet" className="mt-10 inline-flex rounded-full bg-primary px-8 py-4 text-sm font-medium text-primary-foreground shadow-xl shadow-primary/25 hover:opacity-90">
+          <Link to="/signup" className="mt-10 inline-flex rounded-full bg-primary px-8 py-4 text-sm font-medium text-primary-foreground shadow-xl shadow-primary/25 hover:opacity-90">
             Chat with Vaanii
-          </a>
+          </Link>
         </Reveal>
       </div>
     </section>
