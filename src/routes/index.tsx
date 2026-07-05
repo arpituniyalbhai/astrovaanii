@@ -174,20 +174,6 @@ function Marquee() {
 
 function DailyPrediction() {
   const [day, setDay] = useState<"today" | "tomorrow">("today");
-  const signs = [
-    { s: "Aries", g: "मेष" },
-    { s: "Taurus", g: "वृषभ" },
-    { s: "Gemini", g: "मिथुन" },
-    { s: "Cancer", g: "कर्क" },
-    { s: "Leo", g: "सिंह" },
-    { s: "Virgo", g: "कन्या" },
-    { s: "Libra", g: "तुला" },
-    { s: "Scorpio", g: "वृश्चिक" },
-    { s: "Sagittarius", g: "धनु" },
-    { s: "Capricorn", g: "मकर" },
-    { s: "Aquarius", g: "कुम्भ" },
-    { s: "Pisces", g: "मीन" },
-  ];
   const samplePrompts =
     day === "today"
       ? [
