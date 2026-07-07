@@ -1,1 +1,0 @@
-var e=`/assets/startalks-icon-DVbv84MT.png`;export{e as t};

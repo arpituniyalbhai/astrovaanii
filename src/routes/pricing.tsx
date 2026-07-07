@@ -55,7 +55,10 @@ function PricingPage() {
     setUserName(local.name || "User");
   }, []);
 
-  const handlePurchase = async (planName: string, price: number) => {
+  const handlePurchase = async (planName: string, price: number, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
     const userData = JSON.parse(localStorage.getItem("userData") || "{}");
     const email = userData.email;
 
@@ -69,6 +72,11 @@ function PricingPage() {
     setPaymentMessage(null);
 
     try {
+      // Check if Razorpay is loaded
+      if (!window.Razorpay) {
+        throw new Error("Razorpay script not loaded. Please refresh the page.");
+      }
+
       // Create order
       const orderRes = await fetch("/api/create-order", {
         method: "POST",
@@ -145,7 +153,7 @@ function PricingPage() {
       console.error("Purchase error:", error);
       setPaymentMessage({
         type: "error",
-        message: "Something went wrong. Please try again.",
+        message: error instanceof Error ? error.message : "Something went wrong. Please try again.",
       });
     } finally {
       setLoading(null);
@@ -219,7 +227,7 @@ function PricingPage() {
                 ))}
               </ul>
               <button
-                onClick={() => handlePurchase(plan.name, plan.price)}
+                onClick={(e) => handlePurchase(plan.name, plan.price, e)}
                 disabled={loading === plan.name}
                 className={`w-full rounded-full py-3 text-sm font-medium transition-all ${
                   plan.popular
