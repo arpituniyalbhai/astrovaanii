@@ -25,7 +25,7 @@ export const Route = createFileRoute("/api/create-order")({
           // Convert amount to paise (₹79 = 7900 paise)
           const amountInPaise = Math.round(amount * 100);
 
-          const receipt = `${planName}_${email}_${Date.now()}`;
+          const receipt = `${planName.slice(0, 8)}_${Date.now()}`.slice(0, 40);
 
           const order = await createRazorpayOrder({
             amount: amountInPaise,

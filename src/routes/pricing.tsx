@@ -130,7 +130,7 @@ function PricingPage() {
           setLoading(null);
         },
         prefill: {
-          name: userData.name || "",
+          name: local.name || "",
           email: email,
         },
         theme: {
