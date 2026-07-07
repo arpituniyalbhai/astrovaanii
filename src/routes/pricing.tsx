@@ -3,6 +3,12 @@ import { useState, useEffect } from "react";
 import { auth } from "@/lib/firebase";
 import brandIcon from "@/assets/startalks-icon.png";
 
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
+
 export const Route = createFileRoute("/pricing")({
   head: () => ({
     meta: [
@@ -19,18 +25,21 @@ export const Route = createFileRoute("/pricing")({
 const plans = [
   {
     name: "Starter",
-    price: "₹79",
+    price: 79,
+    priceDisplay: "₹79",
     features: ["5 AI chat questions", "Daily predictions", "Basic birth chart", "Career insights"],
   },
   {
     name: "Pro",
-    price: "₹139",
+    price: 139,
+    priceDisplay: "₹139",
     features: ["10 AI chat questions", "Advanced chart analysis", "Love compatibility", "Dasha predictions", "Priority response"],
     popular: true,
   },
   {
     name: "Premium",
-    price: "₹249",
+    price: 249,
+    priceDisplay: "₹249",
     features: ["20 AI chat questions", "Advanced analyzing", "Personalized remedies", "Live consultations", "Priority support", "Detailed transit analysis"],
   },
 ];
@@ -38,11 +47,110 @@ const plans = [
 function PricingPage() {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("User");
+  const [loading, setLoading] = useState<string | null>(null);
+  const [paymentMessage, setPaymentMessage] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
   useEffect(() => {
     const local = JSON.parse(localStorage.getItem("userData") || "{}");
     setUserName(local.name || "User");
   }, []);
+
+  const handlePurchase = async (planName: string, price: number) => {
+    const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+    const email = userData.email;
+
+    if (!email) {
+      alert("Please log in to purchase a plan");
+      navigate({ to: "/signup" });
+      return;
+    }
+
+    setLoading(planName);
+    setPaymentMessage(null);
+
+    try {
+      // Create order
+      const orderRes = await fetch("/api/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ planName, amount: price, email }),
+      });
+
+      const orderData = await orderRes.json();
+
+      if (!orderRes.ok) {
+        throw new Error(orderData.error || "Failed to create order");
+      }
+
+      // Open Razorpay checkout
+      const options = {
+        key: orderData.keyId,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: "AstroVaanii",
+        description: `${planName} Plan`,
+        order_id: orderData.orderId,
+        handler: async (response: any) => {
+          setLoading(planName);
+          
+          // Verify payment
+          const verifyRes = await fetch("/api/verify-payment", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              orderId: response.razorpay_order_id,
+              paymentId: response.razorpay_payment_id,
+              signature: response.razorpay_signature,
+              planName,
+              email,
+            }),
+          });
+
+          const verifyData = await verifyRes.json();
+
+          if (verifyData.success) {
+            setPaymentMessage({
+              type: "success",
+              message: verifyData.vaaniiMessage || "Payment successful! Credits added to your account.",
+            });
+          } else {
+            setPaymentMessage({
+              type: "error",
+              message: verifyData.vaaniiMessage || "Payment verification failed.",
+            });
+          }
+          setLoading(null);
+        },
+        prefill: {
+          name: userData.name || "",
+          email: email,
+        },
+        theme: {
+          color: "#E8B4B8",
+        },
+        modal: {
+          ondismiss: () => {
+            setLoading(null);
+            setPaymentMessage({
+              type: "error",
+              message: "The cosmic timing wasn't quite right this time. Don't worry—the stars will align when they're meant to. Try again whenever you feel ready.",
+            });
+          },
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      console.error("Purchase error:", error);
+      setPaymentMessage({
+        type: "error",
+        message: "Something went wrong. Please try again.",
+      });
+    } finally {
+      setLoading(null);
+    }
+  };
 
   return (
     <main className="min-h-screen bg-background grain">
@@ -75,6 +183,16 @@ function PricingPage() {
           </p>
         </div>
 
+        {paymentMessage && (
+          <div className={`max-w-lg mx-auto mb-8 p-4 rounded-xl text-center ${
+            paymentMessage.type === "success" 
+              ? "bg-green-500/10 border border-green-500/30 text-green-700 dark:text-green-400" 
+              : "bg-red-500/10 border border-red-500/30 text-red-700 dark:text-red-400"
+          }`}>
+            <p className="text-sm">{paymentMessage.message}</p>
+          </div>
+        )}
+
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {plans.map((plan) => (
             <div
@@ -89,7 +207,7 @@ function PricingPage() {
                 </div>
               )}
               <h3 className="font-display text-xl text-foreground mb-2">{plan.name}</h3>
-              <div className="text-3xl font-bold text-primary mb-4">{plan.price}</div>
+              <div className="text-3xl font-bold text-primary mb-4">{plan.priceDisplay}</div>
               <ul className="space-y-2 mb-6">
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -101,14 +219,15 @@ function PricingPage() {
                 ))}
               </ul>
               <button
-                onClick={() => navigate({ to: "/chat" })}
+                onClick={() => handlePurchase(plan.name, plan.price)}
+                disabled={loading === plan.name}
                 className={`w-full rounded-full py-3 text-sm font-medium transition-all ${
                   plan.popular
                     ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-90"
                     : "border border-border bg-background/70 hover:bg-card"
-                }`}
+                } ${loading === plan.name ? "opacity-50 cursor-not-allowed" : ""}`}
               >
-                {plan.name === "Free" ? "Current Plan" : "Upgrade"}
+                {loading === plan.name ? "Processing..." : "Purchase"}
               </button>
             </div>
           ))}
