@@ -81,8 +81,7 @@ const DASHA_YEARS: Record<string, number> = {
   Rahu: 18, Jupiter: 16, Saturn: 19, Mercury: 17,
 };
 
-import { createRequire } from "node:module";
-import { dirname, resolve } from "node:path";
+import SwissEph from "swisseph-wasm";
 
 function calcAllAntardashas(dashaList: { planet: string; start: string; end: string }[]) {
   const allAntardashas: { mahadasha: string; planet: string; start: string; end: string }[] = [];
@@ -114,13 +113,10 @@ function calcAllAntardashas(dashaList: { planet: string; start: string; end: str
   return allAntardashas;
 }
 
-export function calculateChart(birth: BirthData): ChartData {
-  const req = createRequire(import.meta.url);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const swisseph: any = req("swisseph");
-  const swissephRoot = dirname(req.resolve("swisseph/package.json"));
-  swisseph.swe_set_ephe_path(resolve(swissephRoot, "deps/ephe"));
-  swisseph.swe_set_sid_mode(1);
+export async function calculateChart(birth: BirthData): Promise<ChartData> {
+  const swe = new SwissEph();
+  await swe.initSwissEph();
+  swe.set_sid_mode(swe.SE_SIDM_LAHIRI, 0, 0);
 
   // Convert local time to UTC
   const offsetHours = birth.timezoneOffset || 0;
@@ -128,42 +124,38 @@ export function calculateChart(birth: BirthData): ChartData {
   const utcMs = localMs - offsetHours * 3600000;
   const utc = new Date(utcMs);
 
-  const jd = swisseph.swe_julday(
+  const jd = swe.julday(
     utc.getUTCFullYear(),
     utc.getUTCMonth() + 1,
     utc.getUTCDate(),
     utc.getUTCHours() + utc.getUTCMinutes() / 60,
-    swisseph.SE_GREG_CAL,
   );
 
-  const flags = swisseph.SEFLG_SWIEPH | swisseph.SEFLG_SIDEREAL;
+  const flags = swe.SEFLG_SWIEPH | swe.SEFLG_SIDEREAL;
 
-  swisseph.swe_set_topo(birth.latitude, birth.longitude, 0);
+  swe.set_topo(birth.longitude, birth.latitude, 0);
 
-  const housesResult = swisseph.swe_houses_ex(jd, flags, birth.latitude, birth.longitude, "W");
-  console.log("JD:", jd);
-  console.log("Houses:", housesResult);
-  console.log("Asc:", housesResult.ascendant);
-  const ascendant: number = housesResult.ascendant;
-  const houses: number[] = housesResult.house;
+  const housesResult = (swe as any).houses_ex(jd, flags, birth.latitude, birth.longitude, "W") as { cusps: Float64Array; ascmc: Float64Array };
+  const ascendant: number = housesResult.ascmc[0];
+  const houses: number[] = Array.from(housesResult.cusps).slice(1, 13);
 
   const planetMap: Record<string, PlanetData> = {};
   const planetHouseMap: Record<string, number> = {};
 
   const planetDefs = [
-    { id: swisseph.SE_SUN, name: "Sun" },
-    { id: swisseph.SE_MOON, name: "Moon" },
-    { id: swisseph.SE_MERCURY, name: "Mercury" },
-    { id: swisseph.SE_VENUS, name: "Venus" },
-    { id: swisseph.SE_MARS, name: "Mars" },
-    { id: swisseph.SE_JUPITER, name: "Jupiter" },
-    { id: swisseph.SE_SATURN, name: "Saturn" },
-    { id: swisseph.SE_MEAN_NODE, name: "Rahu" },
+    { id: swe.SE_SUN, name: "Sun" },
+    { id: swe.SE_MOON, name: "Moon" },
+    { id: swe.SE_MERCURY, name: "Mercury" },
+    { id: swe.SE_VENUS, name: "Venus" },
+    { id: swe.SE_MARS, name: "Mars" },
+    { id: swe.SE_JUPITER, name: "Jupiter" },
+    { id: swe.SE_SATURN, name: "Saturn" },
+    { id: swe.SE_MEAN_NODE, name: "Rahu" },
   ];
 
   for (const p of planetDefs) {
-    const calc = swisseph.swe_calc_ut(jd, p.id, flags);
-    const lon: number = calc.longitude;
+    const calc = swe.calc_ut(jd, p.id, flags);
+    const lon: number = calc[0];
 
     if (p.name === "Rahu") {
       const ketuLon = (lon + 180) % 360;
@@ -176,6 +168,8 @@ export function calculateChart(birth: BirthData): ChartData {
     planetMap[p.name] = pd;
     planetHouseMap[p.name] = pd.house;
   }
+
+  swe.close();
 
   const houseSigns: Record<number, number> = {};
   const houseSignNames: Record<number, string> = {};

@@ -5,7 +5,7 @@ export const getChart = createServerFn({ method: "GET" })
   .validator((data: BirthData) => data)
   .handler(async ({ data }) => {
     try {
-      const chart = calculateChart(data);
+      const chart = await calculateChart(data);
       return { success: true, chart } as const;
     } catch (error) {
       console.error("Chart calculation error:", error);

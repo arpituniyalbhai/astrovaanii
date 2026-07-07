@@ -1,0 +1,1 @@
+var e=`/assets/startalks-icon-BSUHZg5s.png`;export{e as t};
