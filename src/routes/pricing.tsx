@@ -96,6 +96,7 @@ function PricingPage() {
         amount: orderData.amount,
         currency: orderData.currency,
         name: "AstroVaanii",
+        image: "/astrovaanii.png",
         description: `${planName} Plan`,
         order_id: orderData.orderId,
         handler: async (response: any) => {
