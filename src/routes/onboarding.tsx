@@ -276,7 +276,7 @@ function OnboardingPage() {
         console.error("Failed to save user data to Firestore:", error);
       }
     }
-    const stored = { ...userData, questionsRemaining: 1 };
+    const stored = { ...userData, email, questionsRemaining: 1 };
     localStorage.setItem("userData", JSON.stringify(stored));
 
     if (userData.latitude != null && userData.longitude != null && userData.dob && userData.timeOfBirth) {
@@ -294,7 +294,7 @@ function OnboardingPage() {
       }});
       if (result.success) {
         const chartData = result.chart;
-        const updated = { ...stored, chart: chartData };
+        const updated = { ...stored, email, chart: chartData };
         localStorage.setItem("userData", JSON.stringify(updated));
       } else {
         console.error("Chart calculation failed:", (result as any).error);

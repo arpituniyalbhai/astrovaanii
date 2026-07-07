@@ -59,8 +59,8 @@ function PricingPage() {
     e.preventDefault();
     e.stopPropagation();
     
-    const userData = JSON.parse(localStorage.getItem("userData") || "{}");
-    const email = userData.email;
+    const local = JSON.parse(localStorage.getItem("userData") || "{}");
+    const email = auth.currentUser?.email || local.email;
 
     if (!email) {
       alert("Please log in to purchase a plan");

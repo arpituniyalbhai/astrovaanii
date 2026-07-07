@@ -1,0 +1,1 @@
+var e=`/assets/vaanii-persona-BJOqqX-O.jpg`;export{e as t};
