@@ -14,7 +14,7 @@ export const Route = createFileRoute("/chat")({
   validateSearch: chatSearchSchema,
   head: () => ({
     meta: [
-      { title: "Chat with Vaanii — AstroVaanii" },
+      { title: "Chat with Vaanii AI — AstroVaanii" },
       { name: "description", content: "Chat with your personal AI astrologer for personalized readings." },
     ],
   }),
