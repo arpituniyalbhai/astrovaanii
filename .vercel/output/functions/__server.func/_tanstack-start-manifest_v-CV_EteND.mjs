@@ -1,4 +1,4 @@
-//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-D6fVEOMX.js
+//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-CV_EteND.js
 var tsrStartManifest = () => ({ routes: {
 	__root__: {
 		filePath: "/Users/arpit/celestial-stories/src/routes/__root.tsx",
@@ -15,29 +15,29 @@ var tsrStartManifest = () => ({ routes: {
 			"/api/create-order",
 			"/api/verify-payment"
 		],
-		preloads: ["/assets/index-srUfVyx7.js", "/assets/useNavigate-BFf10AA2.js"],
+		preloads: ["/assets/index-hw-XXa4_.js", "/assets/useNavigate-r8bPk09Y.js"],
 		scripts: [{ attrs: {
 			type: "module",
 			async: !0,
-			src: "/assets/index-srUfVyx7.js"
+			src: "/assets/index-hw-XXa4_.js"
 		} }]
 	},
 	"/": {
 		filePath: "/Users/arpit/celestial-stories/src/routes/index.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/routes-BZqtqsme.js",
+			"/assets/routes-fqe7plba.js",
 			"/assets/firebase-1IZjYwoc.js",
 			"/assets/vaanii-persona-CiNmWpnV.js",
 			"/assets/startalks-icon-BIE-3ZFq.js",
-			"/assets/Reveal-OiEZv3h7.js"
+			"/assets/Reveal-DSorLQ5W.js"
 		]
 	},
 	"/chat": {
 		filePath: "/Users/arpit/celestial-stories/src/routes/chat.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/chat-o6fXhShW.js",
+			"/assets/chat-DDFB7kXG.js",
 			"/assets/firebase-1IZjYwoc.js",
 			"/assets/vaanii-persona-CiNmWpnV.js",
 			"/assets/startalks-icon-BIE-3ZFq.js"
@@ -47,8 +47,8 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/Users/arpit/celestial-stories/src/routes/dashboard.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/dashboard-C8udoyBW.js",
-			"/assets/chart-server-t3hn7QAJ.js",
+			"/assets/dashboard-DK0qBxnn.js",
+			"/assets/chart-server-B5zwdCy3.js",
 			"/assets/firebase-1IZjYwoc.js",
 			"/assets/vaanii-persona-CiNmWpnV.js",
 			"/assets/startalks-icon-BIE-3ZFq.js"
@@ -57,25 +57,25 @@ var tsrStartManifest = () => ({ routes: {
 	"/my-chart": {
 		filePath: "/Users/arpit/celestial-stories/src/routes/my-chart.tsx",
 		children: void 0,
-		preloads: ["/assets/my-chart-DeNWfOIy.js", "/assets/startalks-icon-BIE-3ZFq.js"]
+		preloads: ["/assets/my-chart-BTg3vvj7.js", "/assets/startalks-icon-BIE-3ZFq.js"]
 	},
 	"/onboarding": {
 		filePath: "/Users/arpit/celestial-stories/src/routes/onboarding.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/onboarding-B3xgGGZ-.js",
-			"/assets/chart-server-t3hn7QAJ.js",
+			"/assets/onboarding-BBxH1R2f.js",
+			"/assets/chart-server-B5zwdCy3.js",
 			"/assets/firebase-1IZjYwoc.js",
 			"/assets/vaanii-persona-CiNmWpnV.js",
 			"/assets/startalks-icon-BIE-3ZFq.js",
-			"/assets/Reveal-OiEZv3h7.js"
+			"/assets/Reveal-DSorLQ5W.js"
 		]
 	},
 	"/pricing": {
 		filePath: "/Users/arpit/celestial-stories/src/routes/pricing.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/pricing-xTcXbLB9.js",
+			"/assets/pricing-DcY8eImN.js",
 			"/assets/firebase-1IZjYwoc.js",
 			"/assets/startalks-icon-BIE-3ZFq.js"
 		]
@@ -84,12 +84,12 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/Users/arpit/celestial-stories/src/routes/signup.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/signup-C10-bdSc.js",
-			"/assets/chart-server-t3hn7QAJ.js",
+			"/assets/signup-BXwLhCSK.js",
+			"/assets/chart-server-B5zwdCy3.js",
 			"/assets/firebase-1IZjYwoc.js",
 			"/assets/vaanii-persona-CiNmWpnV.js",
 			"/assets/startalks-icon-BIE-3ZFq.js",
-			"/assets/Reveal-OiEZv3h7.js"
+			"/assets/Reveal-DSorLQ5W.js"
 		]
 	}
 } });

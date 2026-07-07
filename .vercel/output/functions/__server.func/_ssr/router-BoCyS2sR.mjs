@@ -8,7 +8,7 @@ import { t as faqs } from "./routes-DcqvICF5.mjs";
 import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
 import { n as stringType, t as objectType } from "../_libs/zod.mjs";
 import crypto from "crypto";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-CiGZn3g8.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-BoCyS2sR.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var styles_default = "/assets/styles-xtrOrR7o.css";
@@ -27,33 +27,26 @@ function reportLovableError(error, context = {}) {
 function NotFoundComponent() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 		className: "flex min-h-screen items-center justify-center bg-background px-4",
-		"data-tsd-source": "/src/routes/__root.tsx:17:5",
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "max-w-md text-center",
-			"data-tsd-source": "/src/routes/__root.tsx:18:7",
 			children: [
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
 					className: "text-7xl font-bold text-foreground",
-					"data-tsd-source": "/src/routes/__root.tsx:19:9",
 					children: "404"
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
 					className: "mt-4 text-xl font-semibold text-foreground",
-					"data-tsd-source": "/src/routes/__root.tsx:20:9",
 					children: "Page not found"
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 					className: "mt-2 text-sm text-muted-foreground",
-					"data-tsd-source": "/src/routes/__root.tsx:21:9",
 					children: "The stars couldn't align this page. It may have moved."
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 					className: "mt-6",
-					"data-tsd-source": "/src/routes/__root.tsx:24:9",
 					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
 						to: "/",
 						className: "inline-flex items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:opacity-90",
-						"data-tsd-source": "/src/routes/__root.tsx:25:11",
 						children: "Return home"
 					})
 				})
@@ -69,36 +62,29 @@ function ErrorComponent({ error, reset }) {
 	}, [error]);
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 		className: "flex min-h-screen items-center justify-center bg-background px-4",
-		"data-tsd-source": "/src/routes/__root.tsx:45:5",
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "max-w-md text-center",
-			"data-tsd-source": "/src/routes/__root.tsx:46:7",
 			children: [
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
 					className: "text-xl font-semibold text-foreground",
-					"data-tsd-source": "/src/routes/__root.tsx:47:9",
 					children: "This page didn't load"
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 					className: "mt-2 text-sm text-muted-foreground",
-					"data-tsd-source": "/src/routes/__root.tsx:48:9",
 					children: "Something drifted out of orbit. Try again or head home."
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "mt-6 flex flex-wrap justify-center gap-2",
-					"data-tsd-source": "/src/routes/__root.tsx:51:9",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
 						onClick: () => {
 							router.invalidate();
 							reset();
 						},
 						className: "rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:opacity-90",
-						"data-tsd-source": "/src/routes/__root.tsx:52:11",
 						children: "Try again"
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
 						href: "/",
 						className: "rounded-full border border-input bg-background px-5 py-2.5 text-sm font-medium hover:bg-accent",
-						"data-tsd-source": "/src/routes/__root.tsx:58:11",
 						children: "Go home"
 					})]
 				})
@@ -224,22 +210,14 @@ var Route$11 = createRootRouteWithContext()({
 function RootShell({ children }) {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("html", {
 		lang: "en",
-		"data-tsd-source": "/src/routes/__root.tsx:141:5",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("head", {
-			"data-tsd-source": "/src/routes/__root.tsx:142:7",
-			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(HeadContent, { "data-tsd-source": "/src/routes/__root.tsx:143:9" })
-		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("body", {
-			"data-tsd-source": "/src/routes/__root.tsx:145:7",
-			children: [children, /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Scripts, { "data-tsd-source": "/src/routes/__root.tsx:147:9" })]
-		})]
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("head", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(HeadContent, {}) }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("body", { children: [children, /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Scripts, {})] })]
 	});
 }
 function RootComponent() {
 	const { queryClient } = Route$11.useRouteContext();
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(QueryClientProvider, {
 		client: queryClient,
-		"data-tsd-source": "/src/routes/__root.tsx:156:5",
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Outlet, { "data-tsd-source": "/src/routes/__root.tsx:157:7" })
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Outlet, {})
 	});
 }
 var BASE_URL = "";
@@ -259,7 +237,7 @@ var Route$10 = createFileRoute("/sitemap.xml")({ server: { handlers: { GET: asyn
 		"Cache-Control": "public, max-age=3600"
 	} });
 } } } });
-var $$splitComponentImporter$6 = () => import("./signup-D3TQUx3R.mjs");
+var $$splitComponentImporter$6 = () => import("./signup-CdQ9BOfA.mjs");
 var Route$9 = createFileRoute("/signup")({
 	head: () => ({ meta: [
 		{ title: "Create your account — AstroVaanii" },
@@ -274,7 +252,7 @@ var Route$9 = createFileRoute("/signup")({
 	] }),
 	component: lazyRouteComponent($$splitComponentImporter$6, "component")
 });
-var $$splitComponentImporter$5 = () => import("./pricing-C9OAH_pB.mjs");
+var $$splitComponentImporter$5 = () => import("./pricing-Bzl9fxY1.mjs");
 var Route$8 = createFileRoute("/pricing")({
 	head: () => ({ meta: [{ title: "Pricing Plans — AstroVaanii" }, {
 		name: "description",
@@ -282,7 +260,7 @@ var Route$8 = createFileRoute("/pricing")({
 	}] }),
 	component: lazyRouteComponent($$splitComponentImporter$5, "component")
 });
-var $$splitComponentImporter$4 = () => import("./onboarding-DqRsFawc.mjs");
+var $$splitComponentImporter$4 = () => import("./onboarding-DXCt7QGt.mjs");
 var Route$7 = createFileRoute("/onboarding")({
 	head: () => ({ meta: [
 		{ title: "Complete your profile — AstroVaanii" },
@@ -297,7 +275,7 @@ var Route$7 = createFileRoute("/onboarding")({
 	] }),
 	component: lazyRouteComponent($$splitComponentImporter$4, "component")
 });
-var $$splitComponentImporter$3 = () => import("./my-chart-DnXQKsQA.mjs");
+var $$splitComponentImporter$3 = () => import("./my-chart-DY3hTEmq.mjs");
 var Route$6 = createFileRoute("/my-chart")({
 	head: () => ({ meta: [
 		{ title: "My Chart — AstroVaanii" },
@@ -312,7 +290,7 @@ var Route$6 = createFileRoute("/my-chart")({
 	] }),
 	component: lazyRouteComponent($$splitComponentImporter$3, "component")
 });
-var $$splitComponentImporter$2 = () => import("./dashboard-jAe9_7q5.mjs");
+var $$splitComponentImporter$2 = () => import("./dashboard-Bw-WZlcS.mjs");
 var Route$5 = createFileRoute("/dashboard")({
 	head: () => ({ meta: [{ title: "Dashboard — AstroVaanii" }, {
 		name: "description",
@@ -320,7 +298,7 @@ var Route$5 = createFileRoute("/dashboard")({
 	}] }),
 	component: lazyRouteComponent($$splitComponentImporter$2, "component")
 });
-var $$splitComponentImporter$1 = () => import("./chat-B-bnzi_h.mjs");
+var $$splitComponentImporter$1 = () => import("./chat-DVBxhFCy.mjs");
 var chatSearchSchema = objectType({ question: stringType().optional() });
 var Route$4 = createFileRoute("/chat")({
 	validateSearch: chatSearchSchema,
@@ -330,7 +308,7 @@ var Route$4 = createFileRoute("/chat")({
 	}] }),
 	component: lazyRouteComponent($$splitComponentImporter$1, "component")
 });
-var $$splitComponentImporter = () => import("./routes-EGH4-E8e.mjs");
+var $$splitComponentImporter = () => import("./routes-De_xhrHG.mjs");
 var faqJsonLd = {
 	"@context": "https://schema.org",
 	"@type": "FAQPage",
@@ -518,7 +496,7 @@ var Route$1 = createFileRoute("/api/create-order")({ server: { handlers: { POST:
 		const order = await createRazorpayOrder({
 			amount: Math.round(amount * 100),
 			currency: "INR",
-			receipt: `${planName}_${email}_${Date.now()}`,
+			receipt: `${planName.slice(0, 8)}_${Date.now()}`.slice(0, 40),
 			notes: {
 				planName,
 				email

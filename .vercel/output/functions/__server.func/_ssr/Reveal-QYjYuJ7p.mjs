@@ -1,6 +1,6 @@
 import { o as __toESM } from "../_runtime.mjs";
 import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/Reveal-CznoT_Wi.js
+//#region node_modules/.nitro/vite/services/ssr/assets/Reveal-QYjYuJ7p.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function Reveal({ children, as: Tag = "div", className = "", delay = 0 }) {
@@ -22,7 +22,6 @@ function Reveal({ children, as: Tag = "div", className = "", delay = 0 }) {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Tag, {
 		ref,
 		className: `reveal ${className}`,
-		"data-tsd-source": "/src/components/landing/Reveal.tsx:34:5",
 		children
 	});
 }
