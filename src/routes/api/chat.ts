@@ -211,7 +211,7 @@ async function handleStream(request: Request) {
     systemMessages.push({ role: "system", content: lines.join("\n") });
   }
 
-  const API_KEY = "GgrTWIGYjz7qfpJ8BwJl3Uk9te0AlFBj";
+  const API_KEY = process.env.MISTRAL_API_KEY;
   const MODEL = "mistral-small-latest";
   const ENDPOINT = "https://api.mistral.ai/v1/chat/completions";
 
