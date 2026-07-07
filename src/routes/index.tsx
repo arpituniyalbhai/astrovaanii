@@ -1,5 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
+import { auth } from "@/lib/firebase";
 import { Loader } from "@/components/landing/Loader";
 import { Reveal } from "@/components/landing/Reveal";
 import brandIcon from "@/assets/startalks-icon.png";
@@ -92,12 +93,9 @@ function Hero() {
           </Reveal>
           <Reveal delay={240}>
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link to="/signup" className="rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 hover:opacity-90">
-                Chat with Vaanii
+              <Link to="/signup" className="rounded-full bg-primary px-8 py-4 text-base font-medium text-primary-foreground shadow-lg shadow-primary/20 hover:opacity-90">
+                Chat with Vaanii AI - it's Free
               </Link>
-              <a href="#daily" className="rounded-full border border-border bg-card/60 px-6 py-3 text-sm font-medium hover:bg-card">
-                Today &amp; tomorrow →
-              </a>
             </div>
           </Reveal>
           <Reveal delay={320}>
@@ -741,6 +739,16 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Redirect logged-in users to dashboard
+    const local = JSON.parse(localStorage.getItem('userData') || '{}');
+    if (local.email || auth.currentUser) {
+      navigate({ to: "/dashboard" });
+    }
+  }, [navigate]);
+
   return (
     <>
       <Loader />

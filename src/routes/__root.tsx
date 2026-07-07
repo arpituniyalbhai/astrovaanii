@@ -77,7 +77,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" },
       { title: "AstroVaanii — Vaanii, Your Personal AI Astrologer 24/7" },
       {
         name: "description",
@@ -114,6 +114,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(jsonLd) },
+      {
+        type: "text/style",
+        children: `
+          html, body {
+            height: 100%;
+            overflow: hidden;
+            overscroll-behavior: none;
+          }
+        `,
+      },
     ],
   }),
   shellComponent: RootShell,

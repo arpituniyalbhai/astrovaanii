@@ -1,6 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Reveal } from "@/components/landing/Reveal";
+import { signInWithGoogle, signUpWithEmail, getUserDoc } from "@/lib/firebase";
+import { getChart } from "@/lib/chart-server";
 import vaaniiPersona from "@/assets/vaanii-persona.jpg";
 import brandIcon from "@/assets/startalks-icon.png";
 
@@ -16,7 +18,69 @@ export const Route = createFileRoute("/signup")({
 });
 
 function SignupPage() {
+  const navigate = useNavigate();
   const [showIntro, setShowIntro] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
+  const [emailLoading, setEmailLoading] = useState(false);
+  const [authError, setAuthError] = useState("");
+
+  const routeAfterAuth = async (user: { uid: string; displayName?: string | null; email?: string | null }) => {
+    const email = user.email || "";
+    const base = { email, uid: user.uid };
+    const existing: any = email ? await getUserDoc(email) : null;
+    if (existing) {
+      const stored: any = { ...base, ...existing };
+      if (existing.dob && existing.timeOfBirth && existing.latitude != null && existing.longitude != null) {
+        const [y, m, d] = existing.dob.split("-").map(Number);
+        const [h, min] = existing.timeOfBirth.split(":").map(Number);
+        const result = await getChart({ data: {
+          year: y, month: m, day: d,
+          hour: h || 12, minute: min || 0,
+          latitude: existing.latitude,
+          longitude: existing.longitude,
+          timezoneOffset: existing.timezoneOffset,
+        }});
+        if (result.success) stored.chart = result.chart;
+        else console.error("Chart recalculation failed:", (result as any).error);
+      }
+      localStorage.setItem("userData", JSON.stringify(stored));
+      navigate({ to: "/dashboard" });
+    } else {
+      localStorage.setItem("userData", JSON.stringify(base));
+      navigate({ to: "/onboarding" });
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setGoogleLoading(true);
+    setAuthError("");
+    try {
+      const user = await signInWithGoogle();
+      await routeAfterAuth(user);
+    } catch (error) {
+      console.error("Google sign-in error:", error);
+      setAuthError("Google sign-in failed. Please try again.");
+      setGoogleLoading(false);
+    }
+  };
+
+  const handleEmailSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setAuthError("");
+    const form = e.currentTarget;
+    const email = (form.querySelector<HTMLInputElement>('input[type="email"]'))?.value;
+    const password = (form.querySelector<HTMLInputElement>('input[type="password"]'))?.value;
+    if (!email || !password) return;
+    setEmailLoading(true);
+    try {
+      const user = await signUpWithEmail(email, password);
+      await routeAfterAuth(user);
+    } catch (error: any) {
+      console.error("Email sign-up error:", error);
+      setAuthError(error?.message || "Sign-up failed. Please try again.");
+      setEmailLoading(false);
+    }
+  };
 
   useEffect(() => {
     const t = setTimeout(() => setShowIntro(true), 350);
@@ -36,7 +100,7 @@ function SignupPage() {
         <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">← Back home</Link>
       </header>
 
-      <section className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 items-center gap-14 px-6 py-10 md:grid-cols-[1.05fr_1fr] md:py-16">
+      <section className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 items-center gap-14 px-6 pt-0 pb-6 md:grid-cols-[1.05fr_1fr] md:py-16">
         {/* Left: brand story */}
         <Reveal>
           <div className="hidden md:block">
@@ -72,15 +136,13 @@ function SignupPage() {
         <Reveal delay={100}>
           <div className="mx-auto w-full max-w-md rounded-3xl border border-border bg-card/80 p-8 shadow-xl backdrop-blur-md md:p-10">
             <h2 className="font-display text-3xl text-primary">Create your account</h2>
-            <p className="mt-1.5 text-sm text-muted-foreground">Step 1 of 3 — takes under a minute.</p>
 
-            <div className="mt-6 flex gap-1.5">
-              <div className="h-1 flex-1 rounded-full bg-primary" />
-              <div className="h-1 flex-1 rounded-full bg-primary/30" />
-              <div className="h-1 flex-1 rounded-full bg-primary/15" />
-            </div>
-
-            <form className="mt-7 space-y-3" onSubmit={(e) => e.preventDefault()}>
+            {authError && (
+              <div className="rounded-full bg-red-50 border border-red-200 px-4 py-2 text-sm text-red-600 text-center">
+                {authError}
+              </div>
+            )}
+            <form className="mt-7 space-y-3" onSubmit={handleEmailSignUp}>
               <label className="flex items-center gap-3 rounded-full border border-border bg-background/70 px-4 py-3 focus-within:border-primary/60">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="text-muted-foreground">
                   <rect x="3" y="5" width="18" height="14" rx="3" /><path d="m3 7 9 6 9-6" />
@@ -94,8 +156,8 @@ function SignupPage() {
                 <input type="password" placeholder="Password" className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
               </label>
 
-              <button type="submit" className="mt-2 w-full rounded-full bg-primary py-3.5 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-90">
-                Create account
+              <button type="submit" disabled={emailLoading} className="mt-2 w-full rounded-full bg-primary py-3.5 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-90 disabled:opacity-50">
+                {emailLoading ? "Creating account..." : "Create account"}
               </button>
             </form>
 
@@ -104,8 +166,12 @@ function SignupPage() {
             </div>
 
             <div className="space-y-2.5">
-              <button className="flex w-full items-center justify-center gap-3 rounded-full border border-border bg-background py-3 text-sm font-medium hover:bg-card">
-                <GoogleMark /> Continue with Google
+              <button
+                onClick={handleGoogleSignIn}
+                disabled={googleLoading}
+                className="flex w-full items-center justify-center gap-3 rounded-full border border-border bg-background py-3 text-sm font-medium hover:bg-card disabled:opacity-50"
+              >
+                <GoogleMark /> {googleLoading ? "Signing in..." : "Continue with Google"}
               </button>
               <button className="flex w-full items-center justify-center gap-3 rounded-full bg-foreground py-3 text-sm font-medium text-background hover:opacity-90">
                 <AppleMark /> Continue with Apple
@@ -144,13 +210,6 @@ function SignupPage() {
           }`}
         >
           <div className="relative bg-gradient-to-br from-[color:var(--gold)]/25 via-card to-[color:var(--clay)]/20 px-6 pt-7 pb-5">
-            <button
-              onClick={() => setShowIntro(false)}
-              aria-label="Close"
-              className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full border border-border bg-background/70 text-muted-foreground hover:text-foreground"
-            >
-              ×
-            </button>
             <div className="flex items-center gap-4">
               <div className="relative">
                 <div className="absolute inset-0 -m-1 rounded-full bg-primary/25 blur-md" />
