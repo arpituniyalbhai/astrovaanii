@@ -683,23 +683,37 @@ function CTA() {
 function Footer() {
   return (
     <footer className="border-t border-border bg-card/40 py-12">
-      <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-6 px-6 md:flex-row md:items-center">
-        <div>
-          <div className="flex items-center gap-2">
-            <img src={brandIcon} alt="" width={28} height={28} className="h-7 w-7" />
-            <span className="font-display text-lg">AstroVaanii</span>
+      <div className="mx-auto flex max-w-6xl flex-col gap-8 px-6">
+        <div className="flex flex-col justify-between gap-8 md:flex-row md:items-start">
+          <div>
+            <div className="flex items-center gap-2">
+              <img src={brandIcon} alt="" width={28} height={28} className="h-7 w-7" />
+              <span className="font-display text-lg">AstroVaanii</span>
+            </div>
+            <p className="mt-2 max-w-xs text-sm text-muted-foreground">
+              Your personal AI astrologer. Vedic wisdom, instant answers.
+            </p>
           </div>
-          <p className="mt-2 max-w-xs text-sm text-muted-foreground">
-            Your personal AI astrologer. Vedic wisdom, instant answers.
-          </p>
+          <div className="flex flex-wrap gap-8 text-sm text-muted-foreground">
+            <a href="#meet" className="hover:text-foreground">Meet Vaanii</a>
+            <a href="#daily" className="hover:text-foreground">Daily prediction</a>
+            <a href="#how" className="hover:text-foreground">How it works</a>
+            <a href="#faq" className="hover:text-foreground">FAQ</a>
+            <Link to="/blogs" className="hover:text-foreground">Blog</Link>
+          </div>
+          <div className="flex flex-col gap-3 text-sm">
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60">Legal</span>
+            <div className="flex flex-col gap-2 text-muted-foreground">
+              <Link to="/privacy-policy" className="hover:text-foreground">Privacy Policy</Link>
+              <Link to="/terms-and-conditions" className="hover:text-foreground">Terms &amp; Conditions</Link>
+              <Link to="/refund-policy" className="hover:text-foreground">Refund Policy</Link>
+              <Link to="/disclaimer" className="hover:text-foreground">Disclaimer</Link>
+            </div>
+          </div>
         </div>
-        <div className="flex flex-wrap gap-8 text-sm text-muted-foreground">
-          <a href="#meet" className="hover:text-foreground">Meet Vaanii</a>
-          <a href="#daily" className="hover:text-foreground">Daily prediction</a>
-          <a href="#how" className="hover:text-foreground">How it works</a>
-          <a href="#faq" className="hover:text-foreground">FAQ</a>
+        <div className="border-t border-border pt-6 text-center text-xs text-muted-foreground">
+          &copy; {new Date().getFullYear()} AstroVaanii
         </div>
-        <div className="text-xs text-muted-foreground">© {new Date().getFullYear()} AstroVaanii</div>
       </div>
     </footer>
   );

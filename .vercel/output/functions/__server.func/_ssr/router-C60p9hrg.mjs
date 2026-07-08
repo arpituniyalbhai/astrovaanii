@@ -1,17 +1,18 @@
 import { o as __toESM } from "../_runtime.mjs";
-import { c as HeadContent, d as Outlet, f as lazyRouteComponent, h as Link, m as createRootRouteWithContext, p as createFileRoute, s as Scripts, u as createRouter, v as useRouter } from "../_libs/@tanstack/react-router+[...].mjs";
+import { n as require_jsx_runtime, r as require_react, t as QueryClientProvider } from "../_libs/react+tanstack__react-query.mjs";
+import { c as HeadContent, d as Outlet, f as lazyRouteComponent, h as Link, j as redirect, m as createRootRouteWithContext, p as createFileRoute, s as Scripts, u as createRouter, v as useRouter } from "../_libs/@tanstack/react-router+[...].mjs";
 import { o as initializeApp } from "../_libs/@firebase/app+[...].mjs";
 import "../_libs/firebase.mjs";
 import { a as updateDoc, c as increment, i as setDoc, o as doc, r as runTransaction, s as getFirestore, t as getDoc } from "../_libs/@firebase/firestore+[...].mjs";
-import { n as require_jsx_runtime, r as require_react, t as QueryClientProvider } from "../_libs/react+tanstack__react-query.mjs";
 import { t as faqs } from "./routes-DcqvICF5.mjs";
+import { t as faqs$1 } from "./what-is-ai-astrologer-D6NfqUSd.mjs";
 import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
 import { n as stringType, t as objectType } from "../_libs/zod.mjs";
 import crypto from "crypto";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-BoCyS2sR.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-C60p9hrg.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
-var styles_default = "/assets/styles-xtrOrR7o.css";
+var styles_default = "/assets/styles-CWwLZDry.css";
 function reportLovableError(error, context = {}) {
 	if (typeof window === "undefined") return;
 	window.__lovableEvents?.captureException?.(error, {
@@ -99,7 +100,7 @@ var jsonLd = {
 	url: "/",
 	description: "AstroVaanii is Vaanii, a personal AI astrologer trained on classical Vedic Jyotish — instant today & tomorrow predictions in 9 Indian languages, 24/7."
 };
-var Route$11 = createRootRouteWithContext()({
+var Route$17 = createRootRouteWithContext()({
 	head: () => ({
 		meta: [
 			{ charSet: "utf-8" },
@@ -214,31 +215,22 @@ function RootShell({ children }) {
 	});
 }
 function RootComponent() {
-	const { queryClient } = Route$11.useRouteContext();
+	const { queryClient } = Route$17.useRouteContext();
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(QueryClientProvider, {
 		client: queryClient,
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Outlet, {})
 	});
 }
-var BASE_URL = "";
-var Route$10 = createFileRoute("/sitemap.xml")({ server: { handlers: { GET: async () => {
-	const xml = [
-		`<?xml version="1.0" encoding="UTF-8"?>`,
-		`<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
-		...[{
-			path: "/",
-			changefreq: "weekly",
-			priority: "1.0"
-		}].map((e) => `  <url>\n    <loc>${BASE_URL}${e.path}</loc>\n    <changefreq>${e.changefreq}</changefreq>\n    <priority>${e.priority}</priority>\n  </url>`),
-		`</urlset>`
-	].join("\n");
-	return new Response(xml, { headers: {
-		"Content-Type": "application/xml",
-		"Cache-Control": "public, max-age=3600"
-	} });
-} } } });
-var $$splitComponentImporter$6 = () => import("./signup-CdQ9BOfA.mjs");
-var Route$9 = createFileRoute("/signup")({
+var $$splitComponentImporter$12 = () => import("./terms-and-conditions-D7C-NwVE.mjs");
+var Route$16 = createFileRoute("/terms-and-conditions")({
+	head: () => ({ meta: [{ title: "Terms and Conditions — AstroVaanii" }, {
+		name: "description",
+		content: "Terms and Conditions for using AstroVaanii — please read these rules governing your use of our website and services."
+	}] }),
+	component: lazyRouteComponent($$splitComponentImporter$12, "component")
+});
+var $$splitComponentImporter$11 = () => import("./signup-CdQ9BOfA.mjs");
+var Route$15 = createFileRoute("/signup")({
 	head: () => ({ meta: [
 		{ title: "Create your account — AstroVaanii" },
 		{
@@ -250,18 +242,34 @@ var Route$9 = createFileRoute("/signup")({
 			content: "noindex"
 		}
 	] }),
-	component: lazyRouteComponent($$splitComponentImporter$6, "component")
+	component: lazyRouteComponent($$splitComponentImporter$11, "component")
 });
-var $$splitComponentImporter$5 = () => import("./pricing-Bzl9fxY1.mjs");
-var Route$8 = createFileRoute("/pricing")({
+var $$splitComponentImporter$10 = () => import("./refund-policy-9Ljf6SE3.mjs");
+var Route$14 = createFileRoute("/refund-policy")({
+	head: () => ({ meta: [{ title: "Refund Policy — AstroVaanii" }, {
+		name: "description",
+		content: "Refund and cancellation policy for AstroVaanii — understand our terms regarding purchases and subscriptions."
+	}] }),
+	component: lazyRouteComponent($$splitComponentImporter$10, "component")
+});
+var $$splitComponentImporter$9 = () => import("./privacy-policy-dclaNWGk.mjs");
+var Route$13 = createFileRoute("/privacy-policy")({
+	head: () => ({ meta: [{ title: "Privacy Policy — AstroVaanii" }, {
+		name: "description",
+		content: "Privacy Policy for AstroVaanii — learn how we collect, use, and protect your personal data."
+	}] }),
+	component: lazyRouteComponent($$splitComponentImporter$9, "component")
+});
+var $$splitComponentImporter$8 = () => import("./pricing-BtDBSU52.mjs");
+var Route$12 = createFileRoute("/pricing")({
 	head: () => ({ meta: [{ title: "Pricing Plans — AstroVaanii" }, {
 		name: "description",
 		content: "Choose the perfect plan for your astrological journey with Vaanii AI."
 	}] }),
-	component: lazyRouteComponent($$splitComponentImporter$5, "component")
+	component: lazyRouteComponent($$splitComponentImporter$8, "component")
 });
-var $$splitComponentImporter$4 = () => import("./onboarding-DXCt7QGt.mjs");
-var Route$7 = createFileRoute("/onboarding")({
+var $$splitComponentImporter$7 = () => import("./onboarding-DXCt7QGt.mjs");
+var Route$11 = createFileRoute("/onboarding")({
 	head: () => ({ meta: [
 		{ title: "Complete your profile — AstroVaanii" },
 		{
@@ -273,10 +281,10 @@ var Route$7 = createFileRoute("/onboarding")({
 			content: "noindex"
 		}
 	] }),
-	component: lazyRouteComponent($$splitComponentImporter$4, "component")
+	component: lazyRouteComponent($$splitComponentImporter$7, "component")
 });
-var $$splitComponentImporter$3 = () => import("./my-chart-DY3hTEmq.mjs");
-var Route$6 = createFileRoute("/my-chart")({
+var $$splitComponentImporter$6 = () => import("./my-chart-DY3hTEmq.mjs");
+var Route$10 = createFileRoute("/my-chart")({
 	head: () => ({ meta: [
 		{ title: "My Chart — AstroVaanii" },
 		{
@@ -288,28 +296,39 @@ var Route$6 = createFileRoute("/my-chart")({
 			content: "noindex"
 		}
 	] }),
-	component: lazyRouteComponent($$splitComponentImporter$3, "component")
+	component: lazyRouteComponent($$splitComponentImporter$6, "component")
 });
-var $$splitComponentImporter$2 = () => import("./dashboard-Bw-WZlcS.mjs");
-var Route$5 = createFileRoute("/dashboard")({
+var $$splitComponentImporter$5 = () => import("./disclaimer-CQyZy5Yz.mjs");
+var Route$9 = createFileRoute("/disclaimer")({
+	head: () => ({ meta: [{ title: "Disclaimer — AstroVaanii" }, {
+		name: "description",
+		content: "Disclaimer for AstroVaanii — understand the limitations of our astrological readings and AI-powered insights."
+	}] }),
+	component: lazyRouteComponent($$splitComponentImporter$5, "component")
+});
+var $$splitComponentImporter$4 = () => import("./dashboard-Bw-WZlcS.mjs");
+var Route$8 = createFileRoute("/dashboard")({
 	head: () => ({ meta: [{ title: "Dashboard — AstroVaanii" }, {
 		name: "description",
 		content: "Your personal AI astrologer dashboard. Get personalized readings and insights."
 	}] }),
-	component: lazyRouteComponent($$splitComponentImporter$2, "component")
+	component: lazyRouteComponent($$splitComponentImporter$4, "component")
 });
-var $$splitComponentImporter$1 = () => import("./chat-DVBxhFCy.mjs");
+var $$splitComponentImporter$3 = () => import("./chat-DVBxhFCy.mjs");
 var chatSearchSchema = objectType({ question: stringType().optional() });
-var Route$4 = createFileRoute("/chat")({
+var Route$7 = createFileRoute("/chat")({
 	validateSearch: chatSearchSchema,
 	head: () => ({ meta: [{ title: "Chat with Vaanii AI — AstroVaanii" }, {
 		name: "description",
 		content: "Chat with your personal AI astrologer for personalized readings."
 	}] }),
-	component: lazyRouteComponent($$splitComponentImporter$1, "component")
+	component: lazyRouteComponent($$splitComponentImporter$3, "component")
 });
-var $$splitComponentImporter = () => import("./routes-De_xhrHG.mjs");
-var faqJsonLd = {
+var Route$6 = createFileRoute("/blog")({ beforeLoad: () => {
+	throw redirect({ to: "/blogs" });
+} });
+var $$splitComponentImporter$2 = () => import("./routes-BvdkqHBY.mjs");
+var faqJsonLd$1 = {
 	"@context": "https://schema.org",
 	"@type": "FAQPage",
 	mainEntity: faqs.map((f) => ({
@@ -321,8 +340,8 @@ var faqJsonLd = {
 		}
 	}))
 };
-var Route$3 = createFileRoute("/")({
-	component: lazyRouteComponent($$splitComponentImporter, "component"),
+var Route$5 = createFileRoute("/")({
+	component: lazyRouteComponent($$splitComponentImporter$2, "component"),
 	head: () => ({
 		meta: [
 			{ title: "AstroVaanii — Vaanii, Your Personal AI Astrologer, 24/7" },
@@ -353,10 +372,191 @@ var Route$3 = createFileRoute("/")({
 		}],
 		scripts: [{
 			type: "application/ld+json",
-			children: JSON.stringify(faqJsonLd)
+			children: JSON.stringify(faqJsonLd$1)
 		}]
 	})
 });
+var $$splitComponentImporter$1 = () => import("./blogs-BYD9MNiY.mjs");
+var Route$4 = createFileRoute("/blogs/")({
+	head: () => ({
+		meta: [
+			{ title: "Blog — AstroVaanii" },
+			{
+				name: "description",
+				content: "Read articles about AI astrology, birth chart reading, Vedic astrology, and how AI astrologers work at AstroVaanii."
+			},
+			{
+				property: "og:image",
+				content: "/what-is-ai-astrologer.webp"
+			},
+			{
+				property: "og:image:width",
+				content: "1200"
+			},
+			{
+				property: "og:image:height",
+				content: "630"
+			},
+			{
+				property: "og:title",
+				content: "Blog — AstroVaanii"
+			},
+			{
+				property: "og:description",
+				content: "Read articles about AI astrology, birth chart reading, Vedic astrology, and how AI astrologers work at AstroVaanii."
+			},
+			{
+				name: "twitter:card",
+				content: "summary_large_image"
+			},
+			{
+				name: "twitter:image",
+				content: "/what-is-ai-astrologer.webp"
+			},
+			{
+				name: "twitter:title",
+				content: "Blog — AstroVaanii"
+			},
+			{
+				name: "twitter:description",
+				content: "Read articles about AI astrology, birth chart reading, Vedic astrology, and how AI astrologers work at AstroVaanii."
+			}
+		],
+		links: [{
+			rel: "canonical",
+			href: "/blogs"
+		}]
+	}),
+	component: lazyRouteComponent($$splitComponentImporter$1, "component")
+});
+var $$splitComponentImporter = () => import("./what-is-ai-astrologer-oPjqwy3-.mjs");
+var Route$3 = createFileRoute("/blogs/what-is-ai-astrologer")({
+	head: () => ({
+		meta: [
+			{ title: "What Is an AI Astrologer? How It Works" },
+			{
+				name: "description",
+				content: "Learn what an AI astrologer is and how it reads your birth chart using AI. Discover how AI astrologers provide personalized astrology insights instantly."
+			},
+			{
+				property: "og:image",
+				content: "/what-is-ai-astrologer.webp"
+			},
+			{
+				property: "og:image:width",
+				content: "1200"
+			},
+			{
+				property: "og:image:height",
+				content: "630"
+			},
+			{
+				property: "og:title",
+				content: "What Is an AI Astrologer? How It Works"
+			},
+			{
+				property: "og:description",
+				content: "Learn what an AI astrologer is and how it reads your birth chart using AI. Discover how AI astrologers provide personalized astrology insights instantly."
+			},
+			{
+				name: "twitter:card",
+				content: "summary_large_image"
+			},
+			{
+				name: "twitter:image",
+				content: "/what-is-ai-astrologer.webp"
+			},
+			{
+				name: "twitter:title",
+				content: "What Is an AI Astrologer? How It Works"
+			},
+			{
+				name: "twitter:description",
+				content: "Learn what an AI astrologer is and how it reads your birth chart using AI. Discover how AI astrologers provide personalized astrology insights instantly."
+			}
+		],
+		links: [{
+			rel: "canonical",
+			href: "/blogs/what-is-ai-astrologer"
+		}, {
+			rel: "preload",
+			href: "/what-is-ai-astrologer.webp",
+			as: "image"
+		}],
+		scripts: [
+			{
+				type: "application/ld+json",
+				children: JSON.stringify(faqJsonLd)
+			},
+			{
+				type: "application/ld+json",
+				children: JSON.stringify(articleJsonLd)
+			},
+			{
+				type: "application/ld+json",
+				children: JSON.stringify(breadcrumbJsonLd)
+			}
+		]
+	}),
+	component: lazyRouteComponent($$splitComponentImporter, "component")
+});
+function stripHtml(html) {
+	return html.replace(/<[^>]*>/g, "");
+}
+var faqJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "FAQPage",
+	mainEntity: faqs$1.map((f) => ({
+		"@type": "Question",
+		name: f.q,
+		acceptedAnswer: {
+			"@type": "Answer",
+			text: stripHtml(f.a)
+		}
+	}))
+};
+var articleJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "Article",
+	headline: "What Is an AI Astrologer? How It Works",
+	description: "Learn what an AI astrologer is and how it reads your birth chart using AI. Discover how AI astrologers provide personalized astrology insights instantly.",
+	image: "https://astrovaanii.in/what-is-ai-astrologer.webp",
+	datePublished: "2026-07-08",
+	dateModified: "2026-07-08",
+	author: {
+		"@type": "Organization",
+		name: "AstroVaanii",
+		url: "https://astrovaanii.in"
+	},
+	publisher: {
+		"@type": "Organization",
+		name: "AstroVaanii"
+	}
+};
+var breadcrumbJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	itemListElement: [
+		{
+			"@type": "ListItem",
+			position: 1,
+			name: "Home",
+			item: "https://astrovaanii.in/"
+		},
+		{
+			"@type": "ListItem",
+			position: 2,
+			name: "Blog",
+			item: "https://astrovaanii.in/blogs"
+		},
+		{
+			"@type": "ListItem",
+			position: 3,
+			name: "What Is an AI Astrologer?",
+			item: "https://astrovaanii.in/blogs/what-is-ai-astrologer"
+		}
+	]
+};
 var RAZORPAY_KEY_SECRET$1 = process.env.RAZORPAY_KEY_SECRET;
 function verifyRazorpayPayment(params) {
 	if (!RAZORPAY_KEY_SECRET$1) throw new Error("Razorpay key secret not configured");
@@ -1434,74 +1634,110 @@ async function handleStream(request) {
 	}
 }
 var Route = createFileRoute("/api/chat")({ server: { handlers: { POST: async ({ request }) => handleStream(request) } } });
-var SitemapDotxmlRoute = Route$10.update({
-	id: "/sitemap.xml",
-	path: "/sitemap.xml",
-	getParentRoute: () => Route$11
+var TermsAndConditionsRoute = Route$16.update({
+	id: "/terms-and-conditions",
+	path: "/terms-and-conditions",
+	getParentRoute: () => Route$17
 });
-var SignupRoute = Route$9.update({
+var SignupRoute = Route$15.update({
 	id: "/signup",
 	path: "/signup",
-	getParentRoute: () => Route$11
+	getParentRoute: () => Route$17
 });
-var PricingRoute = Route$8.update({
+var RefundPolicyRoute = Route$14.update({
+	id: "/refund-policy",
+	path: "/refund-policy",
+	getParentRoute: () => Route$17
+});
+var PrivacyPolicyRoute = Route$13.update({
+	id: "/privacy-policy",
+	path: "/privacy-policy",
+	getParentRoute: () => Route$17
+});
+var PricingRoute = Route$12.update({
 	id: "/pricing",
 	path: "/pricing",
-	getParentRoute: () => Route$11
+	getParentRoute: () => Route$17
 });
-var OnboardingRoute = Route$7.update({
+var OnboardingRoute = Route$11.update({
 	id: "/onboarding",
 	path: "/onboarding",
-	getParentRoute: () => Route$11
+	getParentRoute: () => Route$17
 });
-var MyChartRoute = Route$6.update({
+var MyChartRoute = Route$10.update({
 	id: "/my-chart",
 	path: "/my-chart",
-	getParentRoute: () => Route$11
+	getParentRoute: () => Route$17
 });
-var DashboardRoute = Route$5.update({
+var DisclaimerRoute = Route$9.update({
+	id: "/disclaimer",
+	path: "/disclaimer",
+	getParentRoute: () => Route$17
+});
+var DashboardRoute = Route$8.update({
 	id: "/dashboard",
 	path: "/dashboard",
-	getParentRoute: () => Route$11
+	getParentRoute: () => Route$17
 });
-var ChatRoute = Route$4.update({
+var ChatRoute = Route$7.update({
 	id: "/chat",
 	path: "/chat",
-	getParentRoute: () => Route$11
+	getParentRoute: () => Route$17
 });
-var IndexRoute = Route$3.update({
+var BlogRoute = Route$6.update({
+	id: "/blog",
+	path: "/blog",
+	getParentRoute: () => Route$17
+});
+var IndexRoute = Route$5.update({
 	id: "/",
 	path: "/",
-	getParentRoute: () => Route$11
+	getParentRoute: () => Route$17
+});
+var BlogsIndexRoute = Route$4.update({
+	id: "/blogs/",
+	path: "/blogs/",
+	getParentRoute: () => Route$17
+});
+var BlogsWhatIsAiAstrologerRoute = Route$3.update({
+	id: "/blogs/what-is-ai-astrologer",
+	path: "/blogs/what-is-ai-astrologer",
+	getParentRoute: () => Route$17
 });
 var ApiVerifyPaymentRoute = Route$2.update({
 	id: "/api/verify-payment",
 	path: "/api/verify-payment",
-	getParentRoute: () => Route$11
+	getParentRoute: () => Route$17
 });
 var ApiCreateOrderRoute = Route$1.update({
 	id: "/api/create-order",
 	path: "/api/create-order",
-	getParentRoute: () => Route$11
+	getParentRoute: () => Route$17
 });
 var rootRouteChildren = {
 	IndexRoute,
+	BlogRoute,
 	ChatRoute,
 	DashboardRoute,
+	DisclaimerRoute,
 	MyChartRoute,
 	OnboardingRoute,
 	PricingRoute,
+	PrivacyPolicyRoute,
+	RefundPolicyRoute,
 	SignupRoute,
-	SitemapDotxmlRoute,
+	TermsAndConditionsRoute,
 	ApiChatRoute: Route.update({
 		id: "/api/chat",
 		path: "/api/chat",
-		getParentRoute: () => Route$11
+		getParentRoute: () => Route$17
 	}),
 	ApiCreateOrderRoute,
-	ApiVerifyPaymentRoute
+	ApiVerifyPaymentRoute,
+	BlogsWhatIsAiAstrologerRoute,
+	BlogsIndexRoute
 };
-var routeTree = Route$11._addFileChildren(rootRouteChildren)._addFileTypes();
+var routeTree = Route$17._addFileChildren(rootRouteChildren)._addFileTypes();
 var getRouter = () => {
 	return createRouter({
 		routeTree,

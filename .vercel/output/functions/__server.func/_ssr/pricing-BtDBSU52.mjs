@@ -1,9 +1,9 @@
 import { o as __toESM } from "../_runtime.mjs";
+import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
 import { g as useNavigate, h as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { t as auth } from "./firebase-JHzvw2gu.mjs";
 import { t as startalks_icon_default } from "./startalks-icon-Ch-3XBzc.mjs";
-import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/pricing-Bzl9fxY1.js
+//#region node_modules/.nitro/vite/services/ssr/assets/pricing-BtDBSU52.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var plans = [
@@ -84,6 +84,7 @@ function PricingPage() {
 				amount: orderData.amount,
 				currency: orderData.currency,
 				name: "AstroVaanii",
+				image: "/favicon.png",
 				description: `${planName} Plan`,
 				order_id: orderData.orderId,
 				handler: async (response) => {

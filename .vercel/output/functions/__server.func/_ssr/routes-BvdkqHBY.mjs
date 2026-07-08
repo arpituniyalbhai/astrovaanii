@@ -1,12 +1,12 @@
 import { o as __toESM } from "../_runtime.mjs";
+import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
 import { g as useNavigate, h as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { t as auth } from "./firebase-JHzvw2gu.mjs";
 import { t as vaanii_persona_default } from "./vaanii-persona-CbI512xY.mjs";
 import { t as startalks_icon_default } from "./startalks-icon-Ch-3XBzc.mjs";
-import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
 import { t as Reveal } from "./Reveal-QYjYuJ7p.mjs";
 import { t as faqs } from "./routes-DcqvICF5.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-De_xhrHG.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-BvdkqHBY.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function Loader() {
@@ -1114,58 +1114,96 @@ function Footer() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("footer", {
 		className: "border-t border-border bg-card/40 py-12",
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "mx-auto flex max-w-6xl flex-col items-start justify-between gap-6 px-6 md:flex-row md:items-center",
-			children: [
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "flex items-center gap-2",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-						src: startalks_icon_default,
-						alt: "",
-						width: 28,
-						height: 28,
-						className: "h-7 w-7"
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-						className: "font-display text-lg",
-						children: "AstroVaanii"
-					})]
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-					className: "mt-2 max-w-xs text-sm text-muted-foreground",
-					children: "Your personal AI astrologer. Vedic wisdom, instant answers."
-				})] }),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "flex flex-wrap gap-8 text-sm text-muted-foreground",
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-							href: "#meet",
-							className: "hover:text-foreground",
-							children: "Meet Vaanii"
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-							href: "#daily",
-							className: "hover:text-foreground",
-							children: "Daily prediction"
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-							href: "#how",
-							className: "hover:text-foreground",
-							children: "How it works"
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-							href: "#faq",
-							className: "hover:text-foreground",
-							children: "FAQ"
-						})
-					]
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "text-xs text-muted-foreground",
-					children: [
-						"© ",
-						(/* @__PURE__ */ new Date()).getFullYear(),
-						" AstroVaanii"
-					]
-				})
-			]
+			className: "mx-auto flex max-w-6xl flex-col gap-8 px-6",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "flex flex-col justify-between gap-8 md:flex-row md:items-start",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "flex items-center gap-2",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+							src: startalks_icon_default,
+							alt: "",
+							width: 28,
+							height: 28,
+							className: "h-7 w-7"
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+							className: "font-display text-lg",
+							children: "AstroVaanii"
+						})]
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						className: "mt-2 max-w-xs text-sm text-muted-foreground",
+						children: "Your personal AI astrologer. Vedic wisdom, instant answers."
+					})] }),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "flex flex-wrap gap-8 text-sm text-muted-foreground",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+								href: "#meet",
+								className: "hover:text-foreground",
+								children: "Meet Vaanii"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+								href: "#daily",
+								className: "hover:text-foreground",
+								children: "Daily prediction"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+								href: "#how",
+								className: "hover:text-foreground",
+								children: "How it works"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+								href: "#faq",
+								className: "hover:text-foreground",
+								children: "FAQ"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+								to: "/blogs",
+								className: "hover:text-foreground",
+								children: "Blog"
+							})
+						]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "flex flex-col gap-3 text-sm",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+							className: "text-xs font-semibold uppercase tracking-wider text-muted-foreground/60",
+							children: "Legal"
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "flex flex-col gap-2 text-muted-foreground",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+									to: "/privacy-policy",
+									className: "hover:text-foreground",
+									children: "Privacy Policy"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+									to: "/terms-and-conditions",
+									className: "hover:text-foreground",
+									children: "Terms & Conditions"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+									to: "/refund-policy",
+									className: "hover:text-foreground",
+									children: "Refund Policy"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+									to: "/disclaimer",
+									className: "hover:text-foreground",
+									children: "Disclaimer"
+								})
+							]
+						})]
+					})
+				]
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "border-t border-border pt-6 text-center text-xs text-muted-foreground",
+				children: [
+					"© ",
+					(/* @__PURE__ */ new Date()).getFullYear(),
+					" AstroVaanii"
+				]
+			})]
 		})
 	});
 }

@@ -1,9 +1,9 @@
 import { o as __toESM } from "../_runtime.mjs";
+import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
 import { g as useNavigate, h as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { a as signInWithGoogle, o as signUpWithEmail, r as getUserDoc } from "./firebase-JHzvw2gu.mjs";
 import { t as vaanii_persona_default } from "./vaanii-persona-CbI512xY.mjs";
 import { t as startalks_icon_default } from "./startalks-icon-Ch-3XBzc.mjs";
-import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
 import { t as getChart } from "./chart-server-BTD1lk8f.mjs";
 import { t as Reveal } from "./Reveal-QYjYuJ7p.mjs";
 //#region node_modules/.nitro/vite/services/ssr/assets/signup-CdQ9BOfA.js
