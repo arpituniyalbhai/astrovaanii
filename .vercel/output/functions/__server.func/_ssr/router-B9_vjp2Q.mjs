@@ -9,7 +9,7 @@ import { t as faqs$1 } from "./what-is-ai-astrologer-D6NfqUSd.mjs";
 import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
 import { n as stringType, t as objectType } from "../_libs/zod.mjs";
 import crypto from "crypto";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-C60p9hrg.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-B9_vjp2Q.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var styles_default = "/assets/styles-CWwLZDry.css";
@@ -429,7 +429,7 @@ var Route$4 = createFileRoute("/blogs/")({
 	}),
 	component: lazyRouteComponent($$splitComponentImporter$1, "component")
 });
-var $$splitComponentImporter = () => import("./what-is-ai-astrologer-oPjqwy3-.mjs");
+var $$splitComponentImporter = () => import("./what-is-ai-astrologer-Drb4dDGE.mjs");
 var Route$3 = createFileRoute("/blogs/what-is-ai-astrologer")({
 	head: () => ({
 		meta: [
