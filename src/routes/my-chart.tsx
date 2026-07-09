@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import type { ChartData } from "@/lib/chart-calc";
-import brandIcon from "@/assets/startalks-icon.png";
+import brandIcon from "@/assets/astrovaanii-logo.webp";
 
 export const Route = createFileRoute("/my-chart")({
   head: () => ({

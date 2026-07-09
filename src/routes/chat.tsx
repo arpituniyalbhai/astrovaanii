@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { z } from "zod";
 import { auth, onUserDoc } from "@/lib/firebase";
 import vaaniiPersona from "@/assets/vaanii-persona.jpg";
-import brandIcon from "@/assets/startalks-icon.png";
+import brandIcon from "@/assets/astrovaanii-logo.webp";
 import { VaaniiLoadingAnimation } from "@/components/VaaniiLoadingAnimation";
 
 const chatSearchSchema = z.object({

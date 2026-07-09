@@ -9,6 +9,36 @@ export const Route = createFileRoute("/privacy-policy")({
         content:
           "Privacy Policy for AstroVaanii — learn how we collect, use, and protect your personal data.",
       },
+      { property: "og:title", content: "Privacy Policy — AstroVaanii" },
+      {
+        property: "og:description",
+        content: "Privacy Policy for AstroVaanii — learn how we collect, use, and protect your personal data.",
+      },
+      { property: "og:image", content: "/social-sharing.webp" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:url", content: "https://astrovaanii.in/privacy-policy" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Privacy Policy — AstroVaanii" },
+      {
+        name: "twitter:description",
+        content: "Privacy Policy for AstroVaanii — learn how we collect, use, and protect your personal data.",
+      },
+      { name: "twitter:image", content: "/social-sharing.webp" },
+    ],
+    links: [{ rel: "canonical", href: "https://astrovaanii.in/privacy-policy" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          name: "Privacy Policy — AstroVaanii",
+          description: "Privacy Policy for AstroVaanii — learn how we collect, use, and protect your personal data.",
+          url: "https://astrovaanii.in/privacy-policy",
+        }),
+      },
     ],
   }),
   component: PrivacyPolicyPage,

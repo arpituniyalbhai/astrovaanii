@@ -40,7 +40,20 @@ export const Route = createFileRoute("/blogs/")({
           "Read articles about AI astrology, birth chart reading, Vedic astrology, and how AI astrologers work at AstroVaanii.",
       },
     ],
-    links: [{ rel: "canonical", href: "/blogs" }],
+    links: [{ rel: "canonical", href: "https://astrovaanii.in/blogs" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: "https://astrovaanii.in/" },
+            { "@type": "ListItem", position: 2, name: "Blog", item: "https://astrovaanii.in/blogs" },
+          ],
+        }),
+      },
+    ],
   }),
   component: BlogsPage,
 });

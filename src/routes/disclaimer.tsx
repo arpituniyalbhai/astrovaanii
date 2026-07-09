@@ -9,6 +9,36 @@ export const Route = createFileRoute("/disclaimer")({
         content:
           "Disclaimer for AstroVaanii — understand the limitations of our astrological readings and AI-powered insights.",
       },
+      { property: "og:title", content: "Disclaimer — AstroVaanii" },
+      {
+        property: "og:description",
+        content: "Disclaimer for AstroVaanii — understand the limitations of our astrological readings and AI-powered insights.",
+      },
+      { property: "og:image", content: "/social-sharing.webp" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:url", content: "https://astrovaanii.in/disclaimer" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Disclaimer — AstroVaanii" },
+      {
+        name: "twitter:description",
+        content: "Disclaimer for AstroVaanii — understand the limitations of our astrological readings and AI-powered insights.",
+      },
+      { name: "twitter:image", content: "/social-sharing.webp" },
+    ],
+    links: [{ rel: "canonical", href: "https://astrovaanii.in/disclaimer" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          name: "Disclaimer — AstroVaanii",
+          description: "Disclaimer for AstroVaanii — understand the limitations of our astrological readings and AI-powered insights.",
+          url: "https://astrovaanii.in/disclaimer",
+        }),
+      },
     ],
   }),
   component: DisclaimerPage,

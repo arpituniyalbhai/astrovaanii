@@ -4,7 +4,7 @@ import { Reveal } from "@/components/landing/Reveal";
 import { signInWithGoogle, signUpWithEmail, getUserDoc } from "@/lib/firebase";
 import { getChart } from "@/lib/chart-server";
 import vaaniiPersona from "@/assets/vaanii-persona.jpg";
-import brandIcon from "@/assets/startalks-icon.png";
+import brandIcon from "@/assets/astrovaanii-logo.webp";
 
 export const Route = createFileRoute("/signup")({
   head: () => ({

@@ -64,13 +64,30 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-const jsonLd = {
+const orgSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "AstroVaanii",
-  url: "/",
+  url: "https://astrovaanii.in/",
   description:
     "AstroVaanii is Vaanii, a personal AI astrologer trained on classical Vedic Jyotish — instant today & tomorrow predictions in 9 Indian languages, 24/7.",
+};
+
+const webSiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "AstroVaanii",
+  url: "https://astrovaanii.in/",
+  description:
+    "Chat with Vaanii, an AI astrologer trained on classical Parashara & Jaimini methods. Get today & tomorrow predictions in 9 Indian languages.",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: "https://astrovaanii.in/chat?question={search_term_string}",
+    },
+    "query-input": "required name=search_term_string",
+  },
 };
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
@@ -78,28 +95,32 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" },
-      { title: "AstroVaanii — Vaanii, Your Personal AI Astrologer 24/7" },
+      { title: "AI Astrologer Free Chat - AstroVaanii" },
       {
         name: "description",
         content:
-          "Chat with Vaanii, an AI astrologer trained on classical Parashara & Jaimini methods. Get today & tomorrow predictions in 9 Indian languages.",
+          "Meet Vaanii, your free AI astrologer. Explore accurate Vedic astrology, Kundli, birth chart, love, career, and daily predictions in 9 Indian languages.",
       },
       { name: "author", content: "AstroVaanii" },
       { name: "theme-color", content: "#f2ead8" },
-      { property: "og:title", content: "AstroVaanii — Meet Vaanii, Your AI Astrologer" },
+      { property: "og:title", content: "AI Astrologer Free Chat – AstroVaanii" },
       {
         property: "og:description",
-        content: "Vedic AI astrologer available 24/7 in 9 Indian languages. Ask today's and tomorrow's prediction, anytime.",
+        content: "Meet Vaanii, your free AI astrologer. Get accurate Vedic astrology, Kundli, birth chart analysis, love, career, and daily predictions in 9 languages.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
+      { property: "og:url", content: "https://astrovaanii.in/" },
       { property: "og:site_name", content: "AstroVaanii" },
+      { property: "og:image", content: "/social-sharing.webp" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "AstroVaanii — Meet Vaanii, Your AI Astrologer" },
+      { name: "twitter:title", content: "AI Astrologer Free Chat – AstroVaanii" },
       {
         name: "twitter:description",
-        content: "AI astrologer trained on classical Vedic methods, in 9 Indian languages.",
+        content: "Meet Vaanii, your free AI astrologer. Get accurate Vedic astrology, birth chart, and daily predictions in 9 Indian languages.",
       },
+      { name: "twitter:image", content: "/social-sharing.webp" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -113,7 +134,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
     ],
     scripts: [
-      { type: "application/ld+json", children: JSON.stringify(jsonLd) },
+      { type: "application/ld+json", children: JSON.stringify(orgSchema) },
+      { type: "application/ld+json", children: JSON.stringify(webSiteSchema) },
       {
         type: "text/style",
         children: `

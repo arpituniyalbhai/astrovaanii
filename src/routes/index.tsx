@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { auth } from "@/lib/firebase";
 import { Loader } from "@/components/landing/Loader";
 import { Reveal } from "@/components/landing/Reveal";
-import brandIcon from "@/assets/startalks-icon.png";
+import brandIcon from "@/assets/astrovaanii-logo.webp";
 import vaaniiPersona from "@/assets/vaanii-persona.jpg";
 import chatPreview from "@/assets/chat-preview.jpg";
 import sectionCosmos from "@/assets/section-cosmos.jpg";
@@ -197,7 +197,7 @@ function DailyPrediction() {
               <em className="not-italic text-primary">tomorrow</em> prediction.
             </h2>
             <p className="mt-5 max-w-xl text-muted-foreground">
-              A quick, personal reading based on live planetary transits and your own chart —
+              This AI astrologer gives you a quick, personal reading based on live planetary transits and your own chart —
               not a generic sun-sign horoscope everyone else is reading.
             </p>
           </Reveal>
@@ -340,7 +340,7 @@ function WhatIs() {
         </Reveal>
         <Reveal delay={120}>
           <p className="text-lg leading-relaxed text-muted-foreground">
-            AstroVaanii combines exact classical Vedic calculations with an interpretation model trained on
+            As an AI astrologer, AstroVaanii combines exact classical Vedic calculations with an interpretation model trained on
             thousands of real Jyotish readings. Vaanii reads your chart the way a seasoned astrologer would —
             just faster, always available, and consistent every single time.
           </p>
@@ -385,7 +385,7 @@ function MeetAI() {
           <Reveal>
             <span className="text-xs uppercase tracking-[0.2em] text-primary">Meet Vaanii</span>
             <h2 className="mt-4 font-display text-4xl md:text-5xl">
-              Ask <em className="not-italic text-primary">anything</em>. About today, tomorrow, career, karma.
+              Ask <em className="not-italic text-primary">anything</em>. About love, career, karma, wealth.
             </h2>
           </Reveal>
           <Reveal delay={100}>
@@ -733,21 +733,31 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "AstroVaanii — Vaanii, Your Personal AI Astrologer, 24/7" },
+      { title: "AI Astrologer Free Chat - AstroVaanii" },
       {
         name: "description",
         content:
-          "Chat with Vaanii, an AI astrologer trained on classical Parashara & Jaimini methods. Get today & tomorrow predictions, Kundli, marriage and career answers in 9 Indian languages.",
+          "Meet Vaanii, your free AI astrologer. Explore accurate Vedic astrology, Kundli, birth chart, love, career, and daily predictions in 9 Indian languages.",
       },
-      { property: "og:title", content: "AstroVaanii — Meet Vaanii, Your AI Astrologer" },
+      { property: "og:title", content: "AI Astrologer Free Chat – AstroVaanii" },
       {
         property: "og:description",
-        content: "Vedic AI astrologer available 24/7 in 9 Indian languages. Ask today's and tomorrow's prediction, anytime.",
+        content: "Meet Vaanii, your free AI astrologer. Get accurate Vedic astrology, Kundli, birth chart analysis, love, career, and daily predictions in 9 languages.",
       },
-      { property: "og:url", content: "/" },
+      { property: "og:url", content: "https://astrovaanii.in/" },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "/social-sharing.webp" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "AI Astrologer Free Chat – AstroVaanii" },
+      {
+        name: "twitter:description",
+        content: "Meet Vaanii, your free AI astrologer. Get accurate Vedic astrology, birth chart, and daily predictions in 9 Indian languages.",
+      },
+      { name: "twitter:image", content: "/social-sharing.webp" },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: "https://astrovaanii.in/" }],
     scripts: [{ type: "application/ld+json", children: JSON.stringify(faqJsonLd) }],
   }),
 });

@@ -9,6 +9,36 @@ export const Route = createFileRoute("/refund-policy")({
         content:
           "Refund and cancellation policy for AstroVaanii — understand our terms regarding purchases and subscriptions.",
       },
+      { property: "og:title", content: "Refund Policy — AstroVaanii" },
+      {
+        property: "og:description",
+        content: "Refund and cancellation policy for AstroVaanii — understand our terms regarding purchases and subscriptions.",
+      },
+      { property: "og:image", content: "/social-sharing.webp" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:url", content: "https://astrovaanii.in/refund-policy" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Refund Policy — AstroVaanii" },
+      {
+        name: "twitter:description",
+        content: "Refund and cancellation policy for AstroVaanii — understand our terms regarding purchases and subscriptions.",
+      },
+      { name: "twitter:image", content: "/social-sharing.webp" },
+    ],
+    links: [{ rel: "canonical", href: "https://astrovaanii.in/refund-policy" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          name: "Refund Policy — AstroVaanii",
+          description: "Refund and cancellation policy for AstroVaanii — understand our terms regarding purchases and subscriptions.",
+          url: "https://astrovaanii.in/refund-policy",
+        }),
+      },
     ],
   }),
   component: RefundPolicyPage,

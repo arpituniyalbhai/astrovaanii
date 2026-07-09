@@ -9,6 +9,36 @@ export const Route = createFileRoute("/terms-and-conditions")({
         content:
           "Terms and Conditions for using AstroVaanii — please read these rules governing your use of our website and services.",
       },
+      { property: "og:title", content: "Terms and Conditions — AstroVaanii" },
+      {
+        property: "og:description",
+        content: "Terms and Conditions for using AstroVaanii — please read these rules governing your use of our website and services.",
+      },
+      { property: "og:image", content: "/social-sharing.webp" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:url", content: "https://astrovaanii.in/terms-and-conditions" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Terms and Conditions — AstroVaanii" },
+      {
+        name: "twitter:description",
+        content: "Terms and Conditions for using AstroVaanii — please read these rules governing your use of our website and services.",
+      },
+      { name: "twitter:image", content: "/social-sharing.webp" },
+    ],
+    links: [{ rel: "canonical", href: "https://astrovaanii.in/terms-and-conditions" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          name: "Terms and Conditions — AstroVaanii",
+          description: "Terms and Conditions for using AstroVaanii — please read these rules governing your use of our website and services.",
+          url: "https://astrovaanii.in/terms-and-conditions",
+        }),
+      },
     ],
   }),
   component: TermsAndConditionsPage,

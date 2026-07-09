@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { auth } from "@/lib/firebase";
-import brandIcon from "@/assets/startalks-icon.png";
+import brandIcon from "@/assets/astrovaanii-logo.webp";
 
 declare global {
   interface Window {
@@ -17,7 +17,25 @@ export const Route = createFileRoute("/pricing")({
         name: "description",
         content: "Choose the perfect plan for your astrological journey with Vaanii AI.",
       },
+      { property: "og:title", content: "Pricing Plans — AstroVaanii" },
+      {
+        property: "og:description",
+        content: "Choose the perfect plan for your astrological journey with Vaanii AI.",
+      },
+      { property: "og:image", content: "/social-sharing.webp" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:url", content: "https://astrovaanii.in/pricing" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Pricing Plans — AstroVaanii" },
+      {
+        name: "twitter:description",
+        content: "Choose the perfect plan for your astrological journey with Vaanii AI.",
+      },
+      { name: "twitter:image", content: "/social-sharing.webp" },
     ],
+    links: [{ rel: "canonical", href: "https://astrovaanii.in/pricing" }],
   }),
   component: PricingPage,
 });
@@ -27,32 +45,58 @@ const plans = [
     name: "Starter",
     price: 79,
     priceDisplay: "₹79",
-    features: ["5 AI chat questions", "Daily predictions", "Basic birth chart", "Career insights"],
+    features: [
+      "5 AI chat questions",
+      "Daily today & tomorrow predictions",
+      "Full birth chart casting",
+      "Career & life area insights",
+      "9 Indian language support",
+    ],
+    description: "For a first conversation",
   },
   {
     name: "Pro",
     price: 139,
     priceDisplay: "₹139",
-    features: ["10 AI chat questions", "Advanced chart analysis", "Love compatibility", "Dasha predictions", "Priority response"],
+    features: [
+      "10 AI chat questions",
+      "Advanced chart & dasha analysis",
+      "Love compatibility (Kundli Milan)",
+      "Dosha detection & remedies",
+      "Priority response speed",
+      "9 Indian language support",
+    ],
     popular: true,
+    description: "For regular guidance",
   },
   {
     name: "Premium",
     price: 249,
     priceDisplay: "₹249",
-    features: ["20 AI chat questions", "Advanced analyzing", "Personalized remedies", "Live consultations", "Priority support", "Detailed transit analysis"],
+    features: [
+      "20 AI chat questions",
+      "Detailed transit & muhurta analysis",
+      "Personalized remedy suggestions",
+      "Live consultation-style sessions",
+      "Priority support",
+      "Divisional chart (D1–D60) insights",
+      "9 Indian language support",
+    ],
+    description: "For serious Jyotish students",
   },
 ];
 
 function PricingPage() {
   const navigate = useNavigate();
-  const [userName, setUserName] = useState("User");
+  const [userName, setUserName] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState<string | null>(null);
   const [paymentMessage, setPaymentMessage] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
   useEffect(() => {
     const local = JSON.parse(localStorage.getItem("userData") || "{}");
-    setUserName(local.name || "User");
+    setUserName(local.name || "");
+    setIsLoggedIn(!!(local.email || auth.currentUser));
   }, []);
 
   const handlePurchase = async (planName: string, price: number, e: React.MouseEvent) => {
@@ -168,18 +212,29 @@ function PricingPage() {
 
       <header className="sticky top-0 z-40 backdrop-blur-md bg-background/70 border-b border-border/50">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-          <Link to="/dashboard" className="flex items-center gap-2">
+          <Link to={isLoggedIn ? "/dashboard" : "/"} className="flex items-center gap-2">
             <img src={brandIcon} alt="" width={28} height={28} className="h-7 w-7" />
             <span className="font-display text-lg">Astro<span className="text-primary">Vaanii</span></span>
           </Link>
           <div className="flex items-center gap-3">
-            <span className="hidden sm:block text-sm text-muted-foreground">Welcome, {userName}</span>
-            <Link
-              to="/dashboard"
-              className="rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
-            >
-              Back to Dashboard
-            </Link>
+            {isLoggedIn ? (
+              <>
+                <span className="hidden sm:block text-sm text-muted-foreground">Welcome, {userName}</span>
+                <Link
+                  to="/dashboard"
+                  className="rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
+                >
+                  Dashboard
+                </Link>
+              </>
+            ) : (
+              <Link
+                to="/signup"
+                className="rounded-full bg-primary px-5 py-2 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 hover:opacity-90"
+              >
+                Start Chat — It's Free
+              </Link>
+            )}
           </div>
         </div>
       </header>
@@ -215,7 +270,8 @@ function PricingPage() {
                   Most Popular
                 </div>
               )}
-              <h3 className="font-display text-xl text-foreground mb-2">{plan.name}</h3>
+              <h3 className="font-display text-xl text-foreground mb-1">{plan.name}</h3>
+              <p className="text-xs text-muted-foreground mb-3">{plan.description}</p>
               <div className="text-3xl font-bold text-primary mb-4">{plan.priceDisplay}</div>
               <ul className="space-y-2 mb-6">
                 {plan.features.map((feature) => (
@@ -242,16 +298,72 @@ function PricingPage() {
           ))}
         </div>
 
-        <div className="text-center mt-12">
-          <p className="text-sm text-muted-foreground">
-            All plans include access to Vaanii AI Pro
-            <br />
-            Questions?{" "}
-            <a href="mailto:hello@astrovaanii.ai" className="text-primary underline underline-offset-4">
-              hello@astrovaanii.ai
-            </a>
-          </p>
-        </div>
+        {/* Detailed content section */}
+        <section className="mt-20 max-w-4xl mx-auto space-y-10">
+          <div className="text-center">
+            <h2 className="font-display text-3xl md:text-4xl text-foreground">How Vaanii Credits Work</h2>
+            <p className="mt-4 text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+              Every plan gives you a set number of AI chat questions. Each question you ask Vaanii
+              consumes one credit — whether it's a daily horoscope, a career reading, a Kundli Milan
+              analysis, or a follow-up about your dasha period. Your credits never expire as long as
+              your plan is active, and you can upgrade anytime. Unused credits from a lower plan
+              carry forward when you upgrade.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 text-sm">
+            <div className="rounded-2xl border border-border bg-card/50 p-6">
+              <h3 className="font-display text-lg text-foreground">Starter — ₹79</h3>
+              <p className="mt-2 text-muted-foreground leading-relaxed">
+                Perfect if you're curious about AI astrology and want to try Vaanii for a few
+                specific questions. Get your birth chart cast, ask about today or tomorrow, and
+                explore career insights — all with classical Parashara accuracy. Ideal for a first
+                conversation or checking a single life area.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-primary/30 bg-primary/5 p-6 ring-1 ring-primary/20">
+              <h3 className="font-display text-lg text-foreground">Pro — ₹139 <span className="text-xs text-primary font-medium">Most chosen</span></h3>
+              <p className="mt-2 text-muted-foreground leading-relaxed">
+                The sweet spot for regular seekers. With 10 questions, you can dive into love
+                compatibility, dasha predictions, and advanced chart analysis across multiple
+                sessions. Priority response means Vaanii answers faster. This plan suits anyone
+                who wants ongoing guidance — career timing, marriage windows, and remedy checks.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-border bg-card/50 p-6">
+              <h3 className="font-display text-lg text-foreground">Premium — ₹249</h3>
+              <p className="mt-2 text-muted-foreground leading-relaxed">
+                For serious students of Jyotish and those who consult Vaanii regularly. 20 questions
+                cover everything — detailed transit analysis, personalized remedies, live
+                consultation-style sessions, and priority support. You get the full Vedic toolkit:
+                dashas, yogas, doshas, divisional charts, and muhurta checks. Designed for users who
+                treat Vaanii as their primary astrologer.
+              </p>
+            </div>
+          </div>
+
+          <div className="rounded-3xl border border-border bg-card/70 p-8 backdrop-blur-sm">
+            <h3 className="font-display text-2xl text-foreground">Why pay for astrology when AI is free elsewhere?</h3>
+            <p className="mt-3 text-muted-foreground leading-relaxed">
+              Most free astrology apps give you generic sun-sign horoscopes — the same reading
+              for everyone born in the same month. AstroVaanii is different. Every answer is based
+              on your exact birth chart: your planetary positions, your active dasha periods, your
+              unique yogas and doshas. The AI is trained on classical Parashara and Jaimini texts,
+              not generic internet content. Your chart stays in context across every question, and
+              our practising Jyotishis audit conversations weekly. You're not paying for a chatbot
+              — you're paying for rigorous Vedic astrology, available 24/7, in your language.
+            </p>
+            <p className="mt-3 text-muted-foreground leading-relaxed">
+              All plans include access across 9 Indian languages, end-to-end encrypted birth data,
+              and the ability to switch devices without losing your chat history. Start with any
+              plan and upgrade when you need more. If you're ever unsure, our team is happy to
+              help at{" "}
+              <a href="mailto:hello@astrovaanii.ai" className="text-primary underline underline-offset-4">
+                hello@astrovaanii.ai
+              </a>.
+            </p>
+          </div>
+        </section>
       </section>
     </main>
   );
