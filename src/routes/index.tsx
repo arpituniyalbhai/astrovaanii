@@ -700,6 +700,7 @@ function Footer() {
             <a href="#how" className="hover:text-foreground">How it works</a>
             <a href="#faq" className="hover:text-foreground">FAQ</a>
             <Link to="/blogs" className="hover:text-foreground">Blog</Link>
+            <Link to="/tools" className="hover:text-foreground">Tools</Link>
           </div>
           <div className="flex flex-col gap-3 text-sm">
             <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60">Legal</span>

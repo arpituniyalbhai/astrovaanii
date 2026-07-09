@@ -1,0 +1,1 @@
+var e=`/assets/free-kundlai-generator-DXQxIV0G.webp`;export{e as t};

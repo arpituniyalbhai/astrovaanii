@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ToolsRouteImport } from './routes/tools'
 import { Route as TermsAndConditionsRouteImport } from './routes/terms-and-conditions'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
@@ -16,17 +17,24 @@ import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as MyChartRouteImport } from './routes/my-chart'
+import { Route as FreeKundliRouteImport } from './routes/free-kundli'
 import { Route as DisclaimerRouteImport } from './routes/disclaimer'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ChatRouteImport } from './routes/chat'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ToolsIndexRouteImport } from './routes/tools/index'
 import { Route as BlogsIndexRouteImport } from './routes/blogs/index'
 import { Route as BlogsWhatIsAiAstrologerRouteImport } from './routes/blogs/what-is-ai-astrologer'
 import { Route as ApiVerifyPaymentRouteImport } from './routes/api/verify-payment'
 import { Route as ApiCreateOrderRouteImport } from './routes/api/create-order'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 
+const ToolsRoute = ToolsRouteImport.update({
+  id: '/tools',
+  path: '/tools',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsAndConditionsRoute = TermsAndConditionsRouteImport.update({
   id: '/terms-and-conditions',
   path: '/terms-and-conditions',
@@ -62,6 +70,11 @@ const MyChartRoute = MyChartRouteImport.update({
   path: '/my-chart',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FreeKundliRoute = FreeKundliRouteImport.update({
+  id: '/free-kundli',
+  path: '/free-kundli',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DisclaimerRoute = DisclaimerRouteImport.update({
   id: '/disclaimer',
   path: '/disclaimer',
@@ -86,6 +99,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsIndexRoute = ToolsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ToolsRoute,
 } as any)
 const BlogsIndexRoute = BlogsIndexRouteImport.update({
   id: '/blogs/',
@@ -119,6 +137,7 @@ export interface FileRoutesByFullPath {
   '/chat': typeof ChatRoute
   '/dashboard': typeof DashboardRoute
   '/disclaimer': typeof DisclaimerRoute
+  '/free-kundli': typeof FreeKundliRoute
   '/my-chart': typeof MyChartRoute
   '/onboarding': typeof OnboardingRoute
   '/pricing': typeof PricingRoute
@@ -126,11 +145,13 @@ export interface FileRoutesByFullPath {
   '/refund-policy': typeof RefundPolicyRoute
   '/signup': typeof SignupRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
+  '/tools': typeof ToolsRouteWithChildren
   '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
   '/blogs/what-is-ai-astrologer': typeof BlogsWhatIsAiAstrologerRoute
   '/blogs/': typeof BlogsIndexRoute
+  '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -138,6 +159,7 @@ export interface FileRoutesByTo {
   '/chat': typeof ChatRoute
   '/dashboard': typeof DashboardRoute
   '/disclaimer': typeof DisclaimerRoute
+  '/free-kundli': typeof FreeKundliRoute
   '/my-chart': typeof MyChartRoute
   '/onboarding': typeof OnboardingRoute
   '/pricing': typeof PricingRoute
@@ -150,6 +172,7 @@ export interface FileRoutesByTo {
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
   '/blogs/what-is-ai-astrologer': typeof BlogsWhatIsAiAstrologerRoute
   '/blogs': typeof BlogsIndexRoute
+  '/tools': typeof ToolsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -158,6 +181,7 @@ export interface FileRoutesById {
   '/chat': typeof ChatRoute
   '/dashboard': typeof DashboardRoute
   '/disclaimer': typeof DisclaimerRoute
+  '/free-kundli': typeof FreeKundliRoute
   '/my-chart': typeof MyChartRoute
   '/onboarding': typeof OnboardingRoute
   '/pricing': typeof PricingRoute
@@ -165,11 +189,13 @@ export interface FileRoutesById {
   '/refund-policy': typeof RefundPolicyRoute
   '/signup': typeof SignupRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
+  '/tools': typeof ToolsRouteWithChildren
   '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
   '/blogs/what-is-ai-astrologer': typeof BlogsWhatIsAiAstrologerRoute
   '/blogs/': typeof BlogsIndexRoute
+  '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -179,6 +205,7 @@ export interface FileRouteTypes {
     | '/chat'
     | '/dashboard'
     | '/disclaimer'
+    | '/free-kundli'
     | '/my-chart'
     | '/onboarding'
     | '/pricing'
@@ -186,11 +213,13 @@ export interface FileRouteTypes {
     | '/refund-policy'
     | '/signup'
     | '/terms-and-conditions'
+    | '/tools'
     | '/api/chat'
     | '/api/create-order'
     | '/api/verify-payment'
     | '/blogs/what-is-ai-astrologer'
     | '/blogs/'
+    | '/tools/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -198,6 +227,7 @@ export interface FileRouteTypes {
     | '/chat'
     | '/dashboard'
     | '/disclaimer'
+    | '/free-kundli'
     | '/my-chart'
     | '/onboarding'
     | '/pricing'
@@ -210,6 +240,7 @@ export interface FileRouteTypes {
     | '/api/verify-payment'
     | '/blogs/what-is-ai-astrologer'
     | '/blogs'
+    | '/tools'
   id:
     | '__root__'
     | '/'
@@ -217,6 +248,7 @@ export interface FileRouteTypes {
     | '/chat'
     | '/dashboard'
     | '/disclaimer'
+    | '/free-kundli'
     | '/my-chart'
     | '/onboarding'
     | '/pricing'
@@ -224,11 +256,13 @@ export interface FileRouteTypes {
     | '/refund-policy'
     | '/signup'
     | '/terms-and-conditions'
+    | '/tools'
     | '/api/chat'
     | '/api/create-order'
     | '/api/verify-payment'
     | '/blogs/what-is-ai-astrologer'
     | '/blogs/'
+    | '/tools/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -237,6 +271,7 @@ export interface RootRouteChildren {
   ChatRoute: typeof ChatRoute
   DashboardRoute: typeof DashboardRoute
   DisclaimerRoute: typeof DisclaimerRoute
+  FreeKundliRoute: typeof FreeKundliRoute
   MyChartRoute: typeof MyChartRoute
   OnboardingRoute: typeof OnboardingRoute
   PricingRoute: typeof PricingRoute
@@ -244,6 +279,7 @@ export interface RootRouteChildren {
   RefundPolicyRoute: typeof RefundPolicyRoute
   SignupRoute: typeof SignupRoute
   TermsAndConditionsRoute: typeof TermsAndConditionsRoute
+  ToolsRoute: typeof ToolsRouteWithChildren
   ApiChatRoute: typeof ApiChatRoute
   ApiCreateOrderRoute: typeof ApiCreateOrderRoute
   ApiVerifyPaymentRoute: typeof ApiVerifyPaymentRoute
@@ -253,6 +289,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/tools': {
+      id: '/tools'
+      path: '/tools'
+      fullPath: '/tools'
+      preLoaderRoute: typeof ToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms-and-conditions': {
       id: '/terms-and-conditions'
       path: '/terms-and-conditions'
@@ -302,6 +345,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MyChartRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/free-kundli': {
+      id: '/free-kundli'
+      path: '/free-kundli'
+      fullPath: '/free-kundli'
+      preLoaderRoute: typeof FreeKundliRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/disclaimer': {
       id: '/disclaimer'
       path: '/disclaimer'
@@ -336,6 +386,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/tools/': {
+      id: '/tools/'
+      path: '/'
+      fullPath: '/tools/'
+      preLoaderRoute: typeof ToolsIndexRouteImport
+      parentRoute: typeof ToolsRoute
     }
     '/blogs/': {
       id: '/blogs/'
@@ -375,12 +432,23 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface ToolsRouteChildren {
+  ToolsIndexRoute: typeof ToolsIndexRoute
+}
+
+const ToolsRouteChildren: ToolsRouteChildren = {
+  ToolsIndexRoute: ToolsIndexRoute,
+}
+
+const ToolsRouteWithChildren = ToolsRoute._addFileChildren(ToolsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BlogRoute: BlogRoute,
   ChatRoute: ChatRoute,
   DashboardRoute: DashboardRoute,
   DisclaimerRoute: DisclaimerRoute,
+  FreeKundliRoute: FreeKundliRoute,
   MyChartRoute: MyChartRoute,
   OnboardingRoute: OnboardingRoute,
   PricingRoute: PricingRoute,
@@ -388,6 +456,7 @@ const rootRouteChildren: RootRouteChildren = {
   RefundPolicyRoute: RefundPolicyRoute,
   SignupRoute: SignupRoute,
   TermsAndConditionsRoute: TermsAndConditionsRoute,
+  ToolsRoute: ToolsRouteWithChildren,
   ApiChatRoute: ApiChatRoute,
   ApiCreateOrderRoute: ApiCreateOrderRoute,
   ApiVerifyPaymentRoute: ApiVerifyPaymentRoute,
