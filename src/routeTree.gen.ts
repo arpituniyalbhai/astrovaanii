@@ -22,6 +22,7 @@ import { Route as DisclaimerRouteImport } from './routes/disclaimer'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ChatRouteImport } from './routes/chat'
 import { Route as BlogRouteImport } from './routes/blog'
+import { Route as AiAstrologyWebsiteFreeRouteImport } from './routes/ai-astrology-website-free'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolsIndexRouteImport } from './routes/tools/index'
 import { Route as BlogsIndexRouteImport } from './routes/blogs/index'
@@ -95,6 +96,11 @@ const BlogRoute = BlogRouteImport.update({
   path: '/blog',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AiAstrologyWebsiteFreeRoute = AiAstrologyWebsiteFreeRouteImport.update({
+  id: '/ai-astrology-website-free',
+  path: '/ai-astrology-website-free',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -133,6 +139,7 @@ const ApiChatRoute = ApiChatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ai-astrology-website-free': typeof AiAstrologyWebsiteFreeRoute
   '/blog': typeof BlogRoute
   '/chat': typeof ChatRoute
   '/dashboard': typeof DashboardRoute
@@ -155,6 +162,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ai-astrology-website-free': typeof AiAstrologyWebsiteFreeRoute
   '/blog': typeof BlogRoute
   '/chat': typeof ChatRoute
   '/dashboard': typeof DashboardRoute
@@ -177,6 +185,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ai-astrology-website-free': typeof AiAstrologyWebsiteFreeRoute
   '/blog': typeof BlogRoute
   '/chat': typeof ChatRoute
   '/dashboard': typeof DashboardRoute
@@ -201,6 +210,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/ai-astrology-website-free'
     | '/blog'
     | '/chat'
     | '/dashboard'
@@ -223,6 +233,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/ai-astrology-website-free'
     | '/blog'
     | '/chat'
     | '/dashboard'
@@ -244,6 +255,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/ai-astrology-website-free'
     | '/blog'
     | '/chat'
     | '/dashboard'
@@ -267,6 +279,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AiAstrologyWebsiteFreeRoute: typeof AiAstrologyWebsiteFreeRoute
   BlogRoute: typeof BlogRoute
   ChatRoute: typeof ChatRoute
   DashboardRoute: typeof DashboardRoute
@@ -380,6 +393,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ai-astrology-website-free': {
+      id: '/ai-astrology-website-free'
+      path: '/ai-astrology-website-free'
+      fullPath: '/ai-astrology-website-free'
+      preLoaderRoute: typeof AiAstrologyWebsiteFreeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -444,6 +464,7 @@ const ToolsRouteWithChildren = ToolsRoute._addFileChildren(ToolsRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AiAstrologyWebsiteFreeRoute: AiAstrologyWebsiteFreeRoute,
   BlogRoute: BlogRoute,
   ChatRoute: ChatRoute,
   DashboardRoute: DashboardRoute,

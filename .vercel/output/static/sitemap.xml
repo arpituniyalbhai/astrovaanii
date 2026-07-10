@@ -69,7 +69,13 @@
   </url>
 
   <url>
-    <loc>https://astrovaanii.in/free-kundli/loc>
+    <loc>https://astrovaanii.in/free-kundli</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://astrovaanii.in/ai-astrology-website-free</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>

@@ -11,6 +11,17 @@ const blogPosts = [
     image: "/what-is-ai-astrologer.webp",
     imageAlt: "What is an AI astrologer - illustration of AI astrology chart reading",
   },
+  {
+    slug: "ai-astrology-website-free",
+    title: "Free AI Astrology Website — Get Instant Vedic Predictions Online",
+    description:
+      "Use the best free AI astrology website for instant Vedic predictions. Get personalized readings on career, love, marriage, health, finance & more. No signup required.",
+    date: "July 10, 2026",
+    readTime: "12 min read",
+    image: "/free-ai-astrology-website.webp",
+    imageAlt: "Free AI astrology website - Get instant Vedic predictions online",
+    to: "/ai-astrology-website-free",
+  },
 ];
 
 export const Route = createFileRoute("/blogs/")({
@@ -49,7 +60,12 @@ export const Route = createFileRoute("/blogs/")({
           "@type": "BreadcrumbList",
           itemListElement: [
             { "@type": "ListItem", position: 1, name: "Home", item: "https://astrovaanii.in/" },
-            { "@type": "ListItem", position: 2, name: "Blog", item: "https://astrovaanii.in/blogs" },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Blog",
+              item: "https://astrovaanii.in/blogs",
+            },
           ],
         }),
       },
@@ -82,7 +98,11 @@ function BlogsPage() {
               key={post.slug}
               className="group flex flex-col rounded-3xl border border-border bg-card transition-shadow hover:shadow-md overflow-hidden"
             >
-              <Link to="/blogs/$slug" params={{ slug: post.slug }} className="block overflow-hidden">
+              <Link
+                to={post.to ?? "/blogs/$slug"}
+                params={post.to ? undefined : { slug: post.slug }}
+                className="block overflow-hidden"
+              >
                 <img
                   src={post.image}
                   alt={post.imageAlt}
@@ -99,7 +119,10 @@ function BlogsPage() {
                   <span>{post.readTime}</span>
                 </div>
                 <h2 className="mt-3 font-display text-xl font-medium text-foreground group-hover:text-primary transition-colors">
-                  <Link to="/blogs/$slug" params={{ slug: post.slug }}>
+                  <Link
+                    to={post.to ?? "/blogs/$slug"}
+                    params={post.to ? undefined : { slug: post.slug }}
+                  >
                     {post.title}
                   </Link>
                 </h2>
@@ -107,8 +130,8 @@ function BlogsPage() {
                   {post.description}
                 </p>
                 <Link
-                  to="/blogs/$slug"
-                  params={{ slug: post.slug }}
+                  to={post.to ?? "/blogs/$slug"}
+                  params={post.to ? undefined : { slug: post.slug }}
                   className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
                 >
                   Read more &rarr;
@@ -122,13 +145,25 @@ function BlogsPage() {
       <footer className="border-t border-border bg-card/40 py-12">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
-            <Link to="/" className="hover:text-foreground">Home</Link>
-            <Link to="/privacy-policy" className="hover:text-foreground">Privacy Policy</Link>
-            <Link to="/terms-and-conditions" className="hover:text-foreground">Terms &amp; Conditions</Link>
-            <Link to="/refund-policy" className="hover:text-foreground">Refund Policy</Link>
-            <Link to="/disclaimer" className="hover:text-foreground">Disclaimer</Link>
+            <Link to="/" className="hover:text-foreground">
+              Home
+            </Link>
+            <Link to="/privacy-policy" className="hover:text-foreground">
+              Privacy Policy
+            </Link>
+            <Link to="/terms-and-conditions" className="hover:text-foreground">
+              Terms &amp; Conditions
+            </Link>
+            <Link to="/refund-policy" className="hover:text-foreground">
+              Refund Policy
+            </Link>
+            <Link to="/disclaimer" className="hover:text-foreground">
+              Disclaimer
+            </Link>
           </div>
-          <p className="mt-4 text-center text-xs text-muted-foreground/60">&copy; {new Date().getFullYear()} AstroVaanii</p>
+          <p className="mt-4 text-center text-xs text-muted-foreground/60">
+            &copy; {new Date().getFullYear()} AstroVaanii
+          </p>
         </div>
       </footer>
     </main>

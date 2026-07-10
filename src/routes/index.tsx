@@ -36,13 +36,43 @@ const faqs = [
 ];
 
 const reviews = [
-  { name: "Priya S.", city: "Pune", stars: 5, text: "I asked Vaanii about my career shift at 2 AM and got a thoughtful reading in five minutes. No astrologer would pick up. This just works." },
-  { name: "Arun K.", city: "Chennai", stars: 5, text: "Follow-up questions are the game changer. I kept asking 'but why?' and Vaanii kept explaining — like a patient teacher, not a horoscope app." },
-  { name: "Meera J.", city: "Ahmedabad", stars: 5, text: "Switched to Gujarati mid-conversation and it flowed naturally. Felt like talking to a family jyotishi, not a chatbot." },
-  { name: "Rahul V.", city: "Bengaluru", stars: 5, text: "The Kundli Milan chat was more honest than three astrologers we visited. Vaanii flagged Nadi dosha without sugar-coating." },
+  {
+    name: "Priya S.",
+    city: "Pune",
+    stars: 5,
+    text: "I asked Vaanii about my career shift at 2 AM and got a thoughtful reading in five minutes. No astrologer would pick up. This just works.",
+  },
+  {
+    name: "Arun K.",
+    city: "Chennai",
+    stars: 5,
+    text: "Follow-up questions are the game changer. I kept asking 'but why?' and Vaanii kept explaining — like a patient teacher, not a horoscope app.",
+  },
+  {
+    name: "Meera J.",
+    city: "Ahmedabad",
+    stars: 5,
+    text: "Switched to Gujarati mid-conversation and it flowed naturally. Felt like talking to a family jyotishi, not a chatbot.",
+  },
+  {
+    name: "Rahul V.",
+    city: "Bengaluru",
+    stars: 5,
+    text: "The Kundli Milan chat was more honest than three astrologers we visited. Vaanii flagged Nadi dosha without sugar-coating.",
+  },
 ];
 
-const languages = ["English", "हिंदी", "मराठी", "தமிழ்", "తెలుగు", "ಕನ್ನಡ", "മലയാളം", "বাংলা", "ગુજરાતી"];
+const languages = [
+  "English",
+  "हिंदी",
+  "मराठी",
+  "தமிழ்",
+  "తెలుగు",
+  "ಕನ್ನಡ",
+  "മലയാളം",
+  "বাংলা",
+  "ગુજરાતી",
+];
 
 function Nav() {
   return (
@@ -50,15 +80,28 @@ function Nav() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <a href="#top" className="flex items-center gap-2">
           <img src={brandIcon} alt="" width={32} height={32} className="h-8 w-8" />
-          <span className="font-display text-lg">Astro<span className="text-primary">Vaanii</span></span>
+          <span className="font-display text-lg">
+            Astro<span className="text-primary">Vaanii</span>
+          </span>
         </a>
         <nav className="hidden gap-8 text-sm text-muted-foreground md:flex">
-          <a href="#meet" className="hover:text-foreground">Meet Vaanii</a>
-          <a href="#daily" className="hover:text-foreground">Daily prediction</a>
-          <a href="#how" className="hover:text-foreground">How it works</a>
-          <a href="#faq" className="hover:text-foreground">FAQ</a>
+          <a href="#meet" className="hover:text-foreground">
+            Meet Vaanii
+          </a>
+          <a href="#daily" className="hover:text-foreground">
+            Daily prediction
+          </a>
+          <a href="#how" className="hover:text-foreground">
+            How it works
+          </a>
+          <a href="#faq" className="hover:text-foreground">
+            FAQ
+          </a>
         </nav>
-        <Link to="/signup" className="rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90">
+        <Link
+          to="/signup"
+          className="rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
+        >
           Start chat
         </Link>
       </div>
@@ -93,16 +136,32 @@ function Hero() {
           </Reveal>
           <Reveal delay={240}>
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link to="/signup" className="rounded-full bg-primary px-8 py-4 text-base font-medium text-primary-foreground shadow-lg shadow-primary/20 hover:opacity-90">
+              <Link
+                to="/signup"
+                className="rounded-full bg-primary px-8 py-4 text-base font-medium text-primary-foreground shadow-lg shadow-primary/20 hover:opacity-90"
+              >
                 Chat with Vaanii AI - it's Free
               </Link>
             </div>
           </Reveal>
           <Reveal delay={320}>
             <dl className="mt-12 grid max-w-md grid-cols-3 gap-6 border-t border-border pt-8">
-              <div><dt className="text-xs uppercase tracking-wider text-muted-foreground">Conversations</dt><dd className="mt-1 font-display text-2xl">2.4M+</dd></div>
-              <div><dt className="text-xs uppercase tracking-wider text-muted-foreground">Languages</dt><dd className="mt-1 font-display text-2xl">9</dd></div>
-              <div><dt className="text-xs uppercase tracking-wider text-muted-foreground">Rating</dt><dd className="mt-1 font-display text-2xl">4.9★</dd></div>
+              <div>
+                <dt className="text-xs uppercase tracking-wider text-muted-foreground">
+                  Conversations
+                </dt>
+                <dd className="mt-1 font-display text-2xl">2.4M+</dd>
+              </div>
+              <div>
+                <dt className="text-xs uppercase tracking-wider text-muted-foreground">
+                  Languages
+                </dt>
+                <dd className="mt-1 font-display text-2xl">9</dd>
+              </div>
+              <div>
+                <dt className="text-xs uppercase tracking-wider text-muted-foreground">Rating</dt>
+                <dd className="mt-1 font-display text-2xl">4.9★</dd>
+              </div>
             </dl>
           </Reveal>
         </div>
@@ -126,7 +185,9 @@ function Hero() {
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="font-display text-base leading-tight">Vaanii</div>
-                    <div className="text-[11px] uppercase tracking-widest text-white/70">AI Vedic Astrologer</div>
+                    <div className="text-[11px] uppercase tracking-widest text-white/70">
+                      AI Vedic Astrologer
+                    </div>
                   </div>
                   <div className="flex items-center gap-1.5 text-[11px]">
                     <span className="h-2 w-2 rounded-full bg-[color:var(--sage)] shadow-[0_0_8px_var(--sage)]" />
@@ -136,12 +197,18 @@ function Hero() {
               </div>
             </div>
 
-            <div className="float absolute -left-8 top-10 w-44 rounded-2xl border border-border bg-card p-4 shadow-lg" style={{ ["--r" as any]: "-4deg" }}>
+            <div
+              className="float absolute -left-8 top-10 w-44 rounded-2xl border border-border bg-card p-4 shadow-lg"
+              style={{ ["--r" as any]: "-4deg" }}
+            >
               <div className="text-xs text-muted-foreground">You asked</div>
               <div className="mt-1 font-display text-sm leading-snug">"How is my day today?"</div>
               <div className="mt-2 text-xs text-[color:var(--sage)]">Reply in 4 seconds</div>
             </div>
-            <div className="float absolute -right-6 bottom-24 w-40 rounded-2xl border border-border bg-card p-4 shadow-lg" style={{ ["--r" as any]: "3deg", animationDelay: "1.4s" }}>
+            <div
+              className="float absolute -right-6 bottom-24 w-40 rounded-2xl border border-border bg-card p-4 shadow-lg"
+              style={{ ["--r" as any]: "3deg", animationDelay: "1.4s" }}
+            >
               <div className="text-xs text-muted-foreground">Available</div>
               <div className="mt-1 font-display text-2xl text-primary">24/7</div>
               <div className="mt-1 text-xs">No appointment</div>
@@ -154,7 +221,17 @@ function Hero() {
 }
 
 function Marquee() {
-  const items = ["Today", "Tomorrow", "Career", "Marriage", "Kundli Milan", "Wealth", "Timing", "Doshas", "Remedies"];
+  const items = [
+    "Today",
+    "Tomorrow",
+    "Career",
+    "Marriage",
+    "Kundli Milan",
+    "Wealth",
+    "Timing",
+    "Doshas",
+    "Remedies",
+  ];
   const doubled = [...items, ...items];
   return (
     <div className="border-y border-border bg-card/40 py-5 overflow-hidden">
@@ -197,8 +274,9 @@ function DailyPrediction() {
               <em className="not-italic text-primary">tomorrow</em> prediction.
             </h2>
             <p className="mt-5 max-w-xl text-muted-foreground">
-              This AI astrologer gives you a quick, personal reading based on live planetary transits and your own chart —
-              not a generic sun-sign horoscope everyone else is reading.
+              This AI astrologer gives you a quick, personal reading based on live planetary
+              transits and your own chart — not a generic sun-sign horoscope everyone else is
+              reading.
             </p>
           </Reveal>
 
@@ -225,11 +303,18 @@ function DailyPrediction() {
           <Reveal>
             <div className="rounded-3xl border border-border bg-card p-6 shadow-xl">
               <div className="flex items-center gap-3 border-b border-border pb-4">
-                <img src={vaaniiPersona} alt="" width={40} height={40} className="h-10 w-10 rounded-full object-cover ring-1 ring-[color:var(--gold)]/50" />
+                <img
+                  src={vaaniiPersona}
+                  alt=""
+                  width={40}
+                  height={40}
+                  className="h-10 w-10 rounded-full object-cover ring-1 ring-[color:var(--gold)]/50"
+                />
                 <div>
                   <div className="font-display text-base">Vaanii</div>
                   <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--sage)]" /> typing your {day}'s reading…
+                    <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--sage)]" /> typing your{" "}
+                    {day}'s reading…
                   </div>
                 </div>
               </div>
@@ -242,14 +327,14 @@ function DailyPrediction() {
                   {day === "today" ? (
                     <>
                       Moon transits your 10th house — a strong career window between{" "}
-                      <b>11:20 AM – 1:40 PM</b>. Send that pending message, but avoid financial commitments after sunset.
-                      Rahu is subtle today; keep decisions simple.
+                      <b>11:20 AM – 1:40 PM</b>. Send that pending message, but avoid financial
+                      commitments after sunset. Rahu is subtle today; keep decisions simple.
                     </>
                   ) : (
                     <>
-                      Tomorrow's Chandra shifts into your 5th — creativity and children-related news feel warm.
-                      Favourable muhurta around <b>9:05 AM – 10:30 AM</b>. Postpone travel past 7 PM; Mars aspect is
-                      restless.
+                      Tomorrow's Chandra shifts into your 5th — creativity and children-related news
+                      feel warm. Favourable muhurta around <b>9:05 AM – 10:30 AM</b>. Postpone
+                      travel past 7 PM; Mars aspect is restless.
                     </>
                   )}
                 </div>
@@ -265,7 +350,10 @@ function DailyPrediction() {
 
               <div className="mt-6 flex flex-wrap gap-2">
                 {samplePrompts.map((p) => (
-                  <button key={p} className="rounded-full border border-border bg-background px-3 py-1.5 text-xs text-foreground/80 hover:bg-accent">
+                  <button
+                    key={p}
+                    className="rounded-full border border-border bg-background px-3 py-1.5 text-xs text-foreground/80 hover:bg-accent"
+                  >
                     {p}
                   </button>
                 ))}
@@ -287,7 +375,9 @@ function DailyPrediction() {
 
               <ol className="mt-6 space-y-5">
                 <li className="flex gap-4">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-primary/40 bg-primary/10 font-display text-sm text-primary">1</span>
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-primary/40 bg-primary/10 font-display text-sm text-primary">
+                    1
+                  </span>
                   <div>
                     <div className="font-display text-base">Your birth details</div>
                     <p className="mt-1 text-sm text-muted-foreground">
@@ -296,28 +386,35 @@ function DailyPrediction() {
                   </div>
                 </li>
                 <li className="flex gap-4">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-primary/40 bg-primary/10 font-display text-sm text-primary">2</span>
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-primary/40 bg-primary/10 font-display text-sm text-primary">
+                    2
+                  </span>
                   <div>
                     <div className="font-display text-base">Real-time planetary positions</div>
                     <p className="mt-1 text-sm text-muted-foreground">
-                      We pull live transits from a NASA-grade ephemeris API — the same precision used in
-                      space missions, updated every minute.
+                      We pull live transits from a NASA-grade ephemeris API — the same precision
+                      used in space missions, updated every minute.
                     </p>
                   </div>
                 </li>
                 <li className="flex gap-4">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-primary/40 bg-primary/10 font-display text-sm text-primary">3</span>
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-primary/40 bg-primary/10 font-display text-sm text-primary">
+                    3
+                  </span>
                   <div>
                     <div className="font-display text-base">Analyzed by Vaanii AI</div>
                     <p className="mt-1 text-sm text-muted-foreground">
-                      Vaanii cross-reads your chart against today's transits using classical Parashara
-                      rules — and explains it in plain language.
+                      Vaanii cross-reads your chart against today's transits using classical
+                      Parashara rules — and explains it in plain language.
                     </p>
                   </div>
                 </li>
               </ol>
 
-              <a href="#meet" className="mt-7 inline-flex w-full items-center justify-center rounded-full bg-primary px-5 py-3 text-sm font-medium text-primary-foreground hover:opacity-90">
+              <a
+                href="#meet"
+                className="mt-7 inline-flex w-full items-center justify-center rounded-full bg-primary px-5 py-3 text-sm font-medium text-primary-foreground hover:opacity-90"
+              >
                 Get my {day}'s reading
               </a>
             </div>
@@ -333,22 +430,37 @@ function WhatIs() {
     <section className="relative py-24">
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-16 px-6 md:grid-cols-2">
         <Reveal>
-          <span className="text-xs uppercase tracking-[0.2em] text-primary">What is an AI Astrologer</span>
+          <span className="text-xs uppercase tracking-[0.2em] text-primary">
+            What is an AI Astrologer
+          </span>
           <h2 className="mt-4 font-display text-4xl leading-tight md:text-5xl">
             An astrologer who never sleeps, never rushes, never judges.
           </h2>
         </Reveal>
         <Reveal delay={120}>
           <p className="text-lg leading-relaxed text-muted-foreground">
-            As an AI astrologer, AstroVaanii combines exact classical Vedic calculations with an interpretation model trained on
-            thousands of real Jyotish readings. Vaanii reads your chart the way a seasoned astrologer would —
-            just faster, always available, and consistent every single time.
+            As an AI astrologer, AstroVaanii combines exact classical Vedic calculations with an
+            interpretation model trained on thousands of real Jyotish readings. Vaanii reads your
+            chart the way a seasoned astrologer would — just faster, always available, and
+            consistent every single time.
           </p>
           <ul className="mt-6 space-y-3 text-foreground/90">
-            <li className="flex gap-3"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Instant chart generation with zero wait time</li>
-            <li className="flex gap-3"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Trained on classical Parashara &amp; Jaimini texts</li>
-            <li className="flex gap-3"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Available in 9 Indian languages, 24/7</li>
-            <li className="flex gap-3"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />Audited weekly by practising Jyotishis</li>
+            <li className="flex gap-3">
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+              Instant chart generation with zero wait time
+            </li>
+            <li className="flex gap-3">
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+              Trained on classical Parashara &amp; Jaimini texts
+            </li>
+            <li className="flex gap-3">
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+              Available in 9 Indian languages, 24/7
+            </li>
+            <li className="flex gap-3">
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+              Audited weekly by practising Jyotishis
+            </li>
           </ul>
         </Reveal>
       </div>
@@ -385,26 +497,33 @@ function MeetAI() {
           <Reveal>
             <span className="text-xs uppercase tracking-[0.2em] text-primary">Meet Vaanii</span>
             <h2 className="mt-4 font-display text-4xl md:text-5xl">
-              Ask <em className="not-italic text-primary">anything</em>. About love, career, karma, wealth.
+              Ask <em className="not-italic text-primary">anything</em>. About love, career, karma,
+              wealth.
             </h2>
           </Reveal>
           <Reveal delay={100}>
             <p className="mt-6 text-lg text-muted-foreground">
-              AstroVaanii is a conversation, not a static report. Ask a question, follow up, dig deeper —
-              your chart stays in context throughout.
+              AstroVaanii is a conversation, not a static report. Ask a question, follow up, dig
+              deeper — your chart stays in context throughout.
             </p>
           </Reveal>
           <Reveal delay={200}>
             <ul className="mt-8 flex flex-wrap gap-2">
               {prompts.map((p) => (
-                <li key={p} className="rounded-full border border-border bg-card px-4 py-2 text-sm text-foreground/80">
+                <li
+                  key={p}
+                  className="rounded-full border border-border bg-card px-4 py-2 text-sm text-foreground/80"
+                >
                   “{p}”
                 </li>
               ))}
             </ul>
           </Reveal>
           <Reveal delay={280}>
-            <a href="#meet" className="mt-8 inline-flex rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 hover:opacity-90">
+            <a
+              href="#meet"
+              className="mt-8 inline-flex rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 hover:opacity-90"
+            >
               Start your first chat — free
             </a>
           </Reveal>
@@ -416,10 +535,26 @@ function MeetAI() {
 
 function HowItWorks() {
   const steps = [
-    { n: "01", t: "Share birth details", d: "Date, time and place. That's the only data Vaanii needs to cast your chart." },
-    { n: "02", t: "We compute your Kundli", d: "Planetary positions, houses, dashas — calculated with classical precision." },
-    { n: "03", t: "Vaanii interprets", d: "AstroVaanii reads dashas, yogas and doshas and translates them into natural conversation." },
-    { n: "04", t: "Ask, follow up, revisit", d: "Reply in nine languages, ask anything, and pick up the same chat weeks later." },
+    {
+      n: "01",
+      t: "Share birth details",
+      d: "Date, time and place. That's the only data Vaanii needs to cast your chart.",
+    },
+    {
+      n: "02",
+      t: "We compute your Kundli",
+      d: "Planetary positions, houses, dashas — calculated with classical precision.",
+    },
+    {
+      n: "03",
+      t: "Vaanii interprets",
+      d: "AstroVaanii reads dashas, yogas and doshas and translates them into natural conversation.",
+    },
+    {
+      n: "04",
+      t: "Ask, follow up, revisit",
+      d: "Reply in nine languages, ask anything, and pick up the same chat weeks later.",
+    },
   ];
   return (
     <section id="how" className="relative overflow-hidden py-24">
@@ -482,7 +617,10 @@ function Compare() {
               <div className="p-5 text-muted-foreground">Traditional</div>
             </div>
             {rows.map((r, i) => (
-              <div key={r.k} className={`grid grid-cols-3 text-sm ${i % 2 ? "bg-background/40" : ""}`}>
+              <div
+                key={r.k}
+                className={`grid grid-cols-3 text-sm ${i % 2 ? "bg-background/40" : ""}`}
+              >
                 <div className="p-5 font-display text-base">{r.k}</div>
                 <div className="p-5 text-foreground">{r.ai}</div>
                 <div className="p-5 text-muted-foreground">{r.trad}</div>
@@ -497,12 +635,30 @@ function Compare() {
 
 function WhyBetter() {
   const items = [
-    { t: "Trained on classical texts", d: "Not a generic chatbot with an astrology prompt. Vaanii is tuned on Parashara, Jaimini and thousands of real Jyotish readings." },
-    { t: "Weekly human audit", d: "Practising astrologers review sample conversations every week and tune the interpretation layer for accuracy." },
-    { t: "Chart-aware conversations", d: "Follow-ups don't lose context. Your chart, dashas and past questions stay in every reply." },
-    { t: "Truly multilingual", d: "Nine Indian languages, natively — not machine-translated English underneath." },
-    { t: "Private by default", d: "Birth data encrypted, never sold, never used to train third-party models. Delete anytime." },
-    { t: "Honest about timing", d: "Vaanii tells you when a window closes, not just what you want to hear." },
+    {
+      t: "Trained on classical texts",
+      d: "Not a generic chatbot with an astrology prompt. Vaanii is tuned on Parashara, Jaimini and thousands of real Jyotish readings.",
+    },
+    {
+      t: "Weekly human audit",
+      d: "Practising astrologers review sample conversations every week and tune the interpretation layer for accuracy.",
+    },
+    {
+      t: "Chart-aware conversations",
+      d: "Follow-ups don't lose context. Your chart, dashas and past questions stay in every reply.",
+    },
+    {
+      t: "Truly multilingual",
+      d: "Nine Indian languages, natively — not machine-translated English underneath.",
+    },
+    {
+      t: "Private by default",
+      d: "Birth data encrypted, never sold, never used to train third-party models. Delete anytime.",
+    },
+    {
+      t: "Honest about timing",
+      d: "Vaanii tells you when a window closes, not just what you want to hear.",
+    },
   ];
   return (
     <section className="py-24">
@@ -537,10 +693,12 @@ function Languages() {
       <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-16 px-6 md:grid-cols-2">
         <Reveal>
           <span className="text-xs uppercase tracking-[0.2em] text-primary">Your language</span>
-          <h2 className="mt-4 font-display text-4xl md:text-5xl">Chat with Vaanii in nine native scripts.</h2>
+          <h2 className="mt-4 font-display text-4xl md:text-5xl">
+            Chat with Vaanii in nine native scripts.
+          </h2>
           <p className="mt-6 max-w-md text-muted-foreground">
-            Astrology loses nuance in translation. Vaanii replies natively in each language — metaphor,
-            tone and warmth intact. Switch anytime; your context follows.
+            Astrology loses nuance in translation. Vaanii replies natively in each language —
+            metaphor, tone and warmth intact. Switch anytime; your context follows.
           </p>
         </Reveal>
         <Reveal delay={120}>
@@ -623,7 +781,13 @@ function FAQ() {
           <h2 className="mt-4 font-display text-4xl md:text-5xl">Everything about AstroVaanii.</h2>
           <p className="mt-6 text-muted-foreground">
             Real answers written by our astrology team. Still curious? Write to us at
-            <a href="mailto:hello@astrovaanii.ai" className="ml-1 text-primary underline underline-offset-4">hello@astrovaanii.ai</a>.
+            <a
+              href="mailto:hello@astrovaanii.ai"
+              className="ml-1 text-primary underline underline-offset-4"
+            >
+              hello@astrovaanii.ai
+            </a>
+            .
           </p>
         </Reveal>
         <Reveal delay={120}>
@@ -638,11 +802,23 @@ function FAQ() {
                     aria-expanded={isOpen}
                   >
                     <span className="font-display text-lg">{f.q}</span>
-                    <span className={`h-6 w-6 shrink-0 rounded-full border border-border text-primary transition-transform ${isOpen ? "rotate-45" : ""}`}>
-                      <svg viewBox="0 0 24 24" className="h-full w-full"><path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" /></svg>
+                    <span
+                      className={`h-6 w-6 shrink-0 rounded-full border border-border text-primary transition-transform ${isOpen ? "rotate-45" : ""}`}
+                    >
+                      <svg viewBox="0 0 24 24" className="h-full w-full">
+                        <path
+                          d="M12 5v14M5 12h14"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          fill="none"
+                          strokeLinecap="round"
+                        />
+                      </svg>
                     </span>
                   </button>
-                  <div className={`grid overflow-hidden px-6 transition-all duration-500 ${isOpen ? "grid-rows-[1fr] pb-5 opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
+                  <div
+                    className={`grid overflow-hidden px-6 transition-all duration-500 ${isOpen ? "grid-rows-[1fr] pb-5 opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+                  >
                     <p className="min-h-0 text-muted-foreground leading-relaxed">{f.a}</p>
                   </div>
                 </li>
@@ -662,16 +838,22 @@ function CTA() {
       <div className="relative mx-auto max-w-3xl px-6 text-center">
         <Reveal>
           <h2 className="font-display text-4xl leading-tight md:text-6xl">
-            Vaanii is online.<br /><em className="not-italic text-primary">Ask your first question.</em>
+            Vaanii is online.
+            <br />
+            <em className="not-italic text-primary">Ask your first question.</em>
           </h2>
         </Reveal>
         <Reveal delay={120}>
           <p className="mx-auto mt-6 max-w-lg text-lg text-muted-foreground">
-            Start a free chat in under a minute. Bring your birth details — AstroVaanii handles the rest.
+            Start a free chat in under a minute. Bring your birth details — AstroVaanii handles the
+            rest.
           </p>
         </Reveal>
         <Reveal delay={200}>
-          <Link to="/signup" className="mt-10 inline-flex rounded-full bg-primary px-8 py-4 text-sm font-medium text-primary-foreground shadow-xl shadow-primary/25 hover:opacity-90">
+          <Link
+            to="/signup"
+            className="mt-10 inline-flex rounded-full bg-primary px-8 py-4 text-sm font-medium text-primary-foreground shadow-xl shadow-primary/25 hover:opacity-90"
+          >
             Chat with Vaanii
           </Link>
         </Reveal>
@@ -695,20 +877,45 @@ function Footer() {
             </p>
           </div>
           <div className="flex flex-wrap gap-8 text-sm text-muted-foreground">
-            <a href="#meet" className="hover:text-foreground">Meet Vaanii</a>
-            <a href="#daily" className="hover:text-foreground">Daily prediction</a>
-            <a href="#how" className="hover:text-foreground">How it works</a>
-            <a href="#faq" className="hover:text-foreground">FAQ</a>
-            <Link to="/blogs" className="hover:text-foreground">Blog</Link>
-            <Link to="/tools" className="hover:text-foreground">Tools</Link>
+            <a href="#meet" className="hover:text-foreground">
+              Meet Vaanii
+            </a>
+            <a href="#daily" className="hover:text-foreground">
+              Daily prediction
+            </a>
+            <a href="#how" className="hover:text-foreground">
+              How it works
+            </a>
+            <a href="#faq" className="hover:text-foreground">
+              FAQ
+            </a>
+            <Link to="/blogs" className="hover:text-foreground">
+              Blog
+            </Link>
+            <Link to="/ai-astrology-website-free" className="hover:text-foreground">
+              Free AI Astrology
+            </Link>
+            <Link to="/tools" className="hover:text-foreground">
+              Tools
+            </Link>
           </div>
           <div className="flex flex-col gap-3 text-sm">
-            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60">Legal</span>
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60">
+              Legal
+            </span>
             <div className="flex flex-col gap-2 text-muted-foreground">
-              <Link to="/privacy-policy" className="hover:text-foreground">Privacy Policy</Link>
-              <Link to="/terms-and-conditions" className="hover:text-foreground">Terms &amp; Conditions</Link>
-              <Link to="/refund-policy" className="hover:text-foreground">Refund Policy</Link>
-              <Link to="/disclaimer" className="hover:text-foreground">Disclaimer</Link>
+              <Link to="/privacy-policy" className="hover:text-foreground">
+                Privacy Policy
+              </Link>
+              <Link to="/terms-and-conditions" className="hover:text-foreground">
+                Terms &amp; Conditions
+              </Link>
+              <Link to="/refund-policy" className="hover:text-foreground">
+                Refund Policy
+              </Link>
+              <Link to="/disclaimer" className="hover:text-foreground">
+                Disclaimer
+              </Link>
             </div>
           </div>
         </div>
@@ -743,7 +950,8 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "AI Astrologer Free Chat – AstroVaanii" },
       {
         property: "og:description",
-        content: "Meet Vaanii, your free AI astrologer. Get accurate Vedic astrology, Kundli, birth chart analysis, love, career, and daily predictions in 9 languages.",
+        content:
+          "Meet Vaanii, your free AI astrologer. Get accurate Vedic astrology, Kundli, birth chart analysis, love, career, and daily predictions in 9 languages.",
       },
       { property: "og:url", content: "https://astrovaanii.in/" },
       { property: "og:type", content: "website" },
@@ -754,7 +962,8 @@ export const Route = createFileRoute("/")({
       { name: "twitter:title", content: "AI Astrologer Free Chat – AstroVaanii" },
       {
         name: "twitter:description",
-        content: "Meet Vaanii, your free AI astrologer. Get accurate Vedic astrology, birth chart, and daily predictions in 9 Indian languages.",
+        content:
+          "Meet Vaanii, your free AI astrologer. Get accurate Vedic astrology, birth chart, and daily predictions in 9 Indian languages.",
       },
       { name: "twitter:image", content: "/social-sharing.webp" },
     ],
@@ -768,7 +977,7 @@ function Index() {
 
   useEffect(() => {
     // Redirect logged-in users to dashboard
-    const local = JSON.parse(localStorage.getItem('userData') || '{}');
+    const local = JSON.parse(localStorage.getItem("userData") || "{}");
     if (local.email || auth.currentUser) {
       navigate({ to: "/dashboard" });
     }
