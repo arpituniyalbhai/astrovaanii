@@ -61,9 +61,16 @@ function ToolsPage() {
             <h1 className="font-display text-4xl md:text-5xl text-foreground">
               Free Vedic Astrology <span className="text-primary">Tools</span>
             </h1>
-            <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">
-              Accurate calculations powered by Swiss Ephemeris. Free to use, no sign-up required.
-            </p>
+              <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">
+                Accurate calculations powered by Swiss Ephemeris. Free to use, no sign-up required.
+              </p>
+              <p className="mt-4 text-sm text-muted-foreground max-w-xl mx-auto">
+                Want to learn how other AI platforms compare? Read our{" "}
+                <a href="/blogs/top-5-ai-astrology-platform-in-india" className="text-primary underline underline-offset-4 hover:opacity-80">
+                  top 5 AI astrology platforms in India
+                </a>{" "}
+                guide.
+              </p>
           </div>
         </Reveal>
 

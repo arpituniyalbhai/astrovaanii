@@ -27,6 +27,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolsIndexRouteImport } from './routes/tools/index'
 import { Route as BlogsIndexRouteImport } from './routes/blogs/index'
 import { Route as BlogsWhatIsAiAstrologerRouteImport } from './routes/blogs/what-is-ai-astrologer'
+import { Route as BlogsTop5AiAstrologyPlatformInIndiaRouteImport } from './routes/blogs/top-5-ai-astrology-platform-in-india'
 import { Route as ApiVerifyPaymentRouteImport } from './routes/api/verify-payment'
 import { Route as ApiCreateOrderRouteImport } from './routes/api/create-order'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
@@ -121,6 +122,12 @@ const BlogsWhatIsAiAstrologerRoute = BlogsWhatIsAiAstrologerRouteImport.update({
   path: '/blogs/what-is-ai-astrologer',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogsTop5AiAstrologyPlatformInIndiaRoute =
+  BlogsTop5AiAstrologyPlatformInIndiaRouteImport.update({
+    id: '/blogs/top-5-ai-astrology-platform-in-india',
+    path: '/blogs/top-5-ai-astrology-platform-in-india',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiVerifyPaymentRoute = ApiVerifyPaymentRouteImport.update({
   id: '/api/verify-payment',
   path: '/api/verify-payment',
@@ -156,6 +163,7 @@ export interface FileRoutesByFullPath {
   '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
+  '/blogs/top-5-ai-astrology-platform-in-india': typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
   '/blogs/what-is-ai-astrologer': typeof BlogsWhatIsAiAstrologerRoute
   '/blogs/': typeof BlogsIndexRoute
   '/tools/': typeof ToolsIndexRoute
@@ -178,6 +186,7 @@ export interface FileRoutesByTo {
   '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
+  '/blogs/top-5-ai-astrology-platform-in-india': typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
   '/blogs/what-is-ai-astrologer': typeof BlogsWhatIsAiAstrologerRoute
   '/blogs': typeof BlogsIndexRoute
   '/tools': typeof ToolsIndexRoute
@@ -202,6 +211,7 @@ export interface FileRoutesById {
   '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
+  '/blogs/top-5-ai-astrology-platform-in-india': typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
   '/blogs/what-is-ai-astrologer': typeof BlogsWhatIsAiAstrologerRoute
   '/blogs/': typeof BlogsIndexRoute
   '/tools/': typeof ToolsIndexRoute
@@ -227,6 +237,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/create-order'
     | '/api/verify-payment'
+    | '/blogs/top-5-ai-astrology-platform-in-india'
     | '/blogs/what-is-ai-astrologer'
     | '/blogs/'
     | '/tools/'
@@ -249,6 +260,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/create-order'
     | '/api/verify-payment'
+    | '/blogs/top-5-ai-astrology-platform-in-india'
     | '/blogs/what-is-ai-astrologer'
     | '/blogs'
     | '/tools'
@@ -272,6 +284,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/create-order'
     | '/api/verify-payment'
+    | '/blogs/top-5-ai-astrology-platform-in-india'
     | '/blogs/what-is-ai-astrologer'
     | '/blogs/'
     | '/tools/'
@@ -296,6 +309,7 @@ export interface RootRouteChildren {
   ApiChatRoute: typeof ApiChatRoute
   ApiCreateOrderRoute: typeof ApiCreateOrderRoute
   ApiVerifyPaymentRoute: typeof ApiVerifyPaymentRoute
+  BlogsTop5AiAstrologyPlatformInIndiaRoute: typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
   BlogsWhatIsAiAstrologerRoute: typeof BlogsWhatIsAiAstrologerRoute
   BlogsIndexRoute: typeof BlogsIndexRoute
 }
@@ -428,6 +442,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogsWhatIsAiAstrologerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blogs/top-5-ai-astrology-platform-in-india': {
+      id: '/blogs/top-5-ai-astrology-platform-in-india'
+      path: '/blogs/top-5-ai-astrology-platform-in-india'
+      fullPath: '/blogs/top-5-ai-astrology-platform-in-india'
+      preLoaderRoute: typeof BlogsTop5AiAstrologyPlatformInIndiaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/verify-payment': {
       id: '/api/verify-payment'
       path: '/api/verify-payment'
@@ -481,6 +502,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiChatRoute: ApiChatRoute,
   ApiCreateOrderRoute: ApiCreateOrderRoute,
   ApiVerifyPaymentRoute: ApiVerifyPaymentRoute,
+  BlogsTop5AiAstrologyPlatformInIndiaRoute:
+    BlogsTop5AiAstrologyPlatformInIndiaRoute,
   BlogsWhatIsAiAstrologerRoute: BlogsWhatIsAiAstrologerRoute,
   BlogsIndexRoute: BlogsIndexRoute,
 }

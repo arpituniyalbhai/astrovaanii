@@ -500,6 +500,16 @@ function WhatIsAiAstrologerPage() {
             </Link>{" "}
             and get your personalized reading in seconds.
           </p>
+          <p className="mt-3 leading-relaxed text-muted-foreground">
+            If you're exploring different options, check out our comparison of the{" "}
+            <Link
+              to="/blogs/top-5-ai-astrology-platform-in-india"
+              className="text-primary underline underline-offset-4 hover:opacity-80"
+            >
+              top 5 AI astrology platforms in India
+            </Link>{" "}
+            to find the best fit for your needs.
+          </p>
         </section>
 
         <section className="mt-12">

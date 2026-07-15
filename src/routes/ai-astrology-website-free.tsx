@@ -1175,8 +1175,15 @@ function FreeAiAstrologyPage() {
               className="text-primary underline underline-offset-4 hover:opacity-80"
             >
               what is an AI astrologer
-            </Link>{" "}
-            or try{" "}
+            </Link>
+            , explore our comparison of the{" "}
+            <Link
+              to="/blogs/top-5-ai-astrology-platform-in-india"
+              className="text-primary underline underline-offset-4 hover:opacity-80"
+            >
+              top 5 AI astrology platforms in India
+            </Link>
+            , or try{" "}
             <Link
               to="/free-kundli"
               className="text-primary underline underline-offset-4 hover:opacity-80"

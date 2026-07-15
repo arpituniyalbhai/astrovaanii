@@ -22,6 +22,16 @@ const blogPosts = [
     imageAlt: "Free AI astrology website - Get instant Vedic predictions online",
     to: "/ai-astrology-website-free",
   },
+  {
+    slug: "top-5-ai-astrology-platform-in-india",
+    title: "Top 5 AI Astrology Platforms in India",
+    description:
+      "Compare Trust Astrology, Veadicastro, KundliGPT, Melooha, and Hi Astro — the top AI astrology platforms in India — based on features, accuracy, user experience, and more.",
+    date: "July 15, 2026",
+    readTime: "18 min read",
+    image: "/top-5-ai-astrology-platform-in-india.webp",
+    imageAlt: "Top 5 AI astrology platforms in India - comparison of features and accuracy",
+  },
 ];
 
 export const Route = createFileRoute("/blogs/")({
