@@ -1,1 +1,0 @@
-var e=`/assets/astrovaanii-logo-BSUHZg5s.webp`;export{e as t};
