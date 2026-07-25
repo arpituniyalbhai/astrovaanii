@@ -7,6 +7,7 @@ import brandIcon from "@/assets/astrovaanii-logo.webp";
 import vaaniiPersona from "@/assets/vaanii-persona.jpg";
 import chatPreview from "@/assets/chat-preview.jpg";
 import sectionCosmos from "@/assets/section-cosmos.jpg";
+import arpitUniyalImage from "@/assets/arpit-uniyal.webp";
 
 const faqs = [
   {
@@ -771,6 +772,89 @@ function Reviews() {
   );
 }
 
+function BlogSection() {
+  return (
+    <section className="py-24">
+      <div className="mx-auto max-w-6xl px-6">
+        <Reveal>
+          <span className="text-xs uppercase tracking-[0.2em] text-primary">Blog</span>
+          <h2 className="mt-4 font-display text-4xl md:text-5xl">
+            Stories from the stars.
+          </h2>
+          <p className="mt-4 max-w-xl text-muted-foreground">
+            Read about AI astrology, Vedic wisdom, and the journey behind AstroVaanii.
+          </p>
+        </Reveal>
+
+        <Reveal delay={120}>
+          <div className="mt-12 rounded-3xl border border-border bg-card overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-2">
+              <div className="aspect-[4/3] overflow-hidden">
+                <img
+                  src={arpitUniyalImage}
+                  alt="Arpit Uniyal - Founder of AstroVaanii"
+                  width={800}
+                  height={600}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <div className="flex flex-col justify-center p-8 md:p-12">
+                <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                  <img
+                    src={arpitUniyalImage}
+                    alt="Arpit Uniyal"
+                    className="h-8 w-8 rounded-full object-cover"
+                  />
+                  <span className="font-medium text-foreground">Arpit Uniyal</span>
+                  <span className="h-1 w-1 rounded-full bg-border" />
+                  <time>July 25, 2026</time>
+                  <span className="h-1 w-1 rounded-full bg-border" />
+                  <span>Founder Story</span>
+                </div>
+                <h3 className="mt-4 font-display text-2xl font-semibold text-foreground">
+                  From a Remote Village in Uttarakhand to a $150K Startup at Age of 18
+                </h3>
+                <p className="mt-4 text-muted-foreground">
+                  Discover the inspiring story of Arpit Uniyal, who built Veadicastro from a small
+                  village in Uttarakhand — 30K+ users, 90K-1 lakh monthly users, and 3M+ Google
+                  impressions, making it the fastest growing AI bootstrapped platform.
+                </p>
+                <Link
+                  to="/arpit-uniyal.webp"
+                  className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+                >
+                  Read the full story &rarr;
+                </Link>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={200}>
+          <div className="mt-8 text-center">
+            <Link
+              to="/blogs"
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-3 text-sm font-medium text-foreground hover:bg-accent"
+            >
+              View all articles
+              <svg viewBox="0 0 24 24" className="h-4 w-4">
+                <path
+                  d="M5 12h14M12 5l7 7-7 7"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </Link>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
   return (
@@ -998,6 +1082,7 @@ function Index() {
         <WhyBetter />
         <Languages />
         <Reviews />
+        <BlogSection />
         <FAQ />
         <CTA />
         <Footer />

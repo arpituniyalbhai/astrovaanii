@@ -2,6 +2,16 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 
 const blogPosts = [
   {
+    slug: "arpit-uniyal",
+    title: "From a Remote Village in Uttarakhand to a $150K Startup at Age of 18",
+    description:
+      "Discover the inspiring story of Arpit Uniyal, an 18-year-old village founder who built Veadicastro — a 30,000-user AI astrology startup with 90K-1 lakh monthly users and 3M+ Google impressions, the fastest growing AI bootstrapped platform.",
+    date: "July 25, 2026",
+    readTime: "8 min read",
+    image: "/arpit-uniyal.webp",
+    imageAlt: "Arpit Uniyal - Founder of Veadicastro, an 18-year-old village entrepreneur",
+  },
+  {
     slug: "what-is-ai-astrologer",
     title: "What Is an AI Astrologer? A Simple Guide to How It Works",
     description:

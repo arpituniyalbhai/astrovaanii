@@ -28,6 +28,7 @@ import { Route as ToolsIndexRouteImport } from './routes/tools/index'
 import { Route as BlogsIndexRouteImport } from './routes/blogs/index'
 import { Route as BlogsWhatIsAiAstrologerRouteImport } from './routes/blogs/what-is-ai-astrologer'
 import { Route as BlogsTop5AiAstrologyPlatformInIndiaRouteImport } from './routes/blogs/top-5-ai-astrology-platform-in-india'
+import { Route as BlogsArpitUniyalRouteImport } from './routes/blogs/arpit-uniyal'
 import { Route as ApiVerifyPaymentRouteImport } from './routes/api/verify-payment'
 import { Route as ApiCreateOrderRouteImport } from './routes/api/create-order'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
@@ -128,6 +129,11 @@ const BlogsTop5AiAstrologyPlatformInIndiaRoute =
     path: '/blogs/top-5-ai-astrology-platform-in-india',
     getParentRoute: () => rootRouteImport,
   } as any)
+const BlogsArpitUniyalRoute = BlogsArpitUniyalRouteImport.update({
+  id: '/blogs/arpit-uniyal',
+  path: '/blogs/arpit-uniyal',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiVerifyPaymentRoute = ApiVerifyPaymentRouteImport.update({
   id: '/api/verify-payment',
   path: '/api/verify-payment',
@@ -163,6 +169,7 @@ export interface FileRoutesByFullPath {
   '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
+  '/blogs/arpit-uniyal': typeof BlogsArpitUniyalRoute
   '/blogs/top-5-ai-astrology-platform-in-india': typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
   '/blogs/what-is-ai-astrologer': typeof BlogsWhatIsAiAstrologerRoute
   '/blogs/': typeof BlogsIndexRoute
@@ -186,6 +193,7 @@ export interface FileRoutesByTo {
   '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
+  '/blogs/arpit-uniyal': typeof BlogsArpitUniyalRoute
   '/blogs/top-5-ai-astrology-platform-in-india': typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
   '/blogs/what-is-ai-astrologer': typeof BlogsWhatIsAiAstrologerRoute
   '/blogs': typeof BlogsIndexRoute
@@ -211,6 +219,7 @@ export interface FileRoutesById {
   '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
+  '/blogs/arpit-uniyal': typeof BlogsArpitUniyalRoute
   '/blogs/top-5-ai-astrology-platform-in-india': typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
   '/blogs/what-is-ai-astrologer': typeof BlogsWhatIsAiAstrologerRoute
   '/blogs/': typeof BlogsIndexRoute
@@ -237,6 +246,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/create-order'
     | '/api/verify-payment'
+    | '/blogs/arpit-uniyal'
     | '/blogs/top-5-ai-astrology-platform-in-india'
     | '/blogs/what-is-ai-astrologer'
     | '/blogs/'
@@ -260,6 +270,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/create-order'
     | '/api/verify-payment'
+    | '/blogs/arpit-uniyal'
     | '/blogs/top-5-ai-astrology-platform-in-india'
     | '/blogs/what-is-ai-astrologer'
     | '/blogs'
@@ -284,6 +295,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/create-order'
     | '/api/verify-payment'
+    | '/blogs/arpit-uniyal'
     | '/blogs/top-5-ai-astrology-platform-in-india'
     | '/blogs/what-is-ai-astrologer'
     | '/blogs/'
@@ -309,6 +321,7 @@ export interface RootRouteChildren {
   ApiChatRoute: typeof ApiChatRoute
   ApiCreateOrderRoute: typeof ApiCreateOrderRoute
   ApiVerifyPaymentRoute: typeof ApiVerifyPaymentRoute
+  BlogsArpitUniyalRoute: typeof BlogsArpitUniyalRoute
   BlogsTop5AiAstrologyPlatformInIndiaRoute: typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
   BlogsWhatIsAiAstrologerRoute: typeof BlogsWhatIsAiAstrologerRoute
   BlogsIndexRoute: typeof BlogsIndexRoute
@@ -449,6 +462,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogsTop5AiAstrologyPlatformInIndiaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blogs/arpit-uniyal': {
+      id: '/blogs/arpit-uniyal'
+      path: '/blogs/arpit-uniyal'
+      fullPath: '/blogs/arpit-uniyal'
+      preLoaderRoute: typeof BlogsArpitUniyalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/verify-payment': {
       id: '/api/verify-payment'
       path: '/api/verify-payment'
@@ -502,6 +522,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiChatRoute: ApiChatRoute,
   ApiCreateOrderRoute: ApiCreateOrderRoute,
   ApiVerifyPaymentRoute: ApiVerifyPaymentRoute,
+  BlogsArpitUniyalRoute: BlogsArpitUniyalRoute,
   BlogsTop5AiAstrologyPlatformInIndiaRoute:
     BlogsTop5AiAstrologyPlatformInIndiaRoute,
   BlogsWhatIsAiAstrologerRoute: BlogsWhatIsAiAstrologerRoute,
