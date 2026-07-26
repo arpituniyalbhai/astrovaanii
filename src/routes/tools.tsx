@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Reveal } from "@/components/landing/Reveal";
 import brandIcon from "@/assets/astrovaanii-logo.webp";
 import kundliImage from "@/assets/free-kundlai-generator.webp";
+import chatPreview from "@/assets/chat-preview.jpg";
 
 export const Route = createFileRoute("/tools")({
   head: () => ({
@@ -36,6 +37,14 @@ const tools = [
     image: kundliImage,
     link: "/free-kundli",
     features: ["North Indian chart format", "Planet positions & houses", "Vimshottari Dasha timeline", "Lahiri Ayanamsa"],
+  },
+  {
+    title: "AI Astrologer",
+    description:
+      "Chat with Vaanii, your personal AI astrologer. Get personalized Vedic readings about career, marriage, health, and more. Available 24/7 in 9 Indian languages with classical Parashara & Jaimini interpretations.",
+    image: chatPreview,
+    link: "/ai-astrologer",
+    features: ["24/7 availability", "9 Indian languages", "Chart-aware conversations", "Classical Vedic interpretations"],
   },
 ];
 

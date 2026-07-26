@@ -548,10 +548,10 @@ function WhatIsAiAstrologerPage() {
           </p>
           <div className="mt-6">
             <Link
-              to="/"
+              to="/ai-astrologer"
               className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 hover:opacity-90"
             >
-              Chat with Vaanii — Your AI Astrologer
+              Try AI Astrologer — Free
             </Link>
           </div>
         </section>
@@ -581,10 +581,10 @@ function WhatIsAiAstrologerPage() {
           <p className="text-muted-foreground">
             Ready to experience an AI astrologer yourself?{" "}
             <Link
-              to="/"
+              to="/ai-astrologer"
               className="text-primary underline underline-offset-4 hover:opacity-80"
             >
-              Chat with Vaanii
+              Try AI Astrologer
             </Link>{" "}
             — it's free.
           </p>

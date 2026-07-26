@@ -772,6 +772,70 @@ function Reviews() {
   );
 }
 
+function FreeToolsSection() {
+  return (
+    <section className="py-24">
+      <div className="mx-auto max-w-6xl px-6">
+        <Reveal>
+          <div className="text-center mb-14">
+            <span className="text-xs uppercase tracking-[0.2em] text-primary">Free Tools</span>
+            <h2 className="mt-4 font-display text-4xl md:text-5xl">
+              Try Our <span className="text-primary">Free Tools</span>
+            </h2>
+            <p className="mt-4 max-w-xl mx-auto text-muted-foreground">
+              Explore our complete suite of Vedic astrology tools — completely free to use
+            </p>
+          </div>
+        </Reveal>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Reveal delay={80}>
+            <Link
+              to="/free-kundli"
+              className="group block h-full rounded-3xl border border-border bg-card/80 shadow-xl backdrop-blur-md p-6 hover:shadow-2xl hover:border-primary/30 transition-all duration-300"
+            >
+              <h3 className="font-display text-xl text-foreground group-hover:text-primary transition-colors">
+                Free Janam Kundli Generator
+              </h3>
+              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                Generate your complete Janam Kundli by date of birth, time, and birthplace. Get a full North Indian style birth chart with planet positions, house details, and Vimshottari Dasha.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {["North Indian chart", "Planet positions", "Vimshottari Dasha", "Lahiri Ayanamsa"].map((f) => (
+                  <span key={f} className="rounded-full border border-border bg-background/70 px-3 py-1 text-xs text-muted-foreground">
+                    {f}
+                  </span>
+                ))}
+              </div>
+            </Link>
+          </Reveal>
+
+          <Reveal delay={120}>
+            <Link
+              to="/ai-astrologer"
+              className="group block h-full rounded-3xl border border-border bg-card/80 shadow-xl backdrop-blur-md p-6 hover:shadow-2xl hover:border-primary/30 transition-all duration-300"
+            >
+              <h3 className="font-display text-xl text-foreground group-hover:text-primary transition-colors">
+                AI Astrologer
+              </h3>
+              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                Chat with Vaanii, your personal AI astrologer. Get personalized Vedic readings about career, marriage, health, and more. Available 24/7 in 9 Indian languages.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {["24/7 availability", "9 Indian languages", "Chart-aware conversations", "Classical Vedic interpretations"].map((f) => (
+                  <span key={f} className="rounded-full border border-border bg-background/70 px-3 py-1 text-xs text-muted-foreground">
+                    {f}
+                  </span>
+                ))}
+              </div>
+            </Link>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function BlogSection() {
   return (
     <section className="py-24">
@@ -1082,6 +1146,7 @@ function Index() {
         <WhyBetter />
         <Languages />
         <Reviews />
+        <FreeToolsSection />
         <BlogSection />
         <FAQ />
         <CTA />

@@ -36,12 +36,13 @@ interface Conversation {
 }
 
 const STORAGE_KEY = "vaanii_conversations";
+const FREE_CHAT_USED_KEY = "vaanii_free_chat_used";
 
 function ChatPage() {
   const navigate = useNavigate();
   const { question: initialQuestion } = useSearch({ from: "/chat" });
-  
-  
+
+
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
@@ -54,6 +55,8 @@ function ChatPage() {
   const currentQuestionRef = useRef(initialQuestion);
   const typingStartRef = useRef(0);
   const MIN_LOADING_MS = 3000;
+  const [isFreeUser, setIsFreeUser] = useState(false);
+  const [hasUsedFreeChat, setHasUsedFreeChat] = useState(false);
 
   const setMinLoading = (show: boolean) => {
     if (show) {
