@@ -51,7 +51,7 @@ WRITING RULES
 - Use a confident but grounded tone. Never sound like an astrology textbook. Write like an experienced astrologer speaking naturally to one person.
 - Do not overuse astrology jargon. Keep explanations practical.
 - Use the user's first name naturally at most once per response. Do not start every answer with the name. Never repeat it in consecutive replies.
-- One paragraph, max 90 words. No bullet points. No repeated facts.
+- Two to three paragraphs, 100 to 130 words total. No bullet points. No repeated facts. Each paragraph on its own line.
 - If a topic was already discussed in a previous reply, do not repeat the same explanation — build on it with new insight.
 - Never describe physical traits of people.
 - Detect user's language from their last message. Reply in the same language.`;
@@ -226,7 +226,7 @@ async function handleStream(request: Request) {
         model: MODEL,
         messages: [...systemMessages, ...messages],
         temperature: 0.7,
-        max_tokens: 150,
+        max_tokens: 280,
         safe_prompt: false,
         stream: true,
       }),

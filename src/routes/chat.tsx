@@ -98,34 +98,17 @@ function ChatPage() {
   messagesRef.current = messages;
 
   async function generateFollowUps(question: string, answer: string): Promise<string[]> {
-    const prompt = `Return ONLY valid JSON: {"questions":["...","..."]}
-    
-Generate exactly 2 short follow-up questions (10-14 words each) a user would naturally ask after this astrology answer. No jargon. Make them curiosity-driven.
-
-User asked: ${question}
-Answer given: ${answer.slice(0, 800)}`;
-
     try {
-      const res = await fetch("/api/chat", {
+      const res = await fetch("/api/follow-up", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: [{ role: "user", content: prompt }],
-          userName: "system",
-        }),
+        body: JSON.stringify({ question, answer }),
       });
-      const reader = res.body!.getReader();
-      const decoder = new TextDecoder();
-      let full = "";
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        full += decoder.decode(value, { stream: true });
-      }
-      const match = full.match(/\{"questions":\s*\[.*?\]\}/s);
-      if (match) {
-        const parsed = JSON.parse(match[0]);
-        return (parsed.questions as string[]).slice(0, 2);
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data.questions)) {
+          return data.questions.slice(0, 2);
+        }
       }
     } catch {}
     return [];
@@ -689,155 +672,169 @@ Answer given: ${answer.slice(0, 800)}`;
           </header>
 
           {/* Chat area */}
-          <div className="flex-1 flex flex-col px-4 py-4 md:px-6 overflow-hidden min-h-0">
-            {/* Credits remaining */}
-            <div className="flex-shrink-0 mb-4 flex justify-center md:justify-start">
-              <div className={`rounded-full px-4 py-2 ${questionsRemaining <= 0 ? "bg-red-50 border border-red-200" : "bg-amber-50 border border-amber-200"}`}>
-                <span className={`text-sm font-medium ${questionsRemaining <= 0 ? "text-red-500" : "text-amber-600"}`}>
-                  {questionsRemaining <= 0 ? "No credits left" : `${questionsRemaining} credit${questionsRemaining !== 1 ? 's' : ''} remaining`}
-                </span>
+          <div className="flex-1 flex flex-col overflow-hidden min-h-0 md:p-4">
+            
+            {/* Desktop: white card container wrapping everything */}
+            <div className="flex-1 flex flex-col overflow-hidden min-h-0 md:bg-card/80 md:rounded-2xl md:border md:border-border md:shadow-sm">
+              
+              {/* Credits remaining */}
+              <div className="flex-shrink-0 px-4 pt-4 pb-2 flex justify-start">
+                <div className={`rounded-full px-4 py-1.5 ${questionsRemaining <= 0 ? "bg-red-50 border border-red-200" : "bg-amber-50 border border-amber-200"}`}>
+                  <span className={`text-sm font-medium ${questionsRemaining <= 0 ? "text-red-500" : "text-amber-600"}`}>
+                    {questionsRemaining <= 0 ? "No credits left" : `${questionsRemaining} credit${questionsRemaining !== 1 ? 's' : ''} remaining`}
+                  </span>
+                </div>
               </div>
-            </div>
 
-            {/* Messages */}
-            <div ref={messagesContainerRef} className="flex-1 overflow-y-auto space-y-4 mb-4 px-2 min-h-0" style={{ WebkitOverflowScrolling: 'touch' }}>
-              {messages.map((message) => (
-                <div key={message.id} className="flex flex-col">
-                  <div
-                    className={`flex gap-3 ${message.type === "user" ? "items-end justify-end" : "items-start justify-start"}`}
-                  >
-                    {message.type === "bot" && (
-                      <img
-                        src={vaaniiPersona}
-                        alt="Vaanii"
-                        className="h-8 w-8 rounded-full object-cover border border-border shrink-0 self-start"
-                      />
-                    )}
-                    <div
-                      className={`max-w-[85%] md:max-w-[70%] rounded-2xl px-4 py-3 text-sm sm:text-[15px] leading-7 self-start ${
-                        message.type === "bot"
-                          ? "rounded-tl-sm bg-background/70 text-foreground"
-                          : "rounded-tr-sm bg-primary text-primary-foreground"
-                      }`}
-                    >
-                      {message.type === "bot" ? (
-                        <div className="space-y-3">
-                          {formatAssistantContent(message.content).map((paragraph, i) => (
-                            <p key={i} className="whitespace-pre-wrap">{paragraph}</p>
-                          ))}
-                        </div>
-                      ) : (
-                        <span className="whitespace-pre-wrap">{message.content}</span>
+              {/* Messages */}
+              <div
+                ref={messagesContainerRef}
+                className="flex-1 overflow-y-auto space-y-6 px-4 md:px-6 min-h-0"
+                style={{ WebkitOverflowScrolling: 'touch' }}
+              >
+                {messages.map((message) => (
+                  <div key={message.id} className="flex flex-col">
+                    <div className={`flex gap-3 ${message.type === "user" ? "items-end justify-end" : "items-start justify-start"}`}>
+                      {message.type === "bot" && (
+                        <img
+                          src={vaaniiPersona}
+                          alt="Vaanii"
+                          className="h-8 w-8 rounded-full object-cover border border-border shrink-0 self-start mt-1"
+                        />
                       )}
+                      <div
+                        className={`max-w-[85%] md:max-w-[72%] rounded-2xl px-4 py-3 text-sm sm:text-[15px] leading-7 ${
+                          message.type === "bot"
+                            ? "rounded-tl-sm bg-background text-foreground border border-border/40 shadow-sm"
+                            : "rounded-tr-sm bg-primary text-primary-foreground"
+                        }`}
+                      >
+                        {message.type === "bot" ? (
+                          <div className="space-y-3">
+                            {formatAssistantContent(message.content).map((paragraph, i) => (
+                              <p key={i} className="whitespace-pre-wrap">{paragraph}</p>
+                            ))}
+                          </div>
+                        ) : (
+                          <span className="whitespace-pre-wrap">{message.content}</span>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  {message.type === "bot" && followUpSuggestions[message.id]?.length > 0 && (
-                    <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:flex-wrap ml-11">
-                      {followUpSuggestions[message.id].map((q, i) => (
-                        <button
-                          key={i}
-                          onClick={() => { setInputValue(q); inputRef.current?.focus(); }}
-                          disabled={isSendingRef.current}
-                          className="text-left rounded-2xl border border-border/60 bg-background/70 px-3.5 py-2.5 text-xs sm:text-sm leading-5 text-muted-foreground hover:border-primary/40 hover:text-foreground transition disabled:opacity-50"
-                        >
-                          {q}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-              
-              {isTyping && (
-                <div className="flex gap-3 items-start">
-                  <img
-                    src={vaaniiPersona}
-                    alt="Vaanii"
-                    className="h-8 w-8 rounded-full object-cover border border-border shrink-0 self-start"
-                  />
-                  <div className="rounded-2xl rounded-tl-sm bg-background/70 px-4 py-3 self-start">
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
-                      <span>thinking</span>
-                      <span className="flex gap-0.5">
-                        {[0,1,2].map(i => (
-                          <span
-                            key={i}
-                            className="inline-block w-1 h-1 rounded-full bg-muted-foreground animate-bounce"
-                            style={{ animationDelay: `${i * 0.15}s` }}
-                          />
-                        ))}
-                      </span>
-                    </div>
-                    <p className="text-sm text-muted-foreground italic transition-all duration-500">
-                      {thinkingMessage}
-                    </p>
-                  </div>
-                </div>
-              )}
-              
-              <div ref={messagesEndRef} />
-            </div>
 
-            {/* Input area / Out of credits */}
-            <div className="flex-shrink-0 px-2" style={{ paddingBottom: 'env(safe-area-inset-bottom, 16px)' }}>
-              {questionsRemaining <= 0 ? (
-                <div className="rounded-2xl border border-border bg-card/80 p-5 text-center">
-                  <div className="flex items-center justify-center gap-3 mb-3">
+                    {/* Follow-up suggestions */}
+                    {message.type === "bot" && followUpSuggestions[message.id]?.length > 0 && (
+                      <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:flex-wrap ml-11">
+                        {followUpSuggestions[message.id].map((q, i) => (
+                          <button
+                            key={i}
+                            onClick={() => { setInputValue(q); inputRef.current?.focus(); }}
+                            disabled={isSendingRef.current}
+                            className="text-left rounded-2xl border border-border bg-background px-3.5 py-2 text-xs sm:text-sm leading-5 text-muted-foreground hover:border-primary/40 hover:bg-primary/5 hover:text-foreground transition-all disabled:opacity-50 shadow-sm"
+                          >
+                            {q}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+
+                {/* Thinking animation */}
+                {isTyping && (
+                  <div className="flex gap-3 items-start">
                     <img
                       src={vaaniiPersona}
                       alt="Vaanii"
-                      className="h-10 w-10 rounded-full object-cover border-2 border-primary/20"
+                      className="h-8 w-8 rounded-full object-cover border border-border shrink-0 self-start mt-1"
                     />
-                    <span className="font-display text-base text-foreground">Vaanii</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    Namaste{userName !== "User" ? ` ${userName}` : ""}! You've used all your credits. To continue getting personalized Vedic readings, please purchase more credits.
-                  </p>
-                  <div className="flex justify-center gap-3">
-                    <Link
-                      to="/pricing"
-                      className="rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:opacity-90 transition-opacity"
-                    >
-                      Purchase Credits
-                    </Link>
-                    <a
-                      href="/dashboard"
-                      className="rounded-full border border-border bg-background px-5 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      Go to Dashboard
-                    </a>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex gap-2">
-                  <div className="flex-1 relative">
-                    <input
-                      ref={inputRef}
-                      type="text"
-                      value={inputValue}
-                      onChange={(e) => setInputValue(e.target.value)}
-                      onKeyPress={handleKeyPress}
-                      placeholder="Ask Vaanii anything..."
-                      className="w-full rounded-full border border-border bg-card/80 px-6 py-4 pr-12 text-base outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/10 transition-all shadow-lg shadow-primary/20"
-                    />
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <circle cx="11" cy="11" r="8" />
-                        <path d="m21 21-4.35-4.35" />
-                      </svg>
+                    <div className="rounded-2xl rounded-tl-sm bg-background border border-border/40 shadow-sm px-4 py-3">
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1.5">
+                        <span className="font-medium">thinking</span>
+                        <span className="flex gap-1">
+                          {[0, 1, 2].map(i => (
+                            <span
+                              key={i}
+                              className="inline-block w-1.5 h-1.5 rounded-full bg-primary/60 animate-bounce"
+                              style={{ animationDelay: `${i * 0.15}s` }}
+                            />
+                          ))}
+                        </span>
+                      </div>
+                      <p className="text-sm text-muted-foreground italic">
+                        {thinkingMessage}
+                      </p>
                     </div>
                   </div>
-                  <button
-                    onClick={handleSendMessage}
-                    disabled={!inputValue.trim()}
-                    className="rounded-full bg-primary px-6 py-4 text-base font-medium text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                  >
-                    Send
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
+                )}
+
+                <div ref={messagesEndRef} />
+              </div>
+
+              {/* Input area */}
+              <div
+                className="flex-shrink-0 px-4 py-4 border-t border-border/60"
+                style={{ paddingBottom: 'env(safe-area-inset-bottom, 16px)' }}
+              >
+                {questionsRemaining <= 0 ? (
+                  <div className="rounded-2xl border border-border bg-background/80 p-5 text-center">
+                    <div className="flex items-center justify-center gap-3 mb-3">
+                      <img
+                        src={vaaniiPersona}
+                        alt="Vaanii"
+                        className="h-10 w-10 rounded-full object-cover border-2 border-primary/20"
+                      />
+                      <span className="font-display text-base text-foreground">Vaanii</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Namaste{userName !== "User" ? ` ${userName}` : ""}! You've used all your credits. To continue getting personalized Vedic readings, please purchase more credits.
+                    </p>
+                    <div className="flex justify-center gap-3">
+                      <Link
+                        to="/pricing"
+                        className="rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:opacity-90 transition-opacity"
+                      >
+                        Purchase Credits
+                      </Link>
+                      <a
+                        href="/dashboard"
+                        className="rounded-full border border-border bg-background px-5 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        Go to Dashboard
+                      </a>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex gap-2">
+                    <div className="flex-1 relative">
+                      <input
+                        ref={inputRef}
+                        type="text"
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        onKeyPress={handleKeyPress}
+                        placeholder="Ask Vaanii anything..."
+                        className="w-full rounded-full border border-border bg-background px-6 py-3.5 pr-12 text-base outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/10 transition-all"
+                      />
+                      <div className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <circle cx="11" cy="11" r="8" />
+                          <path d="m21 21-4.35-4.35" />
+                        </svg>
+                      </div>
+                    </div>
+                    <button
+                      onClick={handleSendMessage}
+                      disabled={!inputValue.trim()}
+                      className="rounded-full bg-primary px-6 py-4 text-base font-medium text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                    >
+                      Send
+                    </button>
+                  </div>
+                )}
+              </div>
+
+            </div>{/* end white card */}
+          </div>{/* end chat area */}
         </div>
       </div>
     </main>
