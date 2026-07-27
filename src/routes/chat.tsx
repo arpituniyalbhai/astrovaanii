@@ -58,6 +58,26 @@ function ChatPage() {
   const [isFreeUser, setIsFreeUser] = useState(false);
   const [hasUsedFreeChat, setHasUsedFreeChat] = useState(false);
 
+  const thinkingMessages = [
+    "Reading the cosmic positions...",
+    "Studying your birth Kundali...",
+    "Mapping your planetary dashas...",
+    "Calculating your life timeline...",
+    "Preparing your cosmic insight...",
+  ];
+  const [thinkingMessage, setThinkingMessage] = useState(thinkingMessages[0]);
+  const [followUpSuggestions, setFollowUpSuggestions] = useState<Record<string, string[]>>({});
+
+  useEffect(() => {
+    if (!isTyping) { setThinkingMessage(thinkingMessages[0]); return; }
+    let idx = 0;
+    const interval = setInterval(() => {
+      idx = (idx + 1) % thinkingMessages.length;
+      setThinkingMessage(thinkingMessages[idx]);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [isTyping]);
+
   const setMinLoading = (show: boolean) => {
     if (show) {
       typingStartRef.current = Date.now();
@@ -76,6 +96,40 @@ function ChatPage() {
   const [activeConversationId, setActiveConversationId] = useState<string | null>(null);
   const messagesRef = useRef<Message[]>([]);
   messagesRef.current = messages;
+
+  async function generateFollowUps(question: string, answer: string): Promise<string[]> {
+    const prompt = `Return ONLY valid JSON: {"questions":["...","..."]}
+    
+Generate exactly 2 short follow-up questions (10-14 words each) a user would naturally ask after this astrology answer. No jargon. Make them curiosity-driven.
+
+User asked: ${question}
+Answer given: ${answer.slice(0, 800)}`;
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: [{ role: "user", content: prompt }],
+          userName: "system",
+        }),
+      });
+      const reader = res.body!.getReader();
+      const decoder = new TextDecoder();
+      let full = "";
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        full += decoder.decode(value, { stream: true });
+      }
+      const match = full.match(/\{"questions":\s*\[.*?\]\}/s);
+      if (match) {
+        const parsed = JSON.parse(match[0]);
+        return (parsed.questions as string[]).slice(0, 2);
+      }
+    } catch {}
+    return [];
+  }
   
   const [userName, setUserName] = useState(() => {
     if (typeof window !== "undefined") {
@@ -333,6 +387,15 @@ function ChatPage() {
       }
     }).then(() => {
       isSendingRef.current = false;
+      const lastBotMsg = messagesRef.current.filter(m => m.type === "bot").at(-1);
+      const lastUserMsg = messagesRef.current.filter(m => m.type === "user").at(-1);
+      if (lastBotMsg && lastUserMsg) {
+        generateFollowUps(lastUserMsg.content, lastBotMsg.content).then(suggestions => {
+          if (suggestions.length) {
+            setFollowUpSuggestions(prev => ({ ...prev, [lastBotMsg.id]: suggestions }));
+          }
+        });
+      }
     }).catch((err) => {
       console.error("Chat error:", err);
       isSendingRef.current = false;
@@ -395,6 +458,15 @@ function ChatPage() {
     })
       .then(() => {
         isSendingRef.current = false;
+        const lastBotMsg = messagesRef.current.filter(m => m.type === "bot").at(-1);
+        const lastUserMsg = messagesRef.current.filter(m => m.type === "user").at(-1);
+        if (lastBotMsg && lastUserMsg) {
+          generateFollowUps(lastUserMsg.content, lastBotMsg.content).then(suggestions => {
+            if (suggestions.length) {
+              setFollowUpSuggestions(prev => ({ ...prev, [lastBotMsg.id]: suggestions }));
+            }
+          });
+        }
       })
       .catch((err) => {
         console.error("Chat error:", err);
@@ -630,26 +702,49 @@ function ChatPage() {
             {/* Messages */}
             <div ref={messagesContainerRef} className="flex-1 overflow-y-auto space-y-4 mb-4 px-2 min-h-0" style={{ WebkitOverflowScrolling: 'touch' }}>
               {messages.map((message) => (
-                <div
-                  key={message.id}
-                  className={`flex gap-3 ${message.type === "user" ? "items-end justify-end" : "items-start justify-start"}`}
-                >
-                  {message.type === "bot" && (
-                    <img
-                      src={vaaniiPersona}
-                      alt="Vaanii"
-                      className="h-8 w-8 rounded-full object-cover border border-border shrink-0 self-start"
-                    />
-                  )}
+                <div key={message.id} className="flex flex-col">
                   <div
-                    className={`max-w-[85%] md:max-w-[70%] rounded-2xl px-4 py-3 text-sm self-start ${
-                      message.type === "bot"
-                        ? "rounded-tl-sm bg-background/70 text-foreground"
-                        : "rounded-tr-sm bg-primary text-primary-foreground"
-                    }`}
+                    className={`flex gap-3 ${message.type === "user" ? "items-end justify-end" : "items-start justify-start"}`}
                   >
-                    {message.content}
+                    {message.type === "bot" && (
+                      <img
+                        src={vaaniiPersona}
+                        alt="Vaanii"
+                        className="h-8 w-8 rounded-full object-cover border border-border shrink-0 self-start"
+                      />
+                    )}
+                    <div
+                      className={`max-w-[85%] md:max-w-[70%] rounded-2xl px-4 py-3 text-sm sm:text-[15px] leading-7 self-start ${
+                        message.type === "bot"
+                          ? "rounded-tl-sm bg-background/70 text-foreground"
+                          : "rounded-tr-sm bg-primary text-primary-foreground"
+                      }`}
+                    >
+                      {message.type === "bot" ? (
+                        <div className="space-y-3">
+                          {formatAssistantContent(message.content).map((paragraph, i) => (
+                            <p key={i} className="whitespace-pre-wrap">{paragraph}</p>
+                          ))}
+                        </div>
+                      ) : (
+                        <span className="whitespace-pre-wrap">{message.content}</span>
+                      )}
+                    </div>
                   </div>
+                  {message.type === "bot" && followUpSuggestions[message.id]?.length > 0 && (
+                    <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:flex-wrap ml-11">
+                      {followUpSuggestions[message.id].map((q, i) => (
+                        <button
+                          key={i}
+                          onClick={() => { setInputValue(q); inputRef.current?.focus(); }}
+                          disabled={isSendingRef.current}
+                          className="text-left rounded-2xl border border-border/60 bg-background/70 px-3.5 py-2.5 text-xs sm:text-sm leading-5 text-muted-foreground hover:border-primary/40 hover:text-foreground transition disabled:opacity-50"
+                        >
+                          {q}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               ))}
               
@@ -660,11 +755,22 @@ function ChatPage() {
                     alt="Vaanii"
                     className="h-8 w-8 rounded-full object-cover border border-border shrink-0 self-start"
                   />
-                  <div className="rounded-2xl rounded-tl-sm bg-background/70 px-4 py-2 text-sm text-muted-foreground self-start min-w-[240px]">
-                    <VaaniiLoadingAnimation
-                      userName={userNameRef.current}
-                      userQuestion={currentQuestionRef.current}
-                    />
+                  <div className="rounded-2xl rounded-tl-sm bg-background/70 px-4 py-3 self-start">
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
+                      <span>thinking</span>
+                      <span className="flex gap-0.5">
+                        {[0,1,2].map(i => (
+                          <span
+                            key={i}
+                            className="inline-block w-1 h-1 rounded-full bg-muted-foreground animate-bounce"
+                            style={{ animationDelay: `${i * 0.15}s` }}
+                          />
+                        ))}
+                      </span>
+                    </div>
+                    <p className="text-sm text-muted-foreground italic transition-all duration-500">
+                      {thinkingMessage}
+                    </p>
                   </div>
                 </div>
               )}
@@ -737,3 +843,28 @@ function ChatPage() {
     </main>
   );
 }
+
+function formatAssistantContent(content: string): string[] {
+  const text = content.trim();
+  if (!text) return [];
+
+  const explicitLines = text
+    .split(/\n+/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  if (explicitLines.length > 1) return explicitLines;
+
+  const sentences = text
+    .replace(/\s+/g, " ")
+    .match(/[^.!?]+[.!?]+|[^.!?]+$/g)
+    ?.map((s) => s.trim())
+    .filter(Boolean) || [text];
+
+  const chunks: string[] = [];
+  for (let i = 0; i < sentences.length; i += 2) {
+    chunks.push(sentences.slice(i, i + 2).join(" "));
+  }
+  return chunks;
+}
+
