@@ -759,13 +759,21 @@ function SeoContent() {
       <Reveal delay={seoContent.length * 40 + 80}>
         <section className="rounded-3xl border border-border bg-card/80 backdrop-blur-md p-6 md:p-8 mt-12">
           <h2 className="font-display text-2xl text-primary mb-4">Explore More Free Tools</h2>
-          <p className="text-muted-foreground mb-6">After generating your Kundli, get personalized AI readings based on your chart.</p>
-          <Link
-            to="/ai-astrologer"
-            className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 hover:opacity-90"
-          >
-            Try AI Astrologer — Free
-          </Link>
+          <p className="text-muted-foreground mb-6">After generating your Kundli, check <Link to="/kundali-matching" className="text-primary underline underline-offset-4 hover:opacity-80">marriage compatibility</Link> or get personalized AI readings based on your chart.</p>
+          <div className="flex flex-wrap gap-4">
+            <Link
+              to="/ai-astrologer"
+              className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 hover:opacity-90"
+            >
+              Try AI Astrologer — Free
+            </Link>
+            <Link
+              to="/kundali-matching"
+              className="inline-flex items-center justify-center rounded-full border border-border bg-background px-6 py-3 text-sm font-medium text-foreground hover:bg-accent transition-colors"
+            >
+              Kundli Matching
+            </Link>
+          </div>
         </section>
       </Reveal>
     </section>

@@ -690,7 +690,7 @@ function WhatIsLagnaPage() {
               Calculate Your Exact Lagna Sign Instantly
             </h3>
             <p className="text-sm text-muted-foreground max-w-xl mx-auto">
-              Generate your full North Indian or South Indian birth chart using precise Swiss Ephemeris algorithms.
+              Generate your full North Indian or South Indian birth chart using precise Swiss Ephemeris algorithms. Then use our <Link to="/kundali-matching" className="text-primary underline underline-offset-4 hover:opacity-80">Kundli matching tool</Link> for marriage compatibility analysis.
             </p>
             <div className="flex flex-wrap justify-center gap-4 pt-2">
               <Link
@@ -701,9 +701,15 @@ function WhatIsLagnaPage() {
               </Link>
               <Link
                 to="/ai-astrologer"
-                className="rounded-full border border-border bg-background px-6 py-3 text-sm font-semibold text-foreground hover:bg-accent transition-colors"
+                className="rounded-full border border-border bg-background px-6 py-3 text-sm font-semibold text-foreground hover:opacity-90 transition-colors"
               >
                 Ask Vaanii AI
+              </Link>
+              <Link
+                to="/kundali-matching"
+                className="rounded-full border border-border bg-background px-6 py-3 text-sm font-semibold text-foreground hover:bg-accent transition-colors"
+              >
+                Kundli Matching
               </Link>
             </div>
           </div>

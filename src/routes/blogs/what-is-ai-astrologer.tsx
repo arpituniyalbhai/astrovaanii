@@ -236,7 +236,7 @@ function WhatIsAiAstrologerPage() {
           />
           <p className="mt-8 text-lg leading-relaxed text-muted-foreground">
             Astrology has been part of human life for thousands of years. People have always
-            looked at the stars and planets to understand their personality, relationships,
+            looked at the stars and planets to understand their personality, <Link to="/kundali-matching" className="text-primary underline underline-offset-4 hover:opacity-80">relationships</Link>,
             career, and future. Today, technology has changed the way people access astrology.
             Instead of waiting for an appointment or reading long books, many people now use an{" "}
             <strong className="text-foreground">AI astrologer</strong> to get answers within

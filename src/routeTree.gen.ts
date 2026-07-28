@@ -17,6 +17,7 @@ import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as MyChartRouteImport } from './routes/my-chart'
+import { Route as KundaliMatchingRouteImport } from './routes/kundali-matching'
 import { Route as FreeKundliRouteImport } from './routes/free-kundli'
 import { Route as DisclaimerRouteImport } from './routes/disclaimer'
 import { Route as DashboardRouteImport } from './routes/dashboard'
@@ -32,6 +33,7 @@ import { Route as BlogsWhatIsAiAstrologerRouteImport } from './routes/blogs/what
 import { Route as BlogsTop5AiAstrologyPlatformInIndiaRouteImport } from './routes/blogs/top-5-ai-astrology-platform-in-india'
 import { Route as BlogsArpitUniyalRouteImport } from './routes/blogs/arpit-uniyal'
 import { Route as ApiVerifyPaymentRouteImport } from './routes/api/verify-payment'
+import { Route as ApiKundaliMatchingRouteImport } from './routes/api/kundali-matching'
 import { Route as ApiFollowUpRouteImport } from './routes/api/follow-up'
 import { Route as ApiCreateOrderRouteImport } from './routes/api/create-order'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
@@ -74,6 +76,11 @@ const OnboardingRoute = OnboardingRouteImport.update({
 const MyChartRoute = MyChartRouteImport.update({
   id: '/my-chart',
   path: '/my-chart',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KundaliMatchingRoute = KundaliMatchingRouteImport.update({
+  id: '/kundali-matching',
+  path: '/kundali-matching',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FreeKundliRoute = FreeKundliRouteImport.update({
@@ -153,6 +160,11 @@ const ApiVerifyPaymentRoute = ApiVerifyPaymentRouteImport.update({
   path: '/api/verify-payment',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiKundaliMatchingRoute = ApiKundaliMatchingRouteImport.update({
+  id: '/api/kundali-matching',
+  path: '/api/kundali-matching',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiFollowUpRoute = ApiFollowUpRouteImport.update({
   id: '/api/follow-up',
   path: '/api/follow-up',
@@ -178,6 +190,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/disclaimer': typeof DisclaimerRoute
   '/free-kundli': typeof FreeKundliRoute
+  '/kundali-matching': typeof KundaliMatchingRoute
   '/my-chart': typeof MyChartRoute
   '/onboarding': typeof OnboardingRoute
   '/pricing': typeof PricingRoute
@@ -189,6 +202,7 @@ export interface FileRoutesByFullPath {
   '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/follow-up': typeof ApiFollowUpRoute
+  '/api/kundali-matching': typeof ApiKundaliMatchingRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
   '/blogs/arpit-uniyal': typeof BlogsArpitUniyalRoute
   '/blogs/top-5-ai-astrology-platform-in-india': typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
@@ -206,6 +220,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/disclaimer': typeof DisclaimerRoute
   '/free-kundli': typeof FreeKundliRoute
+  '/kundali-matching': typeof KundaliMatchingRoute
   '/my-chart': typeof MyChartRoute
   '/onboarding': typeof OnboardingRoute
   '/pricing': typeof PricingRoute
@@ -216,6 +231,7 @@ export interface FileRoutesByTo {
   '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/follow-up': typeof ApiFollowUpRoute
+  '/api/kundali-matching': typeof ApiKundaliMatchingRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
   '/blogs/arpit-uniyal': typeof BlogsArpitUniyalRoute
   '/blogs/top-5-ai-astrology-platform-in-india': typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
@@ -234,6 +250,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/disclaimer': typeof DisclaimerRoute
   '/free-kundli': typeof FreeKundliRoute
+  '/kundali-matching': typeof KundaliMatchingRoute
   '/my-chart': typeof MyChartRoute
   '/onboarding': typeof OnboardingRoute
   '/pricing': typeof PricingRoute
@@ -245,6 +262,7 @@ export interface FileRoutesById {
   '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/follow-up': typeof ApiFollowUpRoute
+  '/api/kundali-matching': typeof ApiKundaliMatchingRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
   '/blogs/arpit-uniyal': typeof BlogsArpitUniyalRoute
   '/blogs/top-5-ai-astrology-platform-in-india': typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
@@ -264,6 +282,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/disclaimer'
     | '/free-kundli'
+    | '/kundali-matching'
     | '/my-chart'
     | '/onboarding'
     | '/pricing'
@@ -275,6 +294,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/create-order'
     | '/api/follow-up'
+    | '/api/kundali-matching'
     | '/api/verify-payment'
     | '/blogs/arpit-uniyal'
     | '/blogs/top-5-ai-astrology-platform-in-india'
@@ -292,6 +312,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/disclaimer'
     | '/free-kundli'
+    | '/kundali-matching'
     | '/my-chart'
     | '/onboarding'
     | '/pricing'
@@ -302,6 +323,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/create-order'
     | '/api/follow-up'
+    | '/api/kundali-matching'
     | '/api/verify-payment'
     | '/blogs/arpit-uniyal'
     | '/blogs/top-5-ai-astrology-platform-in-india'
@@ -319,6 +341,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/disclaimer'
     | '/free-kundli'
+    | '/kundali-matching'
     | '/my-chart'
     | '/onboarding'
     | '/pricing'
@@ -330,6 +353,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/create-order'
     | '/api/follow-up'
+    | '/api/kundali-matching'
     | '/api/verify-payment'
     | '/blogs/arpit-uniyal'
     | '/blogs/top-5-ai-astrology-platform-in-india'
@@ -348,6 +372,7 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   DisclaimerRoute: typeof DisclaimerRoute
   FreeKundliRoute: typeof FreeKundliRoute
+  KundaliMatchingRoute: typeof KundaliMatchingRoute
   MyChartRoute: typeof MyChartRoute
   OnboardingRoute: typeof OnboardingRoute
   PricingRoute: typeof PricingRoute
@@ -359,6 +384,7 @@ export interface RootRouteChildren {
   ApiChatRoute: typeof ApiChatRoute
   ApiCreateOrderRoute: typeof ApiCreateOrderRoute
   ApiFollowUpRoute: typeof ApiFollowUpRoute
+  ApiKundaliMatchingRoute: typeof ApiKundaliMatchingRoute
   ApiVerifyPaymentRoute: typeof ApiVerifyPaymentRoute
   BlogsArpitUniyalRoute: typeof BlogsArpitUniyalRoute
   BlogsTop5AiAstrologyPlatformInIndiaRoute: typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
@@ -423,6 +449,13 @@ declare module '@tanstack/react-router' {
       path: '/my-chart'
       fullPath: '/my-chart'
       preLoaderRoute: typeof MyChartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kundali-matching': {
+      id: '/kundali-matching'
+      path: '/kundali-matching'
+      fullPath: '/kundali-matching'
+      preLoaderRoute: typeof KundaliMatchingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/free-kundli': {
@@ -530,6 +563,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiVerifyPaymentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/kundali-matching': {
+      id: '/api/kundali-matching'
+      path: '/api/kundali-matching'
+      fullPath: '/api/kundali-matching'
+      preLoaderRoute: typeof ApiKundaliMatchingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/follow-up': {
       id: '/api/follow-up'
       path: '/api/follow-up'
@@ -573,6 +613,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   DisclaimerRoute: DisclaimerRoute,
   FreeKundliRoute: FreeKundliRoute,
+  KundaliMatchingRoute: KundaliMatchingRoute,
   MyChartRoute: MyChartRoute,
   OnboardingRoute: OnboardingRoute,
   PricingRoute: PricingRoute,
@@ -584,6 +625,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiChatRoute: ApiChatRoute,
   ApiCreateOrderRoute: ApiCreateOrderRoute,
   ApiFollowUpRoute: ApiFollowUpRoute,
+  ApiKundaliMatchingRoute: ApiKundaliMatchingRoute,
   ApiVerifyPaymentRoute: ApiVerifyPaymentRoute,
   BlogsArpitUniyalRoute: BlogsArpitUniyalRoute,
   BlogsTop5AiAstrologyPlatformInIndiaRoute:

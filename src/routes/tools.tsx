@@ -57,6 +57,14 @@ const tools = [
     link: "/blogs/what-is-lagna-in-astrology",
     features: ["North & South Indian Kundli guides", "12 Lagna signs explained", "Lagnesh breakdown", "Interactive SVG chart tutorial"],
   },
+  {
+    title: "Kundali Matching",
+    description:
+      "Check Kundali matching by name and date of birth. Ashta Koota Gun Milan with accurate Swiss Ephemeris calculations. Boy and girl compatibility score out of 36.",
+    image: kundliImage,
+    link: "/kundali-matching",
+    features: ["Ashta Koota system", "Gun Milan out of 36", "Swiss Ephemeris accuracy", "Rashi & Nakshatra analysis"],
+  },
 ];
 
 function ToolsPage() {

@@ -703,12 +703,12 @@ function FreeAiAstrologyPage() {
             reveal relationship patterns, compatibility factors, and timing for meaningful
             connections. AI astrology can analyze planetary placements affecting your love life,
             including Venus, Moon, and the 7th lord. It can also perform{" "}
-            <Link
-              to="/free-kundli"
+<Link
+              to="/kundali-matching"
               className="text-primary underline underline-offset-4 hover:opacity-80"
             >
               Kundli matching
-            </Link>{" "}
+            </Link>
             for compatibility assessment between partners.
           </p>
 

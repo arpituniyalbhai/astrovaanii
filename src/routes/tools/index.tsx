@@ -82,6 +82,25 @@ function ToolsPage() {
               Read Guide &rarr;
             </span>
           </Link>
+
+          <Link to="/kundali-matching" className="group rounded-3xl border border-border bg-card p-6 hover:shadow-xl transition-all duration-300 hover:border-primary/30">
+            <div className="aspect-video rounded-2xl overflow-hidden bg-background/70 mb-4">
+              <img
+                src={kundliImage}
+                alt="Kundali Matching"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <h3 className="font-display text-xl text-primary group-hover:text-primary/80 transition-colors">
+              Kundali Matching
+            </h3>
+            <p className="text-sm text-muted-foreground mt-2">
+              Check Kundali matching by name and date of birth. Ashta Koota Gun Milan with accurate Swiss Ephemeris calculations. Compatibility score out of 36.
+            </p>
+            <span className="inline-block mt-3 text-sm font-medium text-primary">
+              Check Match &rarr;
+            </span>
+          </Link>
         </div>
       </section>
     </main>

@@ -830,6 +830,27 @@ function FreeToolsSection() {
               </div>
             </Link>
           </Reveal>
+
+          <Reveal delay={160}>
+            <Link
+              to="/kundali-matching"
+              className="group block h-full rounded-3xl border border-border bg-card/80 shadow-xl backdrop-blur-md p-6 hover:shadow-2xl hover:border-primary/30 transition-all duration-300"
+            >
+              <h3 className="font-display text-xl text-foreground group-hover:text-primary transition-colors">
+                Kundali Matching
+              </h3>
+              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                Check Kundali matching by name and date of birth. Ashta Koota Gun Milan with accurate Swiss Ephemeris calculations. Boy and girl compatibility score out of 36.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {["Ashta Koota", "Gun Milan 36", "Swiss Ephemeris", "Rashi & Nakshatra"].map((f) => (
+                  <span key={f} className="rounded-full border border-border bg-background/70 px-3 py-1 text-xs text-muted-foreground">
+                    {f}
+                  </span>
+                ))}
+              </div>
+            </Link>
+          </Reveal>
         </div>
       </div>
     </section>
