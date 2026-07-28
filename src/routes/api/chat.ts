@@ -63,76 +63,81 @@ async function handleStream(request: Request) {
     userName?: string;
     userDetails?: Record<string, unknown>;
     email?: string;
+    isFree?: boolean;
   };
-  const { messages, chart, userName, userDetails, email } = data;
+  const { messages, chart, userName, userDetails, email, isFree } = data;
 
-  if (!email) {
-    return new Response(JSON.stringify({ error: "Authentication required" }), {
-      status: 401,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
-
-  // Check and deduct credit atomically
-  const userRef = doc(db, "Users", emailToDocId(email));
   let questionsRemaining = 0;
+  let userRef: ReturnType<typeof doc> | null = null;
 
-  try {
-    const result = await runTransaction(db, async (transaction) => {
-      const snap = await transaction.get(userRef);
-      if (!snap.exists()) {
-        throw new Error("USER_NOT_FOUND");
-      }
-      const data = snap.data();
-      const remaining = data.questionsRemaining ?? 0;
-      if (remaining <= 0) {
-        return { allowed: false, remaining: 0 };
-      }
-      transaction.update(userRef, { questionsRemaining: increment(-1) });
-      return { allowed: true, remaining: remaining - 1 };
-    });
-    questionsRemaining = result.remaining;
-    if (!result.allowed) {
-      return new Response(JSON.stringify({
-        error: "NO_CREDITS",
-        remaining: 0,
-        message: "You've run out of credits. Please purchase more to continue your readings with Vaanii.",
-      }), {
-        status: 402,
+  if (!isFree) {
+    if (!email) {
+      return new Response(JSON.stringify({ error: "Authentication required" }), {
+        status: 401,
         headers: { "Content-Type": "application/json" },
       });
     }
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Unknown error";
-    if (message === "USER_NOT_FOUND") {
+
+    // Check and deduct credit atomically
+    userRef = doc(db, "Users", emailToDocId(email));
+
+    try {
+      const result = await runTransaction(db, async (transaction) => {
+        const snap = await transaction.get(userRef!);
+        if (!snap.exists()) {
+          throw new Error("USER_NOT_FOUND");
+        }
+        const data = snap.data();
+        const remaining = data.questionsRemaining ?? 0;
+        if (remaining <= 0) {
+          return { allowed: false, remaining: 0 };
+        }
+        transaction.update(userRef!, { questionsRemaining: increment(-1) });
+        return { allowed: true, remaining: remaining - 1 };
+      });
+      questionsRemaining = result.remaining;
+      if (!result.allowed) {
+        return new Response(JSON.stringify({
+          error: "NO_CREDITS",
+          remaining: 0,
+          message: "You've run out of credits. Please purchase more to continue your readings with Vaanii.",
+        }), {
+          status: 402,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error";
+      if (message === "USER_NOT_FOUND") {
+        return new Response(JSON.stringify({
+          error: "USER_NOT_FOUND",
+          message: "User profile not found. Please complete onboarding first.",
+        }), {
+          status: 404,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+      console.error("Credit deduction failed:", err);
       return new Response(JSON.stringify({
-        error: "USER_NOT_FOUND",
-        message: "User profile not found. Please complete onboarding first.",
+        error: "CREDIT_CHECK_FAILED",
+        message: "Unable to verify credits. Please try again.",
       }), {
-        status: 404,
+        status: 500,
         headers: { "Content-Type": "application/json" },
       });
     }
-    console.error("Credit deduction failed:", err);
-    return new Response(JSON.stringify({
-      error: "CREDIT_CHECK_FAILED",
-      message: "Unable to verify credits. Please try again.",
-    }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
 
-  // Track question in Firestore (non-blocking)
-  try {
-    const questionsRef = doc(db, "Users", emailToDocId(email), "questions", Date.now().toString());
-    await setDoc(questionsRef, {
-      question: messages[messages.length - 1]?.content || "",
-      askedAt: new Date().toISOString(),
-      creditsRemainingAfter: questionsRemaining,
-    });
-  } catch {
-    // Non-critical — don't block the response
+    // Track question in Firestore (non-blocking)
+    try {
+      const questionsRef = doc(db, "Users", emailToDocId(email), "questions", Date.now().toString());
+      await setDoc(questionsRef, {
+        question: messages[messages.length - 1]?.content || "",
+        askedAt: new Date().toISOString(),
+        creditsRemainingAfter: questionsRemaining,
+      });
+    } catch {
+      // Non-critical — don't block the response
+    }
   }
 
   const lastUserMsg = [...messages].reverse().find((m) => m.role === "user");
@@ -237,9 +242,11 @@ async function handleStream(request: Request) {
     if (!mistralRes.ok) {
       const text = await mistralRes.text();
       // Refund credit on Mistral API error
-      try {
-        await updateDoc(userRef, { questionsRemaining: increment(1) });
-      } catch { /* non-critical */ }
+      if (userRef) {
+        try {
+          await updateDoc(userRef, { questionsRemaining: increment(1) });
+        } catch { /* non-critical */ }
+      }
       return new Response(text, { status: mistralRes.status });
     }
 
@@ -255,9 +262,11 @@ async function handleStream(request: Request) {
     clearTimeout(timeout);
     console.error("Mistral API error:", err);
     // Refund credit on network/fetch error
-    try {
-      await updateDoc(userRef, { questionsRemaining: increment(1) });
-    } catch { /* non-critical */ }
+    if (userRef) {
+      try {
+        await updateDoc(userRef, { questionsRemaining: increment(1) });
+      } catch { /* non-critical */ }
+    }
     return new Response(JSON.stringify({ error: "AI service unavailable. Please try again." }), {
       status: 503,
       headers: { "Content-Type": "application/json" },

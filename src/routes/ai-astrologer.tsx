@@ -4,7 +4,7 @@ import { Reveal } from "@/components/landing/Reveal";
 import brandIcon from "@/assets/astrovaanii-logo.webp";
 import vaaniiPersona from "@/assets/vaanii-persona.jpg";
 import chatPreview from "@/assets/chat-preview.jpg";
-import { VaaniiLoadingAnimation } from "@/components/VaaniiLoadingAnimation";
+
 
 const faqs = [
   { q: "What is an AI Astrologer?", a: "An AI Astrologer is a software system that generates astrological readings using algorithms, chart calculations, and symbolic interpretation to provide insights based on your birth data and current planetary positions." },
@@ -135,6 +135,25 @@ function AiAstrologerPage() {
   const typingStartRef = useRef(0);
   const MIN_LOADING_MS = 3000;
 
+  const thinkingMessages = [
+    "Reading the cosmic positions...",
+    "Studying your birth Kundali...",
+    "Mapping your planetary dashas...",
+    "Calculating your life timeline...",
+    "Preparing your cosmic insight...",
+  ];
+  const [thinkingMessage, setThinkingMessage] = useState(thinkingMessages[0]);
+
+  useEffect(() => {
+    if (!isTyping) { setThinkingMessage(thinkingMessages[0]); return; }
+    let idx = 0;
+    const interval = setInterval(() => {
+      idx = (idx + 1) % thinkingMessages.length;
+      setThinkingMessage(thinkingMessages[idx]);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [isTyping]);
+
   useEffect(() => {
     const freeChatUsed = localStorage.getItem(FREE_CHAT_USED_KEY) === 'true';
     setHasUsedFreeChat(freeChatUsed);
@@ -205,6 +224,7 @@ function AiAstrologerPage() {
         chart: local.chart || undefined,
         userName: name,
         userDetails: Object.keys(userDetails).length ? userDetails : undefined,
+        isFree: true,
       }),
     });
 
@@ -595,13 +615,24 @@ function AiAstrologerPage() {
                     src={vaaniiPersona}
                     alt="Vaanii AI Vedic Astrologer"
                     loading="lazy"
-                    className="h-8 w-8 rounded-full object-cover border border-border shrink-0 self-start"
+                    className="h-8 w-8 rounded-full object-cover border border-border shrink-0 self-start mt-1"
                   />
-                  <div className="rounded-2xl rounded-tl-sm bg-background/70 px-4 py-2 text-sm text-muted-foreground self-start min-w-[240px]">
-                    <VaaniiLoadingAnimation
-                      userName={name}
-                      userQuestion={currentQuestionRef.current}
-                    />
+                  <div className="rounded-2xl rounded-tl-sm bg-background border border-border/40 shadow-sm px-4 py-3">
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1.5">
+                      <span className="font-medium">thinking</span>
+                      <span className="flex gap-1">
+                        {[0, 1, 2].map(i => (
+                          <span
+                            key={i}
+                            className="inline-block w-1.5 h-1.5 rounded-full bg-primary/60 animate-bounce"
+                            style={{ animationDelay: `${i * 0.15}s` }}
+                          />
+                        ))}
+                      </span>
+                    </div>
+                    <p className="text-sm text-muted-foreground italic">
+                      {thinkingMessage}
+                    </p>
                   </div>
                 </div>
               )}
