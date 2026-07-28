@@ -59,45 +59,43 @@ const breadcrumbJsonLd = {
   ],
 };
 
-const organizationJsonLd = {
+const softwareAppJsonLd = {
   "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "AstroVaanii",
-  url: "https://astrovaanii.in",
-  logo: "https://astrovaanii.in/astrovaanii-logo.webp",
-  description: "India's leading AI Vedic astrology platform providing personalized readings in 9 Indian languages.",
+  "@type": "SoftwareApplication",
+  name: "Vaanii AI Astrologer",
+  applicationCategory: "LifestyleApplication",
+  operatingSystem: "All",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
+  url: "https://astrovaanii.in/ai-astrologer",
+  description: "Chat with Vaanii, your free AI astrologer trained on classical Vedic astrology.",
 };
 
 export const Route = createFileRoute("/ai-astrologer")({
   head: () => ({
     meta: [
-      { title: "Free AI Astrologer - Vedic Astrology Chat | AstroVaanii" },
+      { title: "AI Astrologer Online - Free Astrology Chat - AstroVaanii" },
       {
         name: "description",
         content:
-          "Chat with Vaanii — India's AI Vedic astrologer trained on classical Parashara texts. Get instant birth chart readings in 9 Indian languages. Free to start, no appointment needed.",
+          "Meet Vaanii, an AI astrologer trained on classical Vedic astrology (Parashara & Jaimini). Instant predictions in 9 Indian languages. Free to start.",
       },
-      { property: "og:title", content: "AI Astrologer - Free Vedic AI Astrology Chat with Vaanii" },
+      { property: "og:title", content: "AI Astrologer Online - Free Astrology Chat - AstroVaanii" },
       {
         property: "og:description",
         content:
-          "Experience personalized Vedic astrology readings with Vaanii AI. Ask about career, marriage, health, and more. Available 24/7 in 9 Indian languages.",
+          "Meet Vaanii, an AI astrologer trained on classical Vedic astrology. Instant predictions in 9 Indian languages. Free to start.",
       },
       { property: "og:url", content: "https://astrovaanii.in/ai-astrologer" },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: "/social-sharing.webp" },
-      { property: "og:image:width", content: "1200" },
-      { property: "og:image:height", content: "630" },
+      { property: "og:image", content: "/social-sharing.jpg" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "AI Astrologer - Free Vedic AI Astrology Chat with Vaanii" },
-      { name: "twitter:description", content: "Chat with Vaanii AI for personalized Vedic astrology readings. Free to start, available 24/7." },
     ],
     links: [{ rel: "canonical", href: "https://astrovaanii.in/ai-astrologer" }],
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(faqJsonLd) },
       { type: "application/ld+json", children: JSON.stringify(toolJsonLd) },
       { type: "application/ld+json", children: JSON.stringify(breadcrumbJsonLd) },
-      { type: "application/ld+json", children: JSON.stringify(organizationJsonLd) },
+      { type: "application/ld+json", children: JSON.stringify(softwareAppJsonLd) },
     ],
   }),
   component: AiAstrologerPage,
@@ -761,7 +759,7 @@ const seoContent: ({
   },
   {
     title: "How Astrovaanii Is Different From Other AI Astrologers",
-    content: "Not all digital astrology tools are built with the same level of depth. Astrovaanii was created specifically to bridge the gap between classical Jyotish tradition and modern technological convenience. Astrovaanii does not rely on simplified astrology rules. Its interpretation system is built around classical Vedic texts—including Brihat Parashara Hora Shastra and Jaimini Sutras. It evaluates planetary strengths (Shadbala), house lords, aspect relationships (Drishti), yogas (wealth and success combinations), and active doshas before forming a conclusion. While many tools present static, pre-written reports, Astrovaanii calculates planetary movements every single minute. When you ask, 'How is my day today?', Astrovaanii reads current planetary transits against your birth chart to highlight real windows of opportunity or caution.",
+    content: <>Not all digital astrology tools are built with the same level of depth. Astrovaanii was created specifically to bridge the gap between classical Jyotish tradition and modern technological convenience. Astrovaanii does not rely on simplified astrology rules. Its interpretation system is built around classical Vedic texts—including Brihat Parashara Hora Shastra and Jaimini Sutras. It evaluates planetary strengths (Shadbala), house lords, aspect relationships (Drishti), yogas (wealth and success combinations), and active doshas before forming a conclusion. Your <Link to="/blogs/what-is-lagna-in-astrology" className="text-primary underline underline-offset-4 hover:opacity-80">Lagna (Ascendant)</Link> forms the foundation of every reading—if you want to understand what Lagna means and why it matters, read our complete beginner's guide. While many tools present static, pre-written reports, Astrovaanii calculates planetary movements every single minute. When you ask, 'How is my day today?', Astrovaanii reads current planetary transits against your birth chart to highlight real windows of opportunity or caution.</>,
   },
   {
     title: "Continuous Chart-Aware Memory and Privacy",

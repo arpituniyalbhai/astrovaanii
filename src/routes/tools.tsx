@@ -23,6 +23,9 @@ export const Route = createFileRoute("/tools")({
       { property: "og:type", content: "website" },
       { property: "og:image", content: "/social-sharing.webp" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Free Vedic Astrology Tools - AstroVaanii" },
+      { name: "twitter:description", content: "Explore free Vedic astrology tools including Kundli generator and birth chart calculator." },
+      { name: "twitter:image", content: "/social-sharing.jpg" },
     ],
     links: [{ rel: "canonical", href: "https://astrovaanii.in/tools" }],
   }),
@@ -45,6 +48,14 @@ const tools = [
     image: chatPreview,
     link: "/ai-astrologer",
     features: ["24/7 availability", "9 Indian languages", "Chart-aware conversations", "Classical Vedic interpretations"],
+  },
+  {
+    title: "What Is Lagna (Ascendant)? Guide",
+    description:
+      "Complete beginner's guide to understanding your Lagna (Rising Sign), how it is calculated, why it anchors your birth chart, and interactive North Indian Kundli chart breakdown.",
+    image: "/what-is-lagna-in-astrology.webp",
+    link: "/blogs/what-is-lagna-in-astrology",
+    features: ["North & South Indian Kundli guides", "12 Lagna signs explained", "Lagnesh breakdown", "Interactive SVG chart tutorial"],
   },
 ];
 

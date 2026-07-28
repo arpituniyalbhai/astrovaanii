@@ -10,6 +10,7 @@ export const Route = createFileRoute("/dashboard")({
     meta: [
       { title: "Dashboard — AstroVaanii" },
       { name: "description", content: "Your personal AI astrologer dashboard. Get personalized readings and insights." },
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
   component: DashboardPage,

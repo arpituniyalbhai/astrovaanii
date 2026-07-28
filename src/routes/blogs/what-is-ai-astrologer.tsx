@@ -29,7 +29,7 @@ export const Route = createFileRoute("/blogs/what-is-ai-astrologer")({
       },
     ],
     links: [
-      { rel: "canonical", href: "/blogs/what-is-ai-astrologer" },
+      { rel: "canonical", href: "https://astrovaanii.in/blogs/what-is-ai-astrologer" },
       { rel: "preload", href: "/what-is-ai-astrologer.webp", as: "image" },
     ],
     scripts: [

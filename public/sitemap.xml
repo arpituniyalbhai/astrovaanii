@@ -45,12 +45,6 @@
   </url>
 
   <url>
-    <loc>https://astrovaanii.in/blog</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
     <loc>https://astrovaanii.in/blogs</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -94,6 +88,12 @@
 
   <url>
     <loc>https://astrovaanii.in/blogs/arpit-uniyal</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://astrovaanii.in/blogs/what-is-lagna-in-astrology</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

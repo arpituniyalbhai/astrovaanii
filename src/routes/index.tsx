@@ -1089,13 +1089,13 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "AI Astrologer Free Chat - AstroVaanii" },
+      { title: "AI Astrology: Chat with Your Personal AI Astrologer" },
       {
         name: "description",
         content:
           "Meet Vaanii, your free AI astrologer. Explore accurate Vedic astrology, Kundli, birth chart, love, career, and daily predictions in 9 Indian languages.",
       },
-      { property: "og:title", content: "AI Astrologer Free Chat – AstroVaanii" },
+      { property: "og:title", content: "AI Astrology: Chat with Your Personal AI Astrologer" },
       {
         property: "og:description",
         content:
@@ -1107,7 +1107,7 @@ export const Route = createFileRoute("/")({
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "AI Astrologer Free Chat – AstroVaanii" },
+      { name: "twitter:title", content: "AI Astrology: Chat with Your Personal AI Astrologer" },
       {
         name: "twitter:description",
         content:

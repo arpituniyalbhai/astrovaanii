@@ -9,7 +9,15 @@ export const Route = createFileRoute("/tools/")({
       { name: "description", content: "Explore free Vedic astrology tools including Janam Kundli (birth chart) generator by date of birth and time. Accurate Swiss Ephemeris calculations." },
       { property: "og:title", content: "Free Astrology Tools - AstroVaanii" },
       { property: "og:description", content: "Free Vedic astrology tools - Generate your Janam Kundli instantly with accurate calculations." },
+      { property: "og:url", content: "https://astrovaanii.in/tools" },
+      { property: "og:type", content: "website" },
+      { property: "og:image", content: "/social-sharing.jpg" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Free Astrology Tools - Janam Kundli Generator - AstroVaanii" },
+      { name: "twitter:description", content: "Free Vedic astrology tools - Generate your Janam Kundli instantly with accurate calculations." },
+      { name: "twitter:image", content: "/social-sharing.jpg" },
     ],
+    links: [{ rel: "canonical", href: "https://astrovaanii.in/tools" }],
   }),
   component: ToolsPage,
 });
@@ -37,7 +45,7 @@ function ToolsPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-          <Link to="/tools/kundli-generator" className="group rounded-3xl border border-border bg-card p-6 hover:shadow-xl transition-all duration-300 hover:border-primary/30">
+          <Link to="/free-kundli" className="group rounded-3xl border border-border bg-card p-6 hover:shadow-xl transition-all duration-300 hover:border-primary/30">
             <div className="aspect-video rounded-2xl overflow-hidden bg-background/70 mb-4">
               <img
                 src={kundliImage}
@@ -53,6 +61,25 @@ function ToolsPage() {
             </p>
             <span className="inline-block mt-3 text-sm font-medium text-primary">
               Generate Kundli &rarr;
+            </span>
+          </Link>
+
+          <Link to="/blogs/what-is-lagna-in-astrology" className="group rounded-3xl border border-border bg-card p-6 hover:shadow-xl transition-all duration-300 hover:border-primary/30">
+            <div className="aspect-video rounded-2xl overflow-hidden bg-background/70 mb-4">
+              <img
+                src="/what-is-lagna-in-astrology.webp"
+                alt="What Is Lagna (Ascendant) Guide"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <h3 className="font-display text-xl text-primary group-hover:text-primary/80 transition-colors">
+              What Is Lagna (Ascendant)?
+            </h3>
+            <p className="text-sm text-muted-foreground mt-2">
+              Complete beginner's guide to understanding your Lagna (Rising Sign), how it is calculated, and what it reveals about your birth chart.
+            </p>
+            <span className="inline-block mt-3 text-sm font-medium text-primary">
+              Read Guide &rarr;
             </span>
           </Link>
         </div>

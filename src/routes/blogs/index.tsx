@@ -2,6 +2,16 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 
 const blogPosts = [
   {
+    slug: "what-is-lagna-in-astrology",
+    title: "What Is Lagna (Ascendant) in Astrology? Complete Beginner's Guide",
+    description:
+      "Learn what Lagna (Rising Sign) is in Vedic astrology, how it is calculated, why it matters more than your Sun sign, and what each Lagna sign reveals.",
+    date: "July 28, 2026",
+    readTime: "8 min read",
+    image: "/what-is-lagna-in-astrology.webp",
+    imageAlt: "What Is Lagna Ascendant in Astrology - Complete Beginner Guide",
+  },
+  {
     slug: "arpit-uniyal",
     title: "From a Remote Village in Uttarakhand to a $150K Startup at Age of 18",
     description:

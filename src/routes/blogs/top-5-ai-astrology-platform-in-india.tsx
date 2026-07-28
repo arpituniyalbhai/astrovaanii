@@ -30,7 +30,7 @@ export const Route = createFileRoute("/blogs/top-5-ai-astrology-platform-in-indi
       },
     ],
     links: [
-      { rel: "canonical", href: "/blogs/top-5-ai-astrology-platform-in-india" },
+      { rel: "canonical", href: "https://astrovaanii.in/blogs/top-5-ai-astrology-platform-in-india" },
     ],
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(faqJsonLd) },

@@ -27,10 +27,12 @@ import { Route as AiAstrologerRouteImport } from './routes/ai-astrologer'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolsIndexRouteImport } from './routes/tools/index'
 import { Route as BlogsIndexRouteImport } from './routes/blogs/index'
+import { Route as BlogsWhatIsLagnaInAstrologyRouteImport } from './routes/blogs/what-is-lagna-in-astrology'
 import { Route as BlogsWhatIsAiAstrologerRouteImport } from './routes/blogs/what-is-ai-astrologer'
 import { Route as BlogsTop5AiAstrologyPlatformInIndiaRouteImport } from './routes/blogs/top-5-ai-astrology-platform-in-india'
 import { Route as BlogsArpitUniyalRouteImport } from './routes/blogs/arpit-uniyal'
 import { Route as ApiVerifyPaymentRouteImport } from './routes/api/verify-payment'
+import { Route as ApiFollowUpRouteImport } from './routes/api/follow-up'
 import { Route as ApiCreateOrderRouteImport } from './routes/api/create-order'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 
@@ -124,6 +126,12 @@ const BlogsIndexRoute = BlogsIndexRouteImport.update({
   path: '/blogs/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogsWhatIsLagnaInAstrologyRoute =
+  BlogsWhatIsLagnaInAstrologyRouteImport.update({
+    id: '/blogs/what-is-lagna-in-astrology',
+    path: '/blogs/what-is-lagna-in-astrology',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const BlogsWhatIsAiAstrologerRoute = BlogsWhatIsAiAstrologerRouteImport.update({
   id: '/blogs/what-is-ai-astrologer',
   path: '/blogs/what-is-ai-astrologer',
@@ -143,6 +151,11 @@ const BlogsArpitUniyalRoute = BlogsArpitUniyalRouteImport.update({
 const ApiVerifyPaymentRoute = ApiVerifyPaymentRouteImport.update({
   id: '/api/verify-payment',
   path: '/api/verify-payment',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiFollowUpRoute = ApiFollowUpRouteImport.update({
+  id: '/api/follow-up',
+  path: '/api/follow-up',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiCreateOrderRoute = ApiCreateOrderRouteImport.update({
@@ -175,10 +188,12 @@ export interface FileRoutesByFullPath {
   '/tools': typeof ToolsRouteWithChildren
   '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
+  '/api/follow-up': typeof ApiFollowUpRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
   '/blogs/arpit-uniyal': typeof BlogsArpitUniyalRoute
   '/blogs/top-5-ai-astrology-platform-in-india': typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
   '/blogs/what-is-ai-astrologer': typeof BlogsWhatIsAiAstrologerRoute
+  '/blogs/what-is-lagna-in-astrology': typeof BlogsWhatIsLagnaInAstrologyRoute
   '/blogs/': typeof BlogsIndexRoute
   '/tools/': typeof ToolsIndexRoute
 }
@@ -200,10 +215,12 @@ export interface FileRoutesByTo {
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
+  '/api/follow-up': typeof ApiFollowUpRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
   '/blogs/arpit-uniyal': typeof BlogsArpitUniyalRoute
   '/blogs/top-5-ai-astrology-platform-in-india': typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
   '/blogs/what-is-ai-astrologer': typeof BlogsWhatIsAiAstrologerRoute
+  '/blogs/what-is-lagna-in-astrology': typeof BlogsWhatIsLagnaInAstrologyRoute
   '/blogs': typeof BlogsIndexRoute
   '/tools': typeof ToolsIndexRoute
 }
@@ -227,10 +244,12 @@ export interface FileRoutesById {
   '/tools': typeof ToolsRouteWithChildren
   '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
+  '/api/follow-up': typeof ApiFollowUpRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
   '/blogs/arpit-uniyal': typeof BlogsArpitUniyalRoute
   '/blogs/top-5-ai-astrology-platform-in-india': typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
   '/blogs/what-is-ai-astrologer': typeof BlogsWhatIsAiAstrologerRoute
+  '/blogs/what-is-lagna-in-astrology': typeof BlogsWhatIsLagnaInAstrologyRoute
   '/blogs/': typeof BlogsIndexRoute
   '/tools/': typeof ToolsIndexRoute
 }
@@ -255,10 +274,12 @@ export interface FileRouteTypes {
     | '/tools'
     | '/api/chat'
     | '/api/create-order'
+    | '/api/follow-up'
     | '/api/verify-payment'
     | '/blogs/arpit-uniyal'
     | '/blogs/top-5-ai-astrology-platform-in-india'
     | '/blogs/what-is-ai-astrologer'
+    | '/blogs/what-is-lagna-in-astrology'
     | '/blogs/'
     | '/tools/'
   fileRoutesByTo: FileRoutesByTo
@@ -280,10 +301,12 @@ export interface FileRouteTypes {
     | '/terms-and-conditions'
     | '/api/chat'
     | '/api/create-order'
+    | '/api/follow-up'
     | '/api/verify-payment'
     | '/blogs/arpit-uniyal'
     | '/blogs/top-5-ai-astrology-platform-in-india'
     | '/blogs/what-is-ai-astrologer'
+    | '/blogs/what-is-lagna-in-astrology'
     | '/blogs'
     | '/tools'
   id:
@@ -306,10 +329,12 @@ export interface FileRouteTypes {
     | '/tools'
     | '/api/chat'
     | '/api/create-order'
+    | '/api/follow-up'
     | '/api/verify-payment'
     | '/blogs/arpit-uniyal'
     | '/blogs/top-5-ai-astrology-platform-in-india'
     | '/blogs/what-is-ai-astrologer'
+    | '/blogs/what-is-lagna-in-astrology'
     | '/blogs/'
     | '/tools/'
   fileRoutesById: FileRoutesById
@@ -333,10 +358,12 @@ export interface RootRouteChildren {
   ToolsRoute: typeof ToolsRouteWithChildren
   ApiChatRoute: typeof ApiChatRoute
   ApiCreateOrderRoute: typeof ApiCreateOrderRoute
+  ApiFollowUpRoute: typeof ApiFollowUpRoute
   ApiVerifyPaymentRoute: typeof ApiVerifyPaymentRoute
   BlogsArpitUniyalRoute: typeof BlogsArpitUniyalRoute
   BlogsTop5AiAstrologyPlatformInIndiaRoute: typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
   BlogsWhatIsAiAstrologerRoute: typeof BlogsWhatIsAiAstrologerRoute
+  BlogsWhatIsLagnaInAstrologyRoute: typeof BlogsWhatIsLagnaInAstrologyRoute
   BlogsIndexRoute: typeof BlogsIndexRoute
 }
 
@@ -468,6 +495,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blogs/what-is-lagna-in-astrology': {
+      id: '/blogs/what-is-lagna-in-astrology'
+      path: '/blogs/what-is-lagna-in-astrology'
+      fullPath: '/blogs/what-is-lagna-in-astrology'
+      preLoaderRoute: typeof BlogsWhatIsLagnaInAstrologyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blogs/what-is-ai-astrologer': {
       id: '/blogs/what-is-ai-astrologer'
       path: '/blogs/what-is-ai-astrologer'
@@ -494,6 +528,13 @@ declare module '@tanstack/react-router' {
       path: '/api/verify-payment'
       fullPath: '/api/verify-payment'
       preLoaderRoute: typeof ApiVerifyPaymentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/follow-up': {
+      id: '/api/follow-up'
+      path: '/api/follow-up'
+      fullPath: '/api/follow-up'
+      preLoaderRoute: typeof ApiFollowUpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/create-order': {
@@ -542,11 +583,13 @@ const rootRouteChildren: RootRouteChildren = {
   ToolsRoute: ToolsRouteWithChildren,
   ApiChatRoute: ApiChatRoute,
   ApiCreateOrderRoute: ApiCreateOrderRoute,
+  ApiFollowUpRoute: ApiFollowUpRoute,
   ApiVerifyPaymentRoute: ApiVerifyPaymentRoute,
   BlogsArpitUniyalRoute: BlogsArpitUniyalRoute,
   BlogsTop5AiAstrologyPlatformInIndiaRoute:
     BlogsTop5AiAstrologyPlatformInIndiaRoute,
   BlogsWhatIsAiAstrologerRoute: BlogsWhatIsAiAstrologerRoute,
+  BlogsWhatIsLagnaInAstrologyRoute: BlogsWhatIsLagnaInAstrologyRoute,
   BlogsIndexRoute: BlogsIndexRoute,
 }
 export const routeTree = rootRouteImport

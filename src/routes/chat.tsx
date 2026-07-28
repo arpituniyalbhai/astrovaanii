@@ -16,6 +16,7 @@ export const Route = createFileRoute("/chat")({
     meta: [
       { title: "Chat with Vaanii AI — AstroVaanii" },
       { name: "description", content: "Chat with your personal AI astrologer for personalized readings." },
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
   component: ChatPage,
@@ -662,7 +663,7 @@ function ChatPage() {
               <img src={brandIcon} alt="" width={28} height={28} className="h-7 w-7" />
               <span className="font-display text-base">Astro<span className="text-primary">Vaanii</span></span>
             </div>
-            <h1 className="hidden md:block font-display text-xl text-foreground">Chat with Vaanii</h1>
+            <h1 className="font-display text-sm md:text-xl text-foreground">Chat with Vaanii</h1>
             <button
               onClick={() => navigate({ to: "/dashboard" })}
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"

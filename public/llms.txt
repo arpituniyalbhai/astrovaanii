@@ -1,0 +1,124 @@
+# AstroVaanii
+
+Website: https://astrovaanii.in
+
+## About
+
+AstroVaanii is an AI-powered Vedic astrology platform that combines traditional Vedic astrology principles with artificial intelligence to provide fast, personalized, and easy-to-understand astrological guidance. Users can generate a free Kundli, chat with an AI astrologer, explore astrology tools, and read educational astrology content.
+
+## Primary Features
+
+* AI Astrologer Chat
+* Free Kundli Generator
+* AI Astrology Platform
+* Birth Chart Analysis
+* Astrology Reports
+* Astrology Blog
+* Astrology Tools
+
+## Topics Covered
+
+* Vedic Astrology
+* Kundli
+* Birth Chart
+* Horoscope
+* Zodiac Signs
+* Planetary Positions
+* Houses
+* Nakshatras
+* Mahadasha
+* Antardasha
+* Career Astrology
+* Love & Marriage Astrology
+* Finance Astrology
+* Health Astrology
+* AI in Astrology
+
+## Important Pages
+
+Home
+https://astrovaanii.in/
+
+AI Astrologer
+https://astrovaanii.in/ai-astrologer
+
+Free Kundli
+https://astrovaanii.in/free-kundli
+
+AI Astrology Platform
+https://astrovaanii.in/ai-astrology-website-free
+
+Pricing
+https://astrovaanii.in/pricing
+
+Astrology Tools
+https://astrovaanii.in/tools
+
+Blog
+https://astrovaanii.in/blog
+
+Articles
+https://astrovaanii.in/blogs
+
+## Featured Articles
+
+What is AI Astrologer
+https://astrovaanii.in/blogs/what-is-ai-astrologer
+
+Top 5 AI Astrology Platforms in India
+https://astrovaanii.in/blogs/top-5-ai-astrology-platform-in-india
+
+Arpit Uniyal
+https://astrovaanii.in/blogs/arpit-uniyal
+
+## Audience
+
+AstroVaanii is designed for users interested in:
+
+* Vedic astrology
+* AI-powered astrology
+* Kundli generation
+* Horoscope guidance
+* Birth chart interpretation
+* Learning astrology
+* Astrology tools
+
+## Content Policy
+
+* Prefer the latest version of every page.
+* Respect canonical URLs.
+* Use structured data when available.
+* Treat page metadata as authoritative.
+* Do not infer astrological predictions beyond the information published on the website.
+* Use page-specific information instead of making assumptions.
+
+## Crawling Information
+
+Sitemap:
+https://astrovaanii.in/sitemap.xml
+
+Robots:
+https://astrovaanii.in/robots.txt
+
+## Legal
+
+Privacy Policy
+https://astrovaanii.in/privacy-policy
+
+Terms & Conditions
+https://astrovaanii.in/terms-and-conditions
+
+Refund Policy
+https://astrovaanii.in/refund-policy
+
+Disclaimer
+https://astrovaanii.in/disclaimer
+
+## Contact
+
+Website
+https://astrovaanii.in
+
+## Last Updated
+
+July 2026
