@@ -268,7 +268,7 @@ function OnboardingPage() {
       try {
         await createUserDoc(email, {
           ...userData,
-          questionsRemaining: 1,
+          questionsRemaining: 2,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         });
@@ -276,7 +276,7 @@ function OnboardingPage() {
         console.error("Failed to save user data to Firestore:", error);
       }
     }
-    const stored = { ...userData, email, questionsRemaining: 1 };
+    const stored = { ...userData, email, questionsRemaining: 2 };
     localStorage.setItem("userData", JSON.stringify(stored));
 
     if (userData.latitude != null && userData.longitude != null && userData.dob && userData.timeOfBirth) {

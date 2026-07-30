@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg_ganesh" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4a154b" />
+      <stop offset="50%" stop-color="#8c1c13" />
+      <stop offset="100%" stop-color="#e65100" />
+    </linearGradient>
+    <radialGradient id="glow_gold" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#ffe082" stop-opacity="0.9" />
+      <stop offset="50%" stop-color="#ffb300" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#ff6f00" stop-opacity="0" />
+    </radialGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+  <rect width="600" height="400" fill="url(#bg_ganesh)" />
+  <circle cx="300" cy="180" r="140" fill="url(#glow_gold)" />
+  
+  <!-- Outer Decorative Ring -->
+  <circle cx="300" cy="180" r="110" fill="none" stroke="#ffe082" stroke-width="2" stroke-dasharray="6,6" opacity="0.7" />
+  <circle cx="300" cy="180" r="95" fill="none" stroke="#ffd54f" stroke-width="1.5" opacity="0.8" />
+  
+  <!-- Lord Ganesha Symbol Silhouettes -->
+  <!-- Crown / Mukut -->
+  <path d="M270,90 L330,90 L320,50 L300,30 L280,50 Z" fill="#ffe082" filter="url(#shadow)" />
+  <path d="M285,50 L315,50 L300,35 Z" fill="#fff8e1" />
+  <circle cx="300" cy="45" r="4" fill="#d84315" />
+  
+  <!-- Ganesha Face Outline -->
+  <path d="M250,110 Q300,80 350,110 Q360,150 330,170 Q310,210 320,240 Q310,250 295,245 Q285,220 290,180 Q270,180 250,150 Q240,130 250,110 Z" fill="#ffe082" filter="url(#shadow)" />
+  
+  <!-- Large Ears -->
+  <path d="M250,110 C200,100 190,160 240,165 Z" fill="#ffd54f" opacity="0.9" />
+  <path d="M350,110 C400,100 410,160 360,165 Z" fill="#ffd54f" opacity="0.9" />
+  
+  <!-- Tilak -->
+  <path d="M290,115 L310,115 L310,128 L290,128 Z" fill="#d84315" />
+  <path d="M293,128 L307,128 L300,145 Z" fill="#d84315" />
+  <circle cx="300" cy="120" r="3" fill="#ffe082" />
+  
+  <!-- Tusk and Trunk -->
+  <path d="M285,160 L275,165 L285,170 Z" fill="#ffffff" />
+  
+  <!-- Sacred Kalash & Modak Base -->
+  <ellipse cx="300" cy="320" rx="160" ry="40" fill="#3e2723" opacity="0.6" />
+  
+  <!-- Brass Thali Base -->
+  <ellipse cx="300" cy="310" rx="140" ry="25" fill="#ffb300" stroke="#ffe082" stroke-width="3" filter="url(#shadow)" />
+  
+  <!-- Modaks on Thali -->
+  <path d="M290,295 Q300,270 310,295 Z" fill="#fff8e1" stroke="#ffb300" stroke-width="1" />
+  <path d="M265,300 Q275,280 285,300 Z" fill="#fff8e1" stroke="#ffb300" stroke-width="1" />
+  <path d="M315,300 Q325,280 335,300 Z" fill="#fff8e1" stroke="#ffb300" stroke-width="1" />
+  
+  <!-- Glowing Diya Lamps -->
+  <path d="M160,310 Q180,310 190,325 Q150,335 130,320 Z" fill="#ff8f00" />
+  <path d="M160,305 Q165,285 160,275 Q155,285 160,305 Z" fill="#fff59d" filter="url(#shadow)" />
+  <path d="M440,310 Q420,310 410,325 Q450,335 470,320 Z" fill="#ff8f00" />
+  <path d="M440,305 Q445,285 440,275 Q435,285 440,305 Z" fill="#fff59d" filter="url(#shadow)" />
+  
+  <!-- Text Label -->
+  <text x="300" y="375" text-anchor="middle" fill="#ffe082" font-family="Georgia, serif" font-size="22" font-weight="bold" letter-spacing="2">SHREE RAM KATHA</text>
+</svg>

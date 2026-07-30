@@ -663,7 +663,7 @@ function ChatPage() {
               <img src={brandIcon} alt="" width={28} height={28} className="h-7 w-7" />
               <span className="font-display text-base">Astro<span className="text-primary">Vaanii</span></span>
             </div>
-            <h1 className="font-display text-sm md:text-xl text-foreground">Chat with Vaanii</h1>
+            <div className="flex-1" />
             <button
               onClick={() => navigate({ to: "/dashboard" })}
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -773,11 +773,11 @@ function ChatPage() {
 
               {/* Input area */}
               <div
-                className="flex-shrink-0 px-4 py-4 border-t border-border/60"
+                className="flex-shrink-0 px-4 py-2 border-t border-border/100"
                 style={{ paddingBottom: 'env(safe-area-inset-bottom, 16px)' }}
               >
                 {questionsRemaining <= 0 ? (
-                  <div className="rounded-2xl border border-border bg-background/80 p-5 text-center">
+                  <div className="rounded-8xl border border-border bg-background/80 p-5 text-center">
                     <div className="flex items-center justify-center gap-3 mb-3">
                       <img
                         src={vaaniiPersona}

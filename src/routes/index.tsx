@@ -86,6 +86,9 @@ function Nav() {
           </span>
         </a>
         <nav className="hidden gap-8 text-sm text-muted-foreground md:flex">
+          <Link to="/puja" className="hover:text-primary font-medium text-foreground flex items-center gap-1">
+            Puja Services
+          </Link>
           <a href="#meet" className="hover:text-foreground">
             Meet Vaanii
           </a>

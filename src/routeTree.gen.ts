@@ -27,7 +27,11 @@ import { Route as AiAstrologyWebsiteFreeRouteImport } from './routes/ai-astrolog
 import { Route as AiAstrologerRouteImport } from './routes/ai-astrologer'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolsIndexRouteImport } from './routes/tools/index'
+import { Route as PujaIndexRouteImport } from './routes/puja/index'
+import { Route as PoojaIndexRouteImport } from './routes/pooja/index'
 import { Route as BlogsIndexRouteImport } from './routes/blogs/index'
+import { Route as PujaAkhandaRamayanaRouteImport } from './routes/puja/akhanda-ramayana'
+import { Route as PoojaAkhandaRamayanaRouteImport } from './routes/pooja/akhanda-ramayana'
 import { Route as BlogsWhatIsLagnaInAstrologyRouteImport } from './routes/blogs/what-is-lagna-in-astrology'
 import { Route as BlogsWhatIsAiAstrologerRouteImport } from './routes/blogs/what-is-ai-astrologer'
 import { Route as BlogsTop5AiAstrologyPlatformInIndiaRouteImport } from './routes/blogs/top-5-ai-astrology-platform-in-india'
@@ -128,9 +132,29 @@ const ToolsIndexRoute = ToolsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ToolsRoute,
 } as any)
+const PujaIndexRoute = PujaIndexRouteImport.update({
+  id: '/puja/',
+  path: '/puja/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoojaIndexRoute = PoojaIndexRouteImport.update({
+  id: '/pooja/',
+  path: '/pooja/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogsIndexRoute = BlogsIndexRouteImport.update({
   id: '/blogs/',
   path: '/blogs/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PujaAkhandaRamayanaRoute = PujaAkhandaRamayanaRouteImport.update({
+  id: '/puja/akhanda-ramayana',
+  path: '/puja/akhanda-ramayana',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoojaAkhandaRamayanaRoute = PoojaAkhandaRamayanaRouteImport.update({
+  id: '/pooja/akhanda-ramayana',
+  path: '/pooja/akhanda-ramayana',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogsWhatIsLagnaInAstrologyRoute =
@@ -208,7 +232,11 @@ export interface FileRoutesByFullPath {
   '/blogs/top-5-ai-astrology-platform-in-india': typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
   '/blogs/what-is-ai-astrologer': typeof BlogsWhatIsAiAstrologerRoute
   '/blogs/what-is-lagna-in-astrology': typeof BlogsWhatIsLagnaInAstrologyRoute
+  '/pooja/akhanda-ramayana': typeof PoojaAkhandaRamayanaRoute
+  '/puja/akhanda-ramayana': typeof PujaAkhandaRamayanaRoute
   '/blogs/': typeof BlogsIndexRoute
+  '/pooja/': typeof PoojaIndexRoute
+  '/puja/': typeof PujaIndexRoute
   '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -237,7 +265,11 @@ export interface FileRoutesByTo {
   '/blogs/top-5-ai-astrology-platform-in-india': typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
   '/blogs/what-is-ai-astrologer': typeof BlogsWhatIsAiAstrologerRoute
   '/blogs/what-is-lagna-in-astrology': typeof BlogsWhatIsLagnaInAstrologyRoute
+  '/pooja/akhanda-ramayana': typeof PoojaAkhandaRamayanaRoute
+  '/puja/akhanda-ramayana': typeof PujaAkhandaRamayanaRoute
   '/blogs': typeof BlogsIndexRoute
+  '/pooja': typeof PoojaIndexRoute
+  '/puja': typeof PujaIndexRoute
   '/tools': typeof ToolsIndexRoute
 }
 export interface FileRoutesById {
@@ -268,7 +300,11 @@ export interface FileRoutesById {
   '/blogs/top-5-ai-astrology-platform-in-india': typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
   '/blogs/what-is-ai-astrologer': typeof BlogsWhatIsAiAstrologerRoute
   '/blogs/what-is-lagna-in-astrology': typeof BlogsWhatIsLagnaInAstrologyRoute
+  '/pooja/akhanda-ramayana': typeof PoojaAkhandaRamayanaRoute
+  '/puja/akhanda-ramayana': typeof PujaAkhandaRamayanaRoute
   '/blogs/': typeof BlogsIndexRoute
+  '/pooja/': typeof PoojaIndexRoute
+  '/puja/': typeof PujaIndexRoute
   '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRouteTypes {
@@ -300,7 +336,11 @@ export interface FileRouteTypes {
     | '/blogs/top-5-ai-astrology-platform-in-india'
     | '/blogs/what-is-ai-astrologer'
     | '/blogs/what-is-lagna-in-astrology'
+    | '/pooja/akhanda-ramayana'
+    | '/puja/akhanda-ramayana'
     | '/blogs/'
+    | '/pooja/'
+    | '/puja/'
     | '/tools/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -329,7 +369,11 @@ export interface FileRouteTypes {
     | '/blogs/top-5-ai-astrology-platform-in-india'
     | '/blogs/what-is-ai-astrologer'
     | '/blogs/what-is-lagna-in-astrology'
+    | '/pooja/akhanda-ramayana'
+    | '/puja/akhanda-ramayana'
     | '/blogs'
+    | '/pooja'
+    | '/puja'
     | '/tools'
   id:
     | '__root__'
@@ -359,7 +403,11 @@ export interface FileRouteTypes {
     | '/blogs/top-5-ai-astrology-platform-in-india'
     | '/blogs/what-is-ai-astrologer'
     | '/blogs/what-is-lagna-in-astrology'
+    | '/pooja/akhanda-ramayana'
+    | '/puja/akhanda-ramayana'
     | '/blogs/'
+    | '/pooja/'
+    | '/puja/'
     | '/tools/'
   fileRoutesById: FileRoutesById
 }
@@ -390,7 +438,11 @@ export interface RootRouteChildren {
   BlogsTop5AiAstrologyPlatformInIndiaRoute: typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
   BlogsWhatIsAiAstrologerRoute: typeof BlogsWhatIsAiAstrologerRoute
   BlogsWhatIsLagnaInAstrologyRoute: typeof BlogsWhatIsLagnaInAstrologyRoute
+  PoojaAkhandaRamayanaRoute: typeof PoojaAkhandaRamayanaRoute
+  PujaAkhandaRamayanaRoute: typeof PujaAkhandaRamayanaRoute
   BlogsIndexRoute: typeof BlogsIndexRoute
+  PoojaIndexRoute: typeof PoojaIndexRoute
+  PujaIndexRoute: typeof PujaIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -521,11 +573,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsIndexRouteImport
       parentRoute: typeof ToolsRoute
     }
+    '/puja/': {
+      id: '/puja/'
+      path: '/puja'
+      fullPath: '/puja/'
+      preLoaderRoute: typeof PujaIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pooja/': {
+      id: '/pooja/'
+      path: '/pooja'
+      fullPath: '/pooja/'
+      preLoaderRoute: typeof PoojaIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blogs/': {
       id: '/blogs/'
       path: '/blogs'
       fullPath: '/blogs/'
       preLoaderRoute: typeof BlogsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/puja/akhanda-ramayana': {
+      id: '/puja/akhanda-ramayana'
+      path: '/puja/akhanda-ramayana'
+      fullPath: '/puja/akhanda-ramayana'
+      preLoaderRoute: typeof PujaAkhandaRamayanaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pooja/akhanda-ramayana': {
+      id: '/pooja/akhanda-ramayana'
+      path: '/pooja/akhanda-ramayana'
+      fullPath: '/pooja/akhanda-ramayana'
+      preLoaderRoute: typeof PoojaAkhandaRamayanaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blogs/what-is-lagna-in-astrology': {
@@ -632,7 +712,11 @@ const rootRouteChildren: RootRouteChildren = {
     BlogsTop5AiAstrologyPlatformInIndiaRoute,
   BlogsWhatIsAiAstrologerRoute: BlogsWhatIsAiAstrologerRoute,
   BlogsWhatIsLagnaInAstrologyRoute: BlogsWhatIsLagnaInAstrologyRoute,
+  PoojaAkhandaRamayanaRoute: PoojaAkhandaRamayanaRoute,
+  PujaAkhandaRamayanaRoute: PujaAkhandaRamayanaRoute,
   BlogsIndexRoute: BlogsIndexRoute,
+  PoojaIndexRoute: PoojaIndexRoute,
+  PujaIndexRoute: PujaIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

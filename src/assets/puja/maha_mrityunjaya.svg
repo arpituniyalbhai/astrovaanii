@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg_mrit" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#051923" />
+      <stop offset="50%" stop-color="#003554" />
+      <stop offset="100%" stop-color="#006494" />
+    </linearGradient>
+    <radialGradient id="shiva_blue" cx="50%" cy="45%" r="45%">
+      <stop offset="0%" stop-color="#e0f7fa" />
+      <stop offset="50%" stop-color="#4dd0e1" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#006494" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#bg_mrit)" />
+  <circle cx="300" cy="170" r="140" fill="url(#shiva_blue)" />
+  
+  <!-- Trishul & Crescent Moon -->
+  <g transform="translate(300, 160)">
+    <!-- Trishul Center Line -->
+    <path d="M0,-80 L0,100" stroke="#b2ebf2" stroke-width="6" stroke-linecap="round" />
+    <path d="M0,-100 L0,-75" stroke="#ffffff" stroke-width="4" />
+    <!-- Prongs -->
+    <path d="M-40,-50 C-40,-20 0,-10 0,-10 C0,-10 40,-20 40,-50 L40,-75 L30,-75 L30,-50 C30,-30 0,-20 0,-20 C0,-20 -30,-30 -30,-50 L-30,-75 L-40,-75 Z" fill="#b2ebf2" />
+    
+    <!-- Crescent Moon -->
+    <path d="M-45,-40 A30,30 0 0,0 -20,-75 A25,25 0 0,1 -45,-40 Z" fill="#ffffff" />
+    
+    <!-- Damru -->
+    <path d="M-20,0 L20,20 L20,-20 L-20,20 Z" fill="#ffb300" stroke="#ffe082" stroke-width="2" />
+  </g>
+  
+  <!-- Rudraksha Mala Circle -->
+  <circle cx="300" cy="170" r="115" fill="none" stroke="#795548" stroke-width="6" stroke-dasharray="10,8" opacity="0.8" />
+  
+  <!-- Text -->
+  <text x="300" y="365" text-anchor="middle" fill="#e0f7fa" font-family="Georgia, serif" font-size="20" font-weight="bold" letter-spacing="2">MAHA MRITYUNJAYA JAAP</text>
+</svg>

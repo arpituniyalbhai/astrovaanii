@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg_navgrah" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1b2a" />
+      <stop offset="50%" stop-color="#1b263b" />
+      <stop offset="100%" stop-color="#415a77" />
+    </linearGradient>
+    <radialGradient id="sun_glow" cx="50%" cy="45%" r="40%">
+      <stop offset="0%" stop-color="#fff59d" />
+      <stop offset="40%" stop-color="#ffb300" />
+      <stop offset="100%" stop-color="#d84315" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#bg_navgrah)" />
+  
+  <!-- Sun Center -->
+  <circle cx="300" cy="180" r="150" fill="url(#sun_glow)" opacity="0.4" />
+  <circle cx="300" cy="180" r="45" fill="#ffb300" stroke="#fff8e1" stroke-width="3" />
+  <text x="300" y="186" text-anchor="middle" fill="#3e2723" font-family="sans-serif" font-size="16" font-weight="bold">सूर्य</text>
+  
+  <!-- Orbit Ring -->
+  <circle cx="300" cy="180" r="110" fill="none" stroke="#e0e1dd" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.6" />
+  
+  <!-- 8 Surrounding Planets -->
+  <!-- Moon (Chandra) -->
+  <circle cx="300" cy="70" r="22" fill="#e0e1dd" stroke="#ffffff" stroke-width="2" />
+  <text x="300" y="75" text-anchor="middle" fill="#1b263b" font-family="sans-serif" font-size="11" font-weight="bold">चंद्र</text>
+  
+  <!-- Mars (Mangal) -->
+  <circle cx="380" cy="100" r="20" fill="#e53935" stroke="#ff8a80" stroke-width="2" />
+  <text x="380" y="104" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="10" font-weight="bold">मंगल</text>
+  
+  <!-- Mercury (Budh) -->
+  <circle cx="410" cy="180" r="19" fill="#4caf50" stroke="#a5d6a7" stroke-width="2" />
+  <text x="410" y="184" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="10" font-weight="bold">बुध</text>
+  
+  <!-- Jupiter (Guru) -->
+  <circle cx="380" cy="260" r="24" fill="#fbc02d" stroke="#fff59d" stroke-width="2" />
+  <text x="380" y="265" text-anchor="middle" fill="#3e2723" font-family="sans-serif" font-size="11" font-weight="bold">गुरु</text>
+  
+  <!-- Venus (Shukra) -->
+  <circle cx="300" cy="290" r="21" fill="#eceff1" stroke="#ffffff" stroke-width="2" />
+  <text x="300" y="294" text-anchor="middle" fill="#263238" font-family="sans-serif" font-size="10" font-weight="bold">शुक्र</text>
+  
+  <!-- Saturn (Shani) -->
+  <circle cx="220" cy="260" r="22" fill="#37474f" stroke="#90a4ae" stroke-width="2" />
+  <ellipse cx="220" cy="260" rx="30" ry="8" fill="none" stroke="#b0bec5" stroke-width="2" />
+  <text x="220" y="264" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="10" font-weight="bold">शनि</text>
+  
+  <!-- Rahu -->
+  <circle cx="190" cy="180" r="20" fill="#424242" stroke="#bdbdbd" stroke-width="2" />
+  <text x="190" y="184" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="10" font-weight="bold">राहु</text>
+  
+  <!-- Ketu -->
+  <circle cx="220" cy="100" r="20" fill="#795548" stroke="#d7ccc8" stroke-width="2" />
+  <text x="220" y="104" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="10" font-weight="bold">केतु</text>
+  
+  <!-- Bottom Text -->
+  <text x="300" y="370" text-anchor="middle" fill="#e0e1dd" font-family="Georgia, serif" font-size="22" font-weight="bold" letter-spacing="2">NAVGRAH SHANTI PUJA</text>
+</svg>
