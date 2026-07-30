@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { initializeApp } from "firebase/app";
 import { getFirestore, doc, getDoc, updateDoc, setDoc, increment, runTransaction } from "firebase/firestore";
-import { detectIntent } from "../../lib/topic-detection";
+import { detectTopic } from "../../lib/topic-detection";
 import { generateReasoning } from "../../lib/reasoning-engine";
 
 const firebaseConfig = {
@@ -39,49 +39,22 @@ function extractPreviousContext(messages: { role: string; content: string }[]): 
   return [...new Set(mentioned)].join(",");
 }
 
-const SYSTEM_PROMPT = `You are Vaanii, an experienced Vedic Jyotish astrologer.
+const SYSTEM_PROMPT = `You are Vaanii, a Vedic astrology assistant.
 
-ROLE
-You interpret ONLY the astrology information provided by the backend.
-Never calculate, modify, or invent astrological data.
+FACT RULE
+Planet positions below are FACTS. Never change them. Never infer a different house. Never invent a placement. If Sun is given as House 5, you MUST say House 5.
 
-FACTS
-Planet positions, houses, dashas, yogas and timings are authoritative.
-If information is missing, simply say you don't have enough chart information.
-
-RESPONSE RULES
-
-1. First answer the user's actual question.
-
-2. Then explain ONLY the astrology needed to support that answer.
-
-3. Use at most TWO astrological reasons.
-
-4. Never explain the whole birth chart.
-
-5. Never mention unrelated planets, houses, yogas or dashas.
-
-6. Mention Dasha or Timing ONLY when the user asks about timing or when timing changes the answer.
-
-7. Speak naturally like an experienced astrologer, not a report.
-
-8. Every response should feel newly written.
-
-9. Reply in the same language as the user.
-
-10. If the question has already been fully answered using one or two factors, stop. Do not add more.
-
-AVOID REPETITION
-
-Treat the conversation as cumulative. Never repeat the same chart placements, yogas, dashas, or explanations unless the user asks. Build on previous insights, introduce new observations, and answer the current question directly instead of re-explaining the entire chart.
-
-FORMAT
-
-• 60–100 words
-• One paragraph
-• No bullets
-• No markdown
-• End with one useful insight.`;
+WRITING RULES
+- Every response must feel freshly written. Never use the same sentence structure in consecutive replies. Vary your opening naturally.
+- Answer directly in the first sentence, then explain WHY using the chart, then give one practical action. Never skip the reasoning.
+- End every answer with one practical suggestion the user can act on.
+- Use a confident but grounded tone. Never sound like an astrology textbook. Write like an experienced astrologer speaking naturally to one person.
+- Do not overuse astrology jargon. Keep explanations practical.
+- Use the user's first name naturally at most once per response. Do not start every answer with the name. Never repeat it in consecutive replies.
+- Two to three paragraphs, 100 to 130 words total. No bullet points. No repeated facts. Each paragraph on its own line.
+- If a topic was already discussed in a previous reply, do not repeat the same explanation — build on it with new insight.
+- Never describe physical traits of people.
+- Detect user's language from their last message. Reply in the same language.`;
 
 async function handleStream(request: Request) {
   const data = await request.json() as {
@@ -168,10 +141,10 @@ async function handleStream(request: Request) {
   }
 
   const lastUserMsg = [...messages].reverse().find((m) => m.role === "user");
-  const intent = detectIntent(lastUserMsg?.content || "");
+  const topic = detectTopic(lastUserMsg?.content || "");
   const previousCtx = extractPreviousContext(messages);
   const reasoning = chart
-    ? generateReasoning(chart as Record<string, unknown>, intent.topics, previousCtx)
+    ? generateReasoning(chart as Record<string, unknown>, topic, previousCtx)
     : null;
 
   const systemMessages: { role: string; content: string }[] = [
@@ -179,48 +152,50 @@ async function handleStream(request: Request) {
   ];
 
   if (reasoning) {
-    let topEvidence = reasoning.evidence.slice(0, 2);
-
-    // Merge duplicate factors
-    if (topEvidence.length > 1 && topEvidence[0].factor === topEvidence[1].factor) {
-      topEvidence = [topEvidence[0]];
-    }
-
-    if (topEvidence.length > 0) {
-      const evidenceText = topEvidence.map((e, i) =>
-        `${i === 0 ? "Primary Evidence" : "Supporting Evidence"}\n${e.factor}\nHouse ${e.house}\n\n${e.explanation}`
-      ).join("\n\n");
-      systemMessages.push({
-        role: "system",
-        content: `[Relevant Evidence]\n${evidenceText}`,
-      });
-    }
-
     systemMessages.push({
       role: "system",
-      content: `[Evidence Usage]\nThe evidence above is already ranked by importance. Use the first evidence whenever possible. Only use the second evidence if it materially strengthens the answer. Do not invent additional astrological reasons.`,
+      content: `[Planet Positions]\n${JSON.stringify(reasoning.planetPositions, null, 2)}`,
     });
-
+    if (reasoning.facts.length > 0) {
+      systemMessages.push({
+        role: "system",
+        content: `[Facts]\n${reasoning.facts.join("\n")}`,
+      });
+    }
+    if (reasoning.interpretation.length > 0) {
+      const interpText = reasoning.interpretation.map((i) =>
+        `- ${i.factor} in house ${i.house}: ${i.meaning}. Effect: ${i.effect}. Why: ${i.why}`
+      ).join("\n");
+      systemMessages.push({
+        role: "system",
+        content: `[Interpretation]\n${interpText}`,
+      });
+    }
+    systemMessages.push({
+      role: "system",
+      content: `[Prediction]\nSummary: ${reasoning.prediction.summary}\nWhy:\n${reasoning.prediction.why.map((w) => `- ${w}`).join("\n")}\nAction: ${reasoning.prediction.action}`,
+    });
+    systemMessages.push({
+      role: "system",
+      content: `[Broad Profile]\nStyle: ${reasoning.broadPrediction.style}\nStrengths: ${reasoning.broadPrediction.strengths.join(", ")}\nAvoid: ${reasoning.broadPrediction.avoid.join(", ")}`,
+    });
+    if (reasoning.timing.length > 0) {
+      const t = reasoning.timing[0];
+      systemMessages.push({
+        role: "system",
+        content: `[Timing]\nNext relevant period: ${t.period} (${t.start} to ${t.end})\n${t.note}`,
+      });
+    }
+    if (reasoning.yogas.length > 0) {
+      systemMessages.push({
+        role: "system",
+        content: `[Yogas]\n${reasoning.yogas.map((y) => `${y.name}: ${y.description}`).join("\n")}`,
+      });
+    }
     if (reasoning.memoryNote) {
       systemMessages.push({
         role: "system",
-        content: `[Previous Discussion]\n${reasoning.memoryNote}\nAvoid repeating these unless necessary.`,
-      });
-    }
-
-    const wantsTiming = intent.wantsTiming;
-    if (wantsTiming && reasoning.timing) {
-      const t = reasoning.timing;
-      systemMessages.push({
-        role: "system",
-        content: `[Timing]\n${t.period} (${t.start} to ${t.end})\n${t.note}`,
-      });
-    }
-
-    if (reasoning.yogaInfo) {
-      systemMessages.push({
-        role: "system",
-        content: `[Yogas]\n${reasoning.yogaInfo}`,
+        content: `[Already Discussed]\n${reasoning.memoryNote}\nDo not repeat these unless asked. Build on them.`,
       });
     }
   }
@@ -231,7 +206,7 @@ async function handleStream(request: Request) {
   });
 
   if (userName) {
-    systemMessages.push({ role: "system", content: `User: ${userName}\n\nIMPORTANT: Naturally use the user's name (${userName}) in your response once. Address them by name as a real astrologer would — at a natural point, not forced. Do not start the response with their name.` });
+    systemMessages.push({ role: "system", content: `User: ${userName}` });
   }
   if (userDetails) {
     const lines: string[] = ["Details:"];
@@ -255,8 +230,8 @@ async function handleStream(request: Request) {
       body: JSON.stringify({
         model: MODEL,
         messages: [...systemMessages, ...messages],
-        temperature: 0.55,
-        max_tokens: 220,
+        temperature: 0.7,
+        max_tokens: 280,
         safe_prompt: false,
         stream: true,
       }),

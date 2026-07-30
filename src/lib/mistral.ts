@@ -1,4 +1,4 @@
-import { detectIntent } from "./topic-detection";
+import { detectTopic } from "./topic-detection";
 import { generateReasoning } from "./reasoning-engine";
 
 const API_KEY = process.env.MISTRAL_API_KEY;
@@ -10,48 +10,22 @@ interface ChatMessage {
   content: string;
 }
 
-const SYSTEM_PROMPT = `You are Vaanii, an experienced Vedic Jyotish astrologer.
+const SYSTEM_PROMPT = `You are Vaanii, a Vedic astrology assistant.
 
-ROLE
-You interpret ONLY the astrology information provided by the backend.
-Never calculate, modify, or invent astrological data.
+FACT RULE
+Planet positions below are FACTS. Never change them. Never infer a different house. Never invent a placement. If Sun is given as House 5, you MUST say House 5.
 
-FACTS
-Planet positions, houses, dashas, yogas and timings are authoritative.
-If information is missing, simply say you don't have enough chart information.
-
-RESPONSE RULES
-
-1. First answer the user's actual question.
-
-2. Then explain ONLY the astrology needed to support that answer.
-
-3. Use at most TWO astrological reasons.
-
-4. Never explain the whole birth chart.
-
-5. Never mention unrelated planets, houses, yogas or dashas.
-
-6. Mention Dasha or Timing ONLY when the user asks about timing or when timing changes the answer.
-
-7. Speak naturally like an experienced astrologer, not a report.
-
-8. Every response should feel newly written.
-
-9. Reply in the same language as the user.
-
-10. If the question has already been fully answered using one or two factors, stop. Do not add more.
-
-AVOID REPETITION
-
-Treat the conversation as cumulative. Never repeat the same chart placements, yogas, dashas, or explanations unless the user asks. Build on previous insights, introduce new observations, and answer the current question directly instead of re-explaining the entire chart.
-
-FORMAT
-• 60–100 words
-• One paragraph
-• No bullets
-• No markdown
-• End with one useful insight.`;
+WRITING RULES
+- Every response must feel freshly written. Never use the same sentence structure in consecutive replies. Vary your opening naturally.
+- Answer directly in the first sentence, then explain WHY using the chart, then give one practical action. Never skip the reasoning.
+- End every answer with one practical suggestion the user can act on.
+- Use a confident but grounded tone. Never sound like an astrology textbook. Write like an experienced astrologer speaking naturally to one person.
+- Do not overuse astrology jargon. Keep explanations practical.
+- Use the user's first name naturally at most once per response. Do not start every answer with the name. Never repeat it in consecutive replies.
+- One paragraph, max 90 words. No bullet points. No repeated facts.
+- If a topic was already discussed in a previous reply, do not repeat the same explanation — build on it with new insight.
+- Never describe physical traits of people.
+- Detect user's language from their last message. Reply in the same language.`;
 
 export async function askMistral(
   messages: ChatMessage[],
@@ -60,8 +34,8 @@ export async function askMistral(
   userDetails?: Record<string, unknown>,
 ): Promise<string> {
   const lastUserMsg = [...messages].reverse().find((m) => m.role === "user");
-  const intent = detectIntent(lastUserMsg?.content || "");
-  const reasoning = chartData ? generateReasoning(chartData, intent.topics) : null;
+  const topic = detectTopic(lastUserMsg?.content || "");
+  const reasoning = chartData ? generateReasoning(chartData, topic) : null;
 
   const systemMessages: ChatMessage[] = [
     { role: "system", content: SYSTEM_PROMPT },
@@ -69,44 +43,24 @@ export async function askMistral(
   ];
 
   if (reasoning) {
-    const topEvidence = reasoning.evidence.slice(0, 2);
-    if (topEvidence.length > 0) {
-      const evidenceText = topEvidence.map((e, i) =>
-        `${i === 0 ? "Primary Evidence" : "Supporting Evidence"}\n${e.factor}\nHouse ${e.house}\n\n${e.explanation}`
-      ).join("\n\n");
-      systemMessages.push({
-        role: "system",
-        content: `[Relevant Evidence]\n${evidenceText}`,
-      });
-    }
-
     systemMessages.push({
       role: "system",
-      content: `[Evidence Usage]\nThe evidence above is already ranked by importance. Use the first evidence whenever possible. Only use the second evidence if it materially strengthens the answer. Do not invent additional astrological reasons.`,
+      content: `[Planet Positions]\n${JSON.stringify(reasoning.planetPositions, null, 2)}`,
     });
-
-    if (reasoning.memoryNote) {
-      systemMessages.push({
-        role: "system",
-        content: `[Previous Discussion]\n${reasoning.memoryNote}\nAvoid repeating these unless necessary.`,
-      });
+    systemMessages.push({
+      role: "system",
+      content: `[Facts]\n${reasoning.facts.join("\n")}`,
+    });
+    if (reasoning.interpretation.length > 0) {
+      const interpText = reasoning.interpretation.map((i) =>
+        `- ${i.factor} in house ${i.house}: ${i.meaning}. Effect: ${i.effect}. Why: ${i.why}`
+      ).join("\n");
+      systemMessages.push({ role: "system", content: `[Interpretation]\n${interpText}` });
     }
-
-    const wantsTiming = intent.wantsTiming;
-    if (wantsTiming && reasoning.timing) {
-      const t = reasoning.timing;
-      systemMessages.push({
-        role: "system",
-        content: `[Timing]\n${t.period} (${t.start} to ${t.end})\n${t.note}`,
-      });
-    }
-
-    if (reasoning.yogaInfo) {
-      systemMessages.push({
-        role: "system",
-        content: `[Yogas]\n${reasoning.yogaInfo}`,
-      });
-    }
+    systemMessages.push({
+      role: "system",
+      content: `[Prediction]\nSummary: ${reasoning.prediction.summary}\nWhy:\n${reasoning.prediction.why.map((w) => `- ${w}`).join("\n")}\nAction: ${reasoning.prediction.action}`,
+    });
   }
 
   if (userName) {
@@ -129,8 +83,8 @@ export async function askMistral(
     body: JSON.stringify({
       model: MODEL,
       messages: [...systemMessages, ...messages],
-      temperature: 0.55,
-      max_tokens: 220,
+      temperature: 0.7,
+      max_tokens: 150,
     }),
     signal: controller.signal,
   });
