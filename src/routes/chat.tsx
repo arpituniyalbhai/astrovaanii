@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useLayoutEffect } from "react";
 import { z } from "zod";
 import { auth, onUserDoc } from "@/lib/firebase";
 import vaaniiPersona from "@/assets/vaanii-persona.jpg";
@@ -142,23 +142,25 @@ function ChatPage() {
     if (local.name) setUserName(local.name);
   }, []);
 
-  const scrollActiveMessageToTop = (behavior: ScrollBehavior = "smooth") => {
-    const container = messagesContainerRef.current;
+  const scrollActiveMessageToTop = (behavior: ScrollBehavior = "auto") => {
     const message = activeMessageRef.current;
-    if (!container || !message) return;
+    if (!message) return;
 
-    const containerTop = container.getBoundingClientRect().top;
-    const messageTop = message.getBoundingClientRect().top;
-    container.scrollTo({
-      top: Math.max(0, container.scrollTop + messageTop - containerTop - 12),
-      behavior,
-    });
+    // Native scrolling finds the actual overflow parent on desktop and mobile.
+    message.scrollIntoView({ block: "start", inline: "nearest", behavior });
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!activeMessageId) return;
+    scrollActiveMessageToTop();
+
+    // A second pass accounts for the typing row and mobile viewport settling.
     const frame = requestAnimationFrame(() => scrollActiveMessageToTop());
-    return () => cancelAnimationFrame(frame);
+    const timeout = window.setTimeout(() => scrollActiveMessageToTop(), 80);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.clearTimeout(timeout);
+    };
   }, [activeMessageId, messages.length]);
 
   // Scroll to bottom when keyboard opens
@@ -708,7 +710,7 @@ function ChatPage() {
                   <div
                     key={message.id}
                     ref={message.id === activeMessageId ? activeMessageRef : undefined}
-                    className="flex flex-col"
+                    className="flex scroll-mt-3 flex-col"
                   >
                     <div className={`flex gap-3 ${message.type === "user" ? "items-end justify-end" : "items-start justify-start"}`}>
                       {message.type === "bot" && (
