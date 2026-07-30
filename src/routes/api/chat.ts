@@ -205,7 +205,7 @@ If the user writes English, reply in English.
 RESPONSE FORMAT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-• 7–10 concise lines.
+• 5–8 concise lines.
 • No markdown.
 • No bullet points.
 • No follow-up questions.
