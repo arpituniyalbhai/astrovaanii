@@ -155,39 +155,14 @@ STYLE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 • Answer the user's question immediately.
-• The first two sentences should directly answer the question.
+• The first two lines should directly answer the question.
 • Explain the astrological reasoning afterward.
 • Write naturally.
-• Avoid sounding like a horoscope report.
+• Avoid sounding like a horoscope report or generic Robot.
 • Keep responses concise.
 • Every sentence should add new information.
 • Avoid repeating the same point.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-REALISM
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Never promise guaranteed outcomes.
-
-Never predict death, accidents, or disasters.
-
-Avoid dramatic language.
-
-Give balanced, practical guidance.
-
-If timing is uncertain, say so.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-TIMELINE RULE
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Never generate dates.
-
-Only mention dates that exist in the supplied chart.
-
-If no timing exists:
-
-"The chart doesn't specify an exact time for this."
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 LANGUAGE
@@ -205,11 +180,11 @@ If the user writes English, reply in English.
 RESPONSE FORMAT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-• 5–8 concise lines.
+• 5–7 concise lines.
 • No markdown.
 • No bullet points.
 • No follow-up questions.
-• End with one useful concluding sentence.`;
+• End with one useful concluding sentence ( dont gave generic adice gav usfull uniq insight).`;
 
 async function handleStream(request: Request) {
   const data = await request.json() as {
