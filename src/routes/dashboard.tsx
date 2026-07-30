@@ -4,6 +4,7 @@ import { auth, onUserDoc, getUserDoc } from "@/lib/firebase";
 import { getChart } from "@/lib/chart-server";
 import vaaniiPersona from "@/assets/vaanii-persona.jpg";
 import brandIcon from "@/assets/astrovaanii-logo.webp";
+import { FreeTools, FreeToolsNavButton } from "@/components/free-Tools";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -195,6 +196,13 @@ function DashboardPage() {
               </svg>
               My Chart
             </button>
+            <FreeToolsNavButton
+              active={activeTab === "free-tools"}
+              onClick={() => {
+                setActiveTab("free-tools");
+                setIsSidebarOpen(false);
+              }}
+            />
             <button
               onClick={() => {
                 setActiveTab("more");
@@ -294,6 +302,10 @@ function DashboardPage() {
               </svg>
               My Chart
             </button>
+            <FreeToolsNavButton
+              active={activeTab === "free-tools"}
+              onClick={() => setActiveTab("free-tools")}
+            />
             <button
               onClick={() => setActiveTab("more")}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
@@ -446,7 +458,11 @@ function DashboardPage() {
               <span className="font-display text-base">Astro<span className="text-primary">Vaanii</span></span>
             </div>
             <h1 className="hidden md:block font-display text-xl text-foreground">
-              {activeTab === "chat" ? "Chat with Vaanii" : "More Options"}
+              {activeTab === "chat"
+                ? "Chat with Vaanii"
+                : activeTab === "free-tools"
+                  ? "Free Tools"
+                  : "More Options"}
             </h1>
             <button
               onClick={() => navigate({ to: "/" })}
@@ -516,6 +532,8 @@ function DashboardPage() {
                 </div>
               </div>
             )}
+
+            {activeTab === "free-tools" && <FreeTools />}
 
             {activeTab === "more" && (
               <div className="w-full max-w-md">

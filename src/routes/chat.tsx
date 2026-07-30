@@ -48,8 +48,8 @@ function ChatPage() {
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const activeMessageRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const isSendingRef = useRef(false);
   const isFirstAnswerRef = useRef(true);
@@ -68,6 +68,7 @@ function ChatPage() {
   ];
   const [thinkingMessage, setThinkingMessage] = useState(thinkingMessages[0]);
   const [followUpSuggestions, setFollowUpSuggestions] = useState<Record<string, string[]>>({});
+  const [activeMessageId, setActiveMessageId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isTyping) { setThinkingMessage(thinkingMessages[0]); return; }
@@ -141,29 +142,37 @@ function ChatPage() {
     if (local.name) setUserName(local.name);
   }, []);
 
-  const scrollToBottom = () => {
-    if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
-    }
-    messagesEndRef.current?.scrollIntoView({ block: 'end', behavior: 'instant' });
+  const scrollActiveMessageToTop = (behavior: ScrollBehavior = "smooth") => {
+    const container = messagesContainerRef.current;
+    const message = activeMessageRef.current;
+    if (!container || !message) return;
+
+    const containerTop = container.getBoundingClientRect().top;
+    const messageTop = message.getBoundingClientRect().top;
+    container.scrollTo({
+      top: Math.max(0, container.scrollTop + messageTop - containerTop - 12),
+      behavior,
+    });
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages, isTyping]);
+    if (!activeMessageId) return;
+    const frame = requestAnimationFrame(() => scrollActiveMessageToTop());
+    return () => cancelAnimationFrame(frame);
+  }, [activeMessageId, messages.length]);
 
   // Scroll to bottom when keyboard opens
   useEffect(() => {
     let initialHeight = window.innerHeight;
     
     const handleInputFocus = () => {
-      // Immediate scroll
-      scrollToBottom();
+      // Keep the newest question visible above the mobile keyboard.
+      scrollActiveMessageToTop("auto");
       
       // Then keep trying as keyboard animates
       let count = 0;
       const interval = setInterval(() => {
-        scrollToBottom();
+        scrollActiveMessageToTop("auto");
         count++;
         if (count > 10) clearInterval(interval);
       }, 100);
@@ -175,7 +184,7 @@ function ChatPage() {
       const currentHeight = window.innerHeight;
       // If height decreased significantly, keyboard opened
       if (currentHeight < initialHeight * 0.85) {
-        scrollToBottom();
+        scrollActiveMessageToTop("auto");
       }
       initialHeight = currentHeight;
     };
@@ -351,6 +360,7 @@ function ChatPage() {
     };
     const convId = Date.now().toString();
     setActiveConversationId(convId);
+    setActiveMessageId(userMessage.id);
     setMessages([userMessage]);
 
     setMinLoading(true);
@@ -416,6 +426,7 @@ function ChatPage() {
       content: inputValue,
       timestamp: new Date(),
     };
+    setActiveMessageId(userMessage.id);
     setMessages((prev) => [...prev, userMessage]);
     
     currentQuestionRef.current = inputValue;
@@ -694,7 +705,11 @@ function ChatPage() {
                 style={{ WebkitOverflowScrolling: 'touch' }}
               >
                 {messages.map((message) => (
-                  <div key={message.id} className="flex flex-col">
+                  <div
+                    key={message.id}
+                    ref={message.id === activeMessageId ? activeMessageRef : undefined}
+                    className="flex flex-col"
+                  >
                     <div className={`flex gap-3 ${message.type === "user" ? "items-end justify-end" : "items-start justify-start"}`}>
                       {message.type === "bot" && (
                         <img
@@ -767,14 +782,11 @@ function ChatPage() {
                     </div>
                   </div>
                 )}
-
-                <div ref={messagesEndRef} />
               </div>
 
               {/* Input area */}
               <div
-                className="flex-shrink-0 px-4 py-4 border-t border-border/60"
-                style={{ paddingBottom: 'env(safe-area-inset-bottom, 16px)' }}
+                className="flex-shrink-0 border-t border-border/60 px-4 pt-4 pb-[calc(env(safe-area-inset-bottom)+1.25rem)] md:mx-4 md:mb-4 md:rounded-2xl md:border md:border-border/60 md:bg-background/55 md:px-5 md:pb-4"
               >
                 {questionsRemaining <= 0 ? (
                   <div className="rounded-2xl border border-border bg-background/80 p-5 text-center">
@@ -865,4 +877,3 @@ function formatAssistantContent(content: string): string[] {
   }
   return chunks;
 }
-
