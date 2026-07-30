@@ -1,4 +1,4 @@
-import type { Topic } from "./topic-detection";
+import type { WeightedTopic } from "./topic-detection";
 import { detectYogas } from "./yoga-detector";
 
 interface ChartMap {
@@ -19,19 +19,11 @@ interface ChartMap {
   [key: string]: unknown;
 }
 
-interface PlanetPosition {
-  house: number;
-  sign: string;
-  nakshatra?: string;
-  retrograde?: boolean;
-}
-
-interface InterpretationItem {
+interface EvidenceItem {
   factor: string;
   house: number;
-  meaning: string;
-  effect: string;
-  why: string;
+  relevance: number;
+  explanation: string;
 }
 
 interface TimingItem {
@@ -41,24 +33,13 @@ interface TimingItem {
   note: string;
 }
 
-interface YogaItem {
-  name: string;
-  type: string;
-  description: string;
-}
-
 interface ReasoningOutput {
-  topic: Topic;
+  topic: string;
   topicLabel: string;
-  planetPositions: Record<string, PlanetPosition>;
-  facts: string[];
-  interpretation: InterpretationItem[];
-  prediction: { summary: string; why: string[]; action: string };
-  broadPrediction: { style: string; strengths: string[]; avoid: string[] };
-  timing: TimingItem[];
-  yogas: YogaItem[];
+  evidence: EvidenceItem[];
+  timing: TimingItem | null;
+  yogaInfo: string | null;
   memoryNote: string;
-  scratchpad: string;
 }
 
 const ALL_PLANETS = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"];
@@ -93,191 +74,78 @@ const TOPIC_LABELS: Record<string, string> = {
   general: "General Life",
 };
 
-function formatHouse(h: number): string {
-  return h === 1 ? "1st" : h === 2 ? "2nd" : h === 3 ? "3rd" : `${h}th`;
-}
-
-const MEANINGS: Record<string, Record<string, string>> = {
-  Venus: { meaning: "Love, beauty, relationships", effect: "Attracts harmony and connection" },
-  Jupiter: { meaning: "Wisdom, expansion, fortune", effect: "Brings growth and opportunity" },
-  Saturn: { meaning: "Discipline, structure, patience", effect: "Delays but strengthens long-term" },
-  Sun: { meaning: "Identity, authority, confidence", effect: "Builds leadership and recognition" },
-  Moon: { meaning: "Emotions, mind, intuition", effect: "Shapes emotional responses" },
-  Mercury: { meaning: "Communication, intellect, business", effect: "Enhances thinking and expression" },
-  Mars: { meaning: "Energy, ambition, action", effect: "Drives initiative and competition" },
-  Rahu: { meaning: "Obsession, foreign, innovation", effect: "Pushes toward unconventional paths" },
-  Ketu: { meaning: "Detachment, spirituality, past", effect: "Creates introspection and release" },
+const EXPLANATIONS: Record<string, Record<string, string>> = {
+  Venus: { marriage: "Supports love and relationship harmony", career: "Supports creative fields and partnerships", money: "Supports financial growth through luxury and arts", education: "Supports learning through creative subjects", health: "Supports hormonal and reproductive health", travel: "Supports pleasure travel", general: "Supports harmony and connection" },
+  Jupiter: { marriage: "Supports a wise and fortunate partnership", career: "Supports growth in teaching, law, or finance", money: "Supports wealth through ethical means", education: "Supports higher learning and wisdom", health: "Supports overall vitality and healing", travel: "Supports pilgrimage and long journeys", general: "Supports expansion and good fortune" },
+  Saturn: { marriage: "Delays but strengthens marriage commitment", career: "Supports disciplined career growth", money: "Supports slow but steady wealth building", education: "Supports structured learning", health: "May create chronic conditions that build resilience", travel: "Supports career-related travel", general: "Builds long-term discipline" },
+  Sun: { marriage: "Supports confidence in relationships", career: "Supports leadership and authority", money: "Supports financial independence", education: "Supports focus and recognition", health: "Supports vitality and bone health", travel: "Supports travel for recognition", general: "Supports confidence and identity" },
+  Moon: { marriage: "Shapes emotional needs in relationships", career: "Supports careers involving people or emotions", money: "Supports income through fluctuating sources", education: "Supports memory and intuitive learning", health: "Supports mental and emotional wellness", travel: "Supports emotionally meaningful travel", general: "Shapes emotional patterns" },
+  Mercury: { marriage: "Supports communication in relationships", career: "Supports business, writing, and analytical roles", money: "Supports income through communication", education: "Supports intellect and quick learning", health: "Supports nervous system health", travel: "Supports short trips and business travel", general: "Enhances thinking and expression" },
+  Mars: { marriage: "Brings passion but may need patience", career: "Supports competitive and leadership roles", money: "Supports aggressive wealth building", education: "Supports competitive exam success", health: "Supports energy and physical strength", travel: "Supports adventurous travel", general: "Drives initiative and ambition" },
+  Rahu: { marriage: "Creates unconventional relationship patterns", career: "Supports innovation and foreign careers", money: "Supports unusual or foreign income sources", education: "Supports research and technical fields", health: "May create stress-related issues", travel: "Strongly supports foreign travel", general: "Pushes toward unconventional paths" },
+  Ketu: { marriage: "Creates need for spiritual compatibility", career: "Supports research and spiritual careers", money: "Creates detachment from material wealth", education: "Supports deep philosophical study", health: "Supports spiritual healing", travel: "Supports spiritual travel", general: "Creates introspection and release" },
 };
 
-function generateInterpretation(
-  topic: string,
-  pmap: Record<string, number>,
-  houseLords: Record<string, string>,
-): InterpretationItem[] {
-  const items: InterpretationItem[] = [];
+function computeRelevance(planet: string, topic: string, house: number): number {
   const topicPlanets = TOPIC_PLANETS[topic] || TOPIC_PLANETS.general;
   const topicHouses = TOPIC_HOUSES[topic] || TOPIC_HOUSES.general;
 
-  for (const p of topicPlanets) {
-    const house = pmap[p];
-    if (!house) continue;
-    const meaning = MEANINGS[p]?.meaning || "";
-    const effect = MEANINGS[p]?.effect || "";
-    const why = `${p} occupies house ${house} in your chart, which is ${topicHouses.includes(house) ? "directly connected to " + topic : house <= 1 ? "the " + formatHouse(house) + " house" : ""}. ${p} naturally represents ${meaning.toLowerCase()}.`;
+  let score = 0;
+  if (topicPlanets.includes(planet)) score += 0.4;
+  if (topicHouses.includes(house)) score += 0.4;
 
-    items.push({
-      factor: p,
-      house,
-      meaning,
-      effect,
-      why: why.trim(),
-    });
-  }
+  const strongHouses = [1, 5, 7, 9, 10];
+  if (strongHouses.includes(house)) score += 0.15;
 
-  for (const h of topicHouses) {
-    const lord = houseLords[String(h)] || "";
-    if (lord && !items.some((i) => i.factor === lord)) {
-      items.push({
-        factor: `${formatHouse(h)} house lord (${lord})`,
-        house: pmap[lord] || h,
-        meaning: `Governs the ${formatHouse(h)} house area of life`,
-        effect: lord,
-        why: `The lord of the ${formatHouse(h)} house, ${lord}, is placed in house ${pmap[lord] || h}, which influences how ${topic} unfolds in your life.`,
-      });
-    }
-  }
+  const weakHouses = [6, 8, 12];
+  if (weakHouses.includes(house)) score -= 0.1;
 
-  return items;
+  return Math.min(1, Math.max(0.1, score));
 }
 
-function generatePrediction(
-  topic: string,
-  pmap: Record<string, number>,
+export function generateReasoning(
   chart: ChartMap,
-  md: { planet?: string; start?: string; end?: string } | undefined,
-  interpretation: InterpretationItem[],
-): { summary: string; why: string[]; action: string } {
-  const topicPlanets = TOPIC_PLANETS[topic] || TOPIC_PLANETS.general;
-  const strongFactors = interpretation.filter((i) => topicPlanets.includes(i.factor) && (i.house === 7 || i.house === 10 || i.house === 1 || i.house === 5 || i.house === 11 || i.house === 2));
-  const challenging = interpretation.filter((i) => [6, 8, 12].includes(i.house));
-
-  let summary = "";
-  const why: string[] = [];
-  let action = "";
-
-  if (topic === "marriage") {
-    const venus = pmap["Venus"];
-    const saturn = pmap["Saturn"];
-    if (saturn === 7 || saturn === 1) {
-      summary = "Marriage may come after a period of patience and personal growth. The chart supports a meaningful partnership rather than an early one.";
-      why.push("Saturn in a relationship-connected house suggests maturity is needed before marriage.");
-      action = "Focus on personal stability and emotional readiness rather than rushing into commitment.";
-    } else if (venus && (venus === 7 || venus === 5)) {
-      summary = "Relationships and romance are naturally supported. The chart indicates strong potential for a loving partnership.";
-      why.push("Venus in a favorable house strengthens relationship prospects.");
-      action = "Stay open to connections through social and creative spaces where you naturally shine.";
-    } else {
-      summary = "Relationships are a gradual building process in your chart. Steady emotional connection is more likely than instant romance.";
-      action = "Invest in understanding your own emotional patterns before seeking a partner.";
-    }
-  } else if (topic === "career") {
-    const saturn = pmap["Saturn"];
-    const sun = pmap["Sun"];
-    const tenthLord = chart.houseLords?.["10"] || "";
-    const tenthLordHouse = pmap[tenthLord];
-
-    if (saturn === 10 || saturn === 6) {
-      summary = "Career grows through discipline and consistent effort. Your chart favors steady advancement over quick success.";
-      why.push("Saturn in a career-oriented house rewards long-term commitment.");
-      action = "Pick one skill to master deeply over the next few years rather than chasing multiple opportunities.";
-    } else if (tenthLordHouse && [1, 5, 9, 10].includes(tenthLordHouse)) {
-      summary = "Professional success comes naturally when you follow your core strengths. Leadership roles suit you.";
-      why.push(`The 10th house lord (${tenthLord}) is strongly placed, supporting career authority.`);
-      action = "Identify what you do better than most and build a career around that specific strength.";
-    } else {
-      summary = "Your career path benefits from adaptability and learning. Multiple streams of work may suit you better than one fixed role.";
-      action = "Focus on building transferable skills rather than tying yourself to a single job title.";
-    }
-  } else if (topic === "money") {
-    const jupiter = pmap["Jupiter"];
-    const secondLord = chart.houseLords?.["2"] || "";
-    const secondLordHouse = pmap[secondLord];
-
-    if (jupiter && [2, 11].includes(jupiter)) {
-      summary = "Financial growth is naturally supported. Wealth builds steadily through ethical means and wise decisions.";
-      why.push("Jupiter in a wealth-related house favors financial expansion.");
-      action = "Create a long-term savings and investment plan rather than seeking quick returns.";
-    } else {
-      summary = "Financial stability comes through discipline and consistent effort rather than windfalls.";
-      action = "Track your expenses for one month and identify one area where you can consistently save.";
-    }
-  } else {
-    summary = strongFactors.length > 0
-      ? `Your chart shows supportive patterns in ${topic}-related areas.`
-      : `Your ${topic} journey has both supportive and challenging periods.`;
-    action = "Focus on what you can control today and trust the natural timing of your chart.";
-  }
-
-  if (strongFactors.length > 0) {
-    why.push(`${strongFactors[0].factor} in a strong position supports positive outcomes.`);
-  }
-  if (challenging.length > 0) {
-    why.push(`${challenging[0].factor} may create some initial friction, but this builds resilience.`);
-  }
-
-  return { summary, why: why.slice(0, 3), action };
-}
-
-function generateBroadPrediction(
-  topic: string,
-  pmap: Record<string, number>,
-): { style: string; strengths: string[]; avoid: string[] } {
-  if (topic === "career") {
-    const sun = pmap["Sun"];
-    const merc = pmap["Mercury"];
-    const sat = pmap["Saturn"];
-    const styleParts: string[] = [];
-    if (merc && [3, 6, 10].includes(merc)) styleParts.push("Communication");
-    if (sun && [5, 10, 1].includes(sun)) styleParts.push("Leadership");
-    if (sat && [6, 10].includes(sat)) styleParts.push("Technology or Engineering");
-    const style = styleParts.length > 0 ? styleParts.join(", ") + "-oriented career" : "Service or skill-based career";
-    return {
-      style,
-      strengths: ["long-term planning", "persistence", "analytical thinking"].slice(0, 3),
-      avoid: ["high-risk speculation", "frequent job changes without planning"].slice(0, 2),
-    };
-  }
-  if (topic === "marriage") {
-    const ven = pmap["Venus"];
-    const jup = pmap["Jupiter"];
-    const style = ven && [5, 7].includes(ven) ? "Warm and emotionally connected relationship" : "Gradual and mature partnership";
-    return {
-      style,
-      strengths: ["emotional depth", "loyalty", "understanding"],
-      avoid: ["rushing into commitment", "ignoring red flags"],
-    };
-  }
-  if (topic === "money") {
-    return {
-      style: "Steady wealth building through consistent effort",
-      strengths: ["discipline", "patience", "practical thinking"],
-      avoid: ["high-risk speculation", "impulse spending"],
-    };
-  }
-  return {
-    style: "Balanced and thoughtful approach",
-    strengths: ["self-awareness", "adaptability", "resilience"],
-    avoid: ["overthinking decisions", "ignoring intuition"],
-  };
-}
-
-function generateTiming(topic: string, chart: ChartMap): TimingItem[] {
-  const timeline = chart.fullAntardashaTimeline || [];
+  topics: WeightedTopic[],
+  previousContext?: string,
+): ReasoningOutput {
+  const primaryTopic = topics[0]?.topic || "general";
+  const topicLabel = TOPIC_LABELS[primaryTopic] || TOPIC_LABELS.general;
   const pmap = chart.planetHouseMap || {};
-  const topicPlanets = TOPIC_PLANETS[topic] || TOPIC_PLANETS.general;
-  const topicHouses = TOPIC_HOUSES[topic] || TOPIC_HOUSES.general;
+  const planets = chart.planets || {};
+
+  const evidenceMap = new Map<string, EvidenceItem>();
+
+  for (const wt of topics) {
+    const topicPlanets = TOPIC_PLANETS[wt.topic] || TOPIC_PLANETS.general;
+
+    for (const p of topicPlanets) {
+      const pd = planets[p];
+      const house = pmap[p];
+      if (!house && !pd) continue;
+      const h = house ?? pd?.house ?? 0;
+      if (h === 0) continue;
+
+      const explanation = EXPLANATIONS[p]?.[wt.topic] || EXPLANATIONS[p]?.general || `${p} influences this area`;
+      const relevance = computeRelevance(p, wt.topic, h) * wt.weight;
+
+      const existing = evidenceMap.get(p);
+      if (existing) {
+        if (relevance > existing.relevance) {
+          evidenceMap.set(p, { factor: p, house: h, relevance, explanation });
+        }
+      } else {
+        evidenceMap.set(p, { factor: p, house: h, relevance, explanation });
+      }
+    }
+  }
+
+  const evidence = Array.from(evidenceMap.values())
+    .sort((a, b) => b.relevance - a.relevance);
+
+  const topicPlanets = TOPIC_PLANETS[primaryTopic] || TOPIC_PLANETS.general;
+  const timeline = chart.fullAntardashaTimeline || [];
   const now = new Date();
-  const results: TimingItem[] = [];
+  let timing: TimingItem | null = null;
 
   for (const ad of timeline) {
     if (!ad.start || !ad.end) continue;
@@ -288,117 +156,40 @@ function generateTiming(topic: string, chart: ChartMap): TimingItem[] {
     if (topicPlanets.includes(ad.planet || "")) score += 3;
     if (topicPlanets.includes(ad.mahadasha || "")) score += 1;
     const house = pmap[ad.planet || ""];
-    if (house && topicHouses.includes(house)) score += 2;
+    if (house && (TOPIC_HOUSES[primaryTopic] || TOPIC_HOUSES.general).includes(house)) score += 2;
 
     if (score >= 2) {
-      results.push({
+      timing = {
         period: `${ad.mahadasha} MD — ${ad.planet} AD`,
         start: ad.start,
         end: ad.end,
-        note: score >= 4 ? "This period strongly activates this area of your chart." : "A moderately supportive period for this topic.",
-      });
-      if (results.length >= 2) break;
+        note: score >= 4 ? "This period strongly activates this area." : "A moderately supportive period.",
+      };
+      break;
     }
   }
 
-  return results;
-}
-
-export function generateReasoning(
-  chart: ChartMap,
-  topic: Topic,
-  previousContext?: string,
-): ReasoningOutput {
-  const topicLabel = TOPIC_LABELS[topic] || TOPIC_LABELS.general;
-  const topicPlanets = TOPIC_PLANETS[topic] || TOPIC_PLANETS.general;
-  const pmap = chart.planetHouseMap || {};
-  const planets = chart.planets || {};
-  const houseLords = chart.houseLords || {};
-
-  const planetPositions: Record<string, PlanetPosition> = {};
-  const facts: string[] = [];
-
-  for (const p of topicPlanets) {
-    const pd = planets[p];
-    const house = pmap[p];
-    if (!house && !pd) continue;
-    const pos: PlanetPosition = {
-      house: house ?? pd?.house ?? 0,
-      sign: pd?.signName || "",
-    };
-    if (pd?.nakshatraName) pos.nakshatra = pd.nakshatraName;
-    if (pd?.retrograde) pos.retrograde = true;
-    planetPositions[p] = pos;
-    facts.push(`${p} is in House ${pos.house}${pos.sign ? ` in ${pos.sign}` : ""}${pos.retrograde ? " (retrograde)" : ""}.`);
-  }
-
-  if (chart.ascendantSignName) {
-    facts.push(`Ascendant is in ${chart.ascendantSignName}.`);
-  }
-
-  const md = chart.mahadasha;
-  if (md?.planet) {
-    facts.push(`Current Mahadasha: ${md.planet}${md.start ? ` (${md.start} to ${md.end})` : ""}.`);
-  }
-  const ad = chart.antardasha;
-  if (ad?.planet) {
-    facts.push(`Current Antardasha: ${ad.planet}${ad.start ? ` (${ad.start} to ${ad.end})` : ""}.`);
-  }
-
-  const interpretation = generateInterpretation(topic, pmap, houseLords);
-  const prediction = generatePrediction(topic, pmap, chart, md, interpretation);
-  const broadPrediction = generateBroadPrediction(topic, pmap);
-  const timing = generateTiming(topic, chart);
-
   const detectedYogas = detectYogas(chart);
-  const relevantYogas = detectedYogas.filter((y) =>
-    y.planets.some((yp) => topicPlanets.includes(yp)) || y.type === "challenge",
-  ).slice(0, 3).map((y) => ({
-    name: y.name,
-    type: y.type,
-    description: y.description,
-  }));
+  const relevantYogas = detectedYogas
+    .filter((y) => y.planets.some((yp) => topicPlanets.includes(yp)))
+    .slice(0, 2);
+
+  let yogaInfo: string | null = null;
+  if (relevantYogas.length > 0) {
+    yogaInfo = relevantYogas.map((y) => `${y.name}: ${y.description}`).join("\n");
+  }
 
   const already = previousContext ? previousContext.split(",").map((s) => s.trim()).filter(Boolean) : [];
-  const memoryItems = [
-    ...facts.slice(0, 2).map((f) => f.split(" is")[0] || f.split(".")[0]),
-    ...timing.slice(0, 1).map((t) => t.period),
-  ].filter(Boolean);
+  const memoryItems = evidence.slice(0, 2).map((e) => e.factor);
+  if (timing) memoryItems.push(timing.period);
   const allDiscussed = [...new Set([...already, ...memoryItems])];
 
-  const scratchpad = [
-    `Topic: ${topicLabel}`,
-    ``,
-    `Prediction: ${prediction.summary}`,
-    ``,
-    `Why:`,
-    ...prediction.why.slice(0, 2).map((w) => `- ${w}`),
-    ``,
-    `Action: ${prediction.action}`,
-    ``,
-    `Style: ${broadPrediction.style}`,
-    `Strengths: ${broadPrediction.strengths.join(", ")}`,
-    `Avoid: ${broadPrediction.avoid.join(", ")}`,
-    ``,
-    relevantYogas.length ? `Yogas: ${relevantYogas.map((y) => y.name).join(", ")}` : "",
-    timing.length ? `Timing: ${timing[0].period} (${timing[0].start} to ${timing[0].end})` : "",
-    ``,
-    allDiscussed.length ? `Already discussed: ${allDiscussed.join(", ")}. Build on it.` : "",
-    ``,
-    `Response: Answer → Why → Practical action. One paragraph. Max 90 words. Same language as user. Make it feel unique, not templated.`,
-  ].join("\n");
-
   return {
-    topic,
+    topic: primaryTopic,
     topicLabel,
-    planetPositions,
-    facts,
-    interpretation,
-    prediction,
-    broadPrediction,
+    evidence,
     timing,
-    yogas: relevantYogas,
+    yogaInfo,
     memoryNote: allDiscussed.join(", "),
-    scratchpad,
   };
 }

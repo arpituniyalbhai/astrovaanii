@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { initializeApp } from "firebase/app";
 import { getFirestore, doc, getDoc, updateDoc, setDoc, increment, runTransaction } from "firebase/firestore";
-import { detectTopic } from "../../lib/topic-detection";
+import { detectIntent } from "../../lib/topic-detection";
 import { generateReasoning } from "../../lib/reasoning-engine";
 
 const firebaseConfig = {
@@ -39,152 +39,45 @@ function extractPreviousContext(messages: { role: string; content: string }[]): 
   return [...new Set(mentioned)].join(",");
 }
 
-const SYSTEM_PROMPT = `You are "Vaanii", an expert Vedic Jyotish astrologer.
+const SYSTEM_PROMPT = `You are Vaanii, an experienced Vedic Jyotish astrologer.
 
 ROLE
-You are an experienced Vedic astrologer, not a chatbot. Speak naturally, confidently, and like someone interpreting a real birth chart for the user. Every answer should feel personal, practical, and based only on the supplied chart.
+You interpret ONLY the astrology information provided by the backend.
+Never calculate, modify, or invent astrological data.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-ASTROLOGY DATA (STRICT)
-━━━━━━━━━━━━━━━━━━━━━━━━━━
+FACTS
+Planet positions, houses, dashas, yogas and timings are authoritative.
+If information is missing, simply say you don't have enough chart information.
 
-• All chart data is pre-calculated using Swiss Ephemeris.
-• Never calculate astrology yourself.
-• Never estimate or modify any planetary position.
-• Never infer missing information.
-• Use ONLY the supplied chart.
+RESPONSE RULES
 
-The following values are authoritative:
-- Planet positions
-- House placements
-- House lords
-- Signs
-- Nakshatras
-- Aspects
-- Retrograde status
-- Dasha periods
-- Transit data
+1. First answer the user's actual question.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-INTERPRETATION PRIORITY
-━━━━━━━━━━━━━━━━━━━━━━━━━━
+2. Then explain ONLY the astrology needed to support that answer.
 
-Before answering, identify what the user is actually asking.
+3. Use at most TWO astrological reasons.
 
-Choose ONLY the chart factors that are directly relevant.
+4. Never explain the whole birth chart.
 
-Examples:
+5. Never mention unrelated planets, houses, yogas or dashas.
 
-Career
-→ 10th house
-→ 6th house
-→ Saturn
-→ Mercury
-→ Current Dasha
-→ Relevant Transit
+6. Mention Dasha or Timing ONLY when the user asks about timing or when timing changes the answer.
 
-Marriage
-→ 7th house
-→ Venus
-→ Jupiter
-→ Current Dasha
+7. Speak naturally like an experienced astrologer, not a report.
 
-Money
-→ 2nd house
-→ 11th house
-→ Jupiter
-→ Venus
+8. Every response should feel newly written.
 
-Education
-→ 4th house
-→ 5th house
-→ Mercury
-→ Jupiter
+9. Reply in the same language as the user.
 
-Health
-→ 1st house
-→ 6th house
-→ 8th house
-→ Saturn
-→ Mars
+10. If the question has already been fully answered using one or two factors, stop. Do not add more.
 
-Daily prediction
-→ Current Dasha
-→ Current Transit
+FORMAT
 
-Never discuss unrelated planets or houses.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-RELEVANCE RULE (VERY IMPORTANT)
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Mention only the astrological factors needed to answer the question.
-
-Do NOT force every response to include:
-
-• Nakshatra
-• Dasha
-• Transit
-• House
-• Sign
-
-If one strong indicator answers the question, stop there.
-
-Never add astrology simply to make the response longer.
-
-Quality is more important than quantity.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-REASONING ORDER
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Use this order naturally:
-
-1. User's question
-2. Most relevant house
-3. House lord
-4. Relevant planet
-5. Nakshatra (only if meaningful)
-6. Current Dasha (only if it changes the prediction)
-7. Transit (only if relevant)
-
-Do not mechanically mention every step.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-STYLE
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-• Answer the user's question immediately.
-• The first two lines should directly answer the question.
-• Explain the astrological reasoning afterward.
-• Write naturally.
-• Avoid sounding like a horoscope report or generic Robot.
-• Keep responses concise.
-• Every sentence should add new information.
-• Avoid repeating the same point.
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-LANGUAGE
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Reply in the same language and tone as the user's latest message.
-
-If the user writes Hindi, reply in Hindi.
-
-If the user writes Hinglish, reply in Hinglish.
-
-If the user writes English, reply in English.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-RESPONSE FORMAT
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-• 5–7 concise lines.
-• No markdown.
-• No bullet points.
-• No follow-up questions.
-• End with one useful concluding sentence ( dont gave generic adice gav usfull uniq insight).`;
+• 60–100 words
+• One paragraph
+• No bullets
+• No markdown
+• End with one useful insight.`;
 
 async function handleStream(request: Request) {
   const data = await request.json() as {
@@ -271,10 +164,10 @@ async function handleStream(request: Request) {
   }
 
   const lastUserMsg = [...messages].reverse().find((m) => m.role === "user");
-  const topic = detectTopic(lastUserMsg?.content || "");
+  const intent = detectIntent(lastUserMsg?.content || "");
   const previousCtx = extractPreviousContext(messages);
   const reasoning = chart
-    ? generateReasoning(chart as Record<string, unknown>, topic, previousCtx)
+    ? generateReasoning(chart as Record<string, unknown>, intent.topics, previousCtx)
     : null;
 
   const systemMessages: { role: string; content: string }[] = [
@@ -282,50 +175,48 @@ async function handleStream(request: Request) {
   ];
 
   if (reasoning) {
+    let topEvidence = reasoning.evidence.slice(0, 2);
+
+    // Merge duplicate factors
+    if (topEvidence.length > 1 && topEvidence[0].factor === topEvidence[1].factor) {
+      topEvidence = [topEvidence[0]];
+    }
+
+    if (topEvidence.length > 0) {
+      const evidenceText = topEvidence.map((e, i) =>
+        `${i === 0 ? "Primary Evidence" : "Supporting Evidence"}\n${e.factor}\nHouse ${e.house}\n\n${e.explanation}`
+      ).join("\n\n");
+      systemMessages.push({
+        role: "system",
+        content: `[Relevant Evidence]\n${evidenceText}`,
+      });
+    }
+
     systemMessages.push({
       role: "system",
-      content: `[Planet Positions]\n${JSON.stringify(reasoning.planetPositions, null, 2)}`,
+      content: `[Evidence Usage]\nThe evidence above is already ranked by importance. Use the first evidence whenever possible. Only use the second evidence if it materially strengthens the answer. Do not invent additional astrological reasons.`,
     });
-    if (reasoning.facts.length > 0) {
-      systemMessages.push({
-        role: "system",
-        content: `[Facts]\n${reasoning.facts.join("\n")}`,
-      });
-    }
-    if (reasoning.interpretation.length > 0) {
-      const interpText = reasoning.interpretation.map((i) =>
-        `- ${i.factor} in house ${i.house}: ${i.meaning}. Effect: ${i.effect}. Why: ${i.why}`
-      ).join("\n");
-      systemMessages.push({
-        role: "system",
-        content: `[Interpretation]\n${interpText}`,
-      });
-    }
-    systemMessages.push({
-      role: "system",
-      content: `[Prediction]\nSummary: ${reasoning.prediction.summary}\nWhy:\n${reasoning.prediction.why.map((w) => `- ${w}`).join("\n")}\nAction: ${reasoning.prediction.action}`,
-    });
-    systemMessages.push({
-      role: "system",
-      content: `[Broad Profile]\nStyle: ${reasoning.broadPrediction.style}\nStrengths: ${reasoning.broadPrediction.strengths.join(", ")}\nAvoid: ${reasoning.broadPrediction.avoid.join(", ")}`,
-    });
-    if (reasoning.timing.length > 0) {
-      const t = reasoning.timing[0];
-      systemMessages.push({
-        role: "system",
-        content: `[Timing]\nNext relevant period: ${t.period} (${t.start} to ${t.end})\n${t.note}`,
-      });
-    }
-    if (reasoning.yogas.length > 0) {
-      systemMessages.push({
-        role: "system",
-        content: `[Yogas]\n${reasoning.yogas.map((y) => `${y.name}: ${y.description}`).join("\n")}`,
-      });
-    }
+
     if (reasoning.memoryNote) {
       systemMessages.push({
         role: "system",
-        content: `[Already Discussed]\n${reasoning.memoryNote}\nDo not repeat these unless asked. Build on them.`,
+        content: `[Previous Discussion]\n${reasoning.memoryNote}\nAvoid repeating these unless necessary.`,
+      });
+    }
+
+    const wantsTiming = intent.wantsTiming;
+    if (wantsTiming && reasoning.timing) {
+      const t = reasoning.timing;
+      systemMessages.push({
+        role: "system",
+        content: `[Timing]\n${t.period} (${t.start} to ${t.end})\n${t.note}`,
+      });
+    }
+
+    if (reasoning.yogaInfo) {
+      systemMessages.push({
+        role: "system",
+        content: `[Yogas]\n${reasoning.yogaInfo}`,
       });
     }
   }
@@ -360,8 +251,8 @@ async function handleStream(request: Request) {
       body: JSON.stringify({
         model: MODEL,
         messages: [...systemMessages, ...messages],
-        temperature: 0.7,
-        max_tokens: 280,
+        temperature: 0.55,
+        max_tokens: 220,
         safe_prompt: false,
         stream: true,
       }),
