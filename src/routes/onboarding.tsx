@@ -284,11 +284,15 @@ function OnboardingPage() {
     const email = auth.currentUser?.email || JSON.parse(localStorage.getItem('userData') || '{}').email;
     if (email) {
       try {
-        await createUserDoc(email, {
+        const userDocPayload = {
           ...userData,
+          ...(userData.timezoneOffset != null ? { timezoneOffset: userData.timezoneOffset } : {}),
           questionsRemaining: 2,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
+        };
+        await createUserDoc(email, {
+          ...userDocPayload,
         });
       } catch (error) {
         console.error("Failed to save user data to Firestore:", error);
