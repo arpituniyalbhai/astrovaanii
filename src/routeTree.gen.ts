@@ -35,6 +35,7 @@ import { Route as PoojaAkhandaRamayanaRouteImport } from './routes/pooja/akhanda
 import { Route as BlogsWhatIsLagnaInAstrologyRouteImport } from './routes/blogs/what-is-lagna-in-astrology'
 import { Route as BlogsWhatIsAiAstrologerRouteImport } from './routes/blogs/what-is-ai-astrologer'
 import { Route as BlogsTop5AiAstrologyPlatformInIndiaRouteImport } from './routes/blogs/top-5-ai-astrology-platform-in-india'
+import { Route as BlogsHowAiReadsYourBirthChartRouteImport } from './routes/blogs/how-ai-reads-your-birth-chart'
 import { Route as BlogsArpitUniyalRouteImport } from './routes/blogs/arpit-uniyal'
 import { Route as ApiVerifyPaymentRouteImport } from './routes/api/verify-payment'
 import { Route as ApiKundaliMatchingRouteImport } from './routes/api/kundali-matching'
@@ -174,6 +175,12 @@ const BlogsTop5AiAstrologyPlatformInIndiaRoute =
     path: '/blogs/top-5-ai-astrology-platform-in-india',
     getParentRoute: () => rootRouteImport,
   } as any)
+const BlogsHowAiReadsYourBirthChartRoute =
+  BlogsHowAiReadsYourBirthChartRouteImport.update({
+    id: '/blogs/how-ai-reads-your-birth-chart',
+    path: '/blogs/how-ai-reads-your-birth-chart',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const BlogsArpitUniyalRoute = BlogsArpitUniyalRouteImport.update({
   id: '/blogs/arpit-uniyal',
   path: '/blogs/arpit-uniyal',
@@ -229,6 +236,7 @@ export interface FileRoutesByFullPath {
   '/api/kundali-matching': typeof ApiKundaliMatchingRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
   '/blogs/arpit-uniyal': typeof BlogsArpitUniyalRoute
+  '/blogs/how-ai-reads-your-birth-chart': typeof BlogsHowAiReadsYourBirthChartRoute
   '/blogs/top-5-ai-astrology-platform-in-india': typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
   '/blogs/what-is-ai-astrologer': typeof BlogsWhatIsAiAstrologerRoute
   '/blogs/what-is-lagna-in-astrology': typeof BlogsWhatIsLagnaInAstrologyRoute
@@ -262,6 +270,7 @@ export interface FileRoutesByTo {
   '/api/kundali-matching': typeof ApiKundaliMatchingRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
   '/blogs/arpit-uniyal': typeof BlogsArpitUniyalRoute
+  '/blogs/how-ai-reads-your-birth-chart': typeof BlogsHowAiReadsYourBirthChartRoute
   '/blogs/top-5-ai-astrology-platform-in-india': typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
   '/blogs/what-is-ai-astrologer': typeof BlogsWhatIsAiAstrologerRoute
   '/blogs/what-is-lagna-in-astrology': typeof BlogsWhatIsLagnaInAstrologyRoute
@@ -297,6 +306,7 @@ export interface FileRoutesById {
   '/api/kundali-matching': typeof ApiKundaliMatchingRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
   '/blogs/arpit-uniyal': typeof BlogsArpitUniyalRoute
+  '/blogs/how-ai-reads-your-birth-chart': typeof BlogsHowAiReadsYourBirthChartRoute
   '/blogs/top-5-ai-astrology-platform-in-india': typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
   '/blogs/what-is-ai-astrologer': typeof BlogsWhatIsAiAstrologerRoute
   '/blogs/what-is-lagna-in-astrology': typeof BlogsWhatIsLagnaInAstrologyRoute
@@ -333,6 +343,7 @@ export interface FileRouteTypes {
     | '/api/kundali-matching'
     | '/api/verify-payment'
     | '/blogs/arpit-uniyal'
+    | '/blogs/how-ai-reads-your-birth-chart'
     | '/blogs/top-5-ai-astrology-platform-in-india'
     | '/blogs/what-is-ai-astrologer'
     | '/blogs/what-is-lagna-in-astrology'
@@ -366,6 +377,7 @@ export interface FileRouteTypes {
     | '/api/kundali-matching'
     | '/api/verify-payment'
     | '/blogs/arpit-uniyal'
+    | '/blogs/how-ai-reads-your-birth-chart'
     | '/blogs/top-5-ai-astrology-platform-in-india'
     | '/blogs/what-is-ai-astrologer'
     | '/blogs/what-is-lagna-in-astrology'
@@ -400,6 +412,7 @@ export interface FileRouteTypes {
     | '/api/kundali-matching'
     | '/api/verify-payment'
     | '/blogs/arpit-uniyal'
+    | '/blogs/how-ai-reads-your-birth-chart'
     | '/blogs/top-5-ai-astrology-platform-in-india'
     | '/blogs/what-is-ai-astrologer'
     | '/blogs/what-is-lagna-in-astrology'
@@ -435,6 +448,7 @@ export interface RootRouteChildren {
   ApiKundaliMatchingRoute: typeof ApiKundaliMatchingRoute
   ApiVerifyPaymentRoute: typeof ApiVerifyPaymentRoute
   BlogsArpitUniyalRoute: typeof BlogsArpitUniyalRoute
+  BlogsHowAiReadsYourBirthChartRoute: typeof BlogsHowAiReadsYourBirthChartRoute
   BlogsTop5AiAstrologyPlatformInIndiaRoute: typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
   BlogsWhatIsAiAstrologerRoute: typeof BlogsWhatIsAiAstrologerRoute
   BlogsWhatIsLagnaInAstrologyRoute: typeof BlogsWhatIsLagnaInAstrologyRoute
@@ -629,6 +643,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogsTop5AiAstrologyPlatformInIndiaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blogs/how-ai-reads-your-birth-chart': {
+      id: '/blogs/how-ai-reads-your-birth-chart'
+      path: '/blogs/how-ai-reads-your-birth-chart'
+      fullPath: '/blogs/how-ai-reads-your-birth-chart'
+      preLoaderRoute: typeof BlogsHowAiReadsYourBirthChartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blogs/arpit-uniyal': {
       id: '/blogs/arpit-uniyal'
       path: '/blogs/arpit-uniyal'
@@ -708,6 +729,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiKundaliMatchingRoute: ApiKundaliMatchingRoute,
   ApiVerifyPaymentRoute: ApiVerifyPaymentRoute,
   BlogsArpitUniyalRoute: BlogsArpitUniyalRoute,
+  BlogsHowAiReadsYourBirthChartRoute: BlogsHowAiReadsYourBirthChartRoute,
   BlogsTop5AiAstrologyPlatformInIndiaRoute:
     BlogsTop5AiAstrologyPlatformInIndiaRoute,
   BlogsWhatIsAiAstrologerRoute: BlogsWhatIsAiAstrologerRoute,

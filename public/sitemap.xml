@@ -57,6 +57,12 @@
   </url>
 
   <url>
+    <loc>https://astrovaanii.in/blogs/how-ai-reads-your-birth-chart</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
     <loc>https://astrovaanii.in/tools</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

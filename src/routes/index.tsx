@@ -918,6 +918,44 @@ function BlogSection() {
           </div>
         </Reveal>
 
+        <Reveal delay={160}>
+          <div className="mt-8 overflow-hidden rounded-3xl border border-border bg-card">
+            <div className="grid grid-cols-1 md:grid-cols-2">
+              <div className="aspect-[4/3] overflow-hidden md:order-2">
+                <img
+                  src="/how-ai-reads-your-birth-chart.webp"
+                  alt="AI reading a birth chart with a cosmic natal wheel and chart analysis interface"
+                  width={1200}
+                  height={630}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <div className="flex flex-col justify-center p-8 md:order-1 md:p-12">
+                <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                  <span className="font-medium text-foreground">AstroVaanii Research Team</span>
+                  <span className="h-1 w-1 rounded-full bg-border" />
+                  <time>August 5, 2026</time>
+                  <span className="h-1 w-1 rounded-full bg-border" />
+                  <span>Science & Algorithms</span>
+                </div>
+                <h3 className="mt-4 font-display text-2xl font-semibold text-foreground">
+                  How AI Reads Your Birth Chart: The Science, Algorithms, and Future of Astrology
+                </h3>
+                <p className="mt-4 text-muted-foreground">
+                  A practical explanation of how birth data becomes a chart, how AI turns the
+                  chart into natural language, and where the future of astrology is headed.
+                </p>
+                <Link
+                  to="/blogs/how-ai-reads-your-birth-chart"
+                  className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+                >
+                  Read the full guide &rarr;
+                </Link>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+
         <Reveal delay={200}>
           <div className="mt-8 text-center">
             <Link
