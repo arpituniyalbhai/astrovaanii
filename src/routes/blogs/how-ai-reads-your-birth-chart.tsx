@@ -125,6 +125,10 @@ export const Route = createFileRoute("/blogs/how-ai-reads-your-birth-chart")({
       },
       { property: "og:site_name", content: "AstroVaanii" },
       {
+        property: "og:url",
+        content: "https://astrovaanii.in/blogs/how-ai-reads-your-birth-chart",
+      },
+      {
         property: "og:image",
         content: "https://astrovaanii.in/how-ai-reads-your-birth-chart.webp",
       },
@@ -449,10 +453,7 @@ function HowAiReadsYourBirthChartPage() {
         </section>
 
         <section className="mt-14">
-          <h2
-            id="technical-architecture"
-            className="font-display text-2xl font-semibold text-foreground"
-          >
+          <h2 className="font-display text-2xl font-semibold text-foreground">
             What AI adds after the chart is calculated
           </h2>
           <p className="mt-4 leading-relaxed text-muted-foreground">
@@ -514,7 +515,10 @@ function HowAiReadsYourBirthChartPage() {
         </section>
 
         <section className="mt-14">
-          <h2 className="font-display text-2xl font-semibold text-foreground">
+          <h2
+            id="technical-architecture"
+            className="font-display text-2xl font-semibold text-foreground"
+          >
             The technical architecture behind AI astrology
           </h2>
           <p className="mt-4 leading-relaxed text-muted-foreground">
