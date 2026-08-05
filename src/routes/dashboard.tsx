@@ -1,6 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
+import { signOut } from "firebase/auth";
 import { auth, onUserDoc, getUserDoc } from "@/lib/firebase";
+import { clearAppStorage } from "@/lib/session";
 import { getChart } from "@/lib/chart-server";
 import vaaniiPersona from "@/assets/vaanii-persona.jpg";
 import brandIcon from "@/assets/astrovaanii-logo.webp";
@@ -10,7 +12,10 @@ export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
       { title: "Dashboard — AstroVaanii" },
-      { name: "description", content: "Your personal AI astrologer dashboard. Get personalized readings and insights." },
+      {
+        name: "description",
+        content: "Your personal AI astrologer dashboard. Get personalized readings and insights.",
+      },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),
@@ -36,7 +41,7 @@ function DashboardPage() {
   const [showSettings, setShowSettings] = useState(false);
   const [userName, setUserName] = useState(() => {
     if (typeof window !== "undefined") {
-      const local = JSON.parse(localStorage.getItem('userData') || '{}');
+      const local = JSON.parse(localStorage.getItem("userData") || "{}");
       return local.name || "User";
     }
     return "User";
@@ -45,7 +50,7 @@ function DashboardPage() {
   const [todayDate, setTodayDate] = useState("");
   const [userEmail, setUserEmail] = useState(() => {
     if (typeof window !== "undefined") {
-      const local = JSON.parse(localStorage.getItem('userData') || '{}');
+      const local = JSON.parse(localStorage.getItem("userData") || "{}");
       return local.email || "";
     }
     return "";
@@ -54,11 +59,11 @@ function DashboardPage() {
   useEffect(() => {
     // Get today's date in formatted string
     const today = new Date();
-    const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' };
-    setTodayDate(today.toLocaleDateString('en-IN', options));
+    const options: Intl.DateTimeFormatOptions = { day: "numeric", month: "long", year: "numeric" };
+    setTodayDate(today.toLocaleDateString("en-IN", options));
 
     // Check if popup was shown today
-    const lastPopupDate = localStorage.getItem('lastDailyPopupDate');
+    const lastPopupDate = localStorage.getItem("lastDailyPopupDate");
     const todayStr = today.toDateString();
 
     if (lastPopupDate !== todayStr) {
@@ -68,7 +73,7 @@ function DashboardPage() {
 
   const handlePopupClose = () => {
     setShowWelcomePopup(false);
-    localStorage.setItem('lastDailyPopupDate', new Date().toDateString());
+    localStorage.setItem("lastDailyPopupDate", new Date().toDateString());
   };
 
   const handleDailyPredictionClick = () => {
@@ -76,8 +81,19 @@ function DashboardPage() {
     navigate({ to: "/chat", search: { question: "Hey vaani tell my today predictions" } });
   };
 
+  const handleSignOut = async () => {
+    try {
+      clearAppStorage();
+      await signOut(auth);
+    } catch (error) {
+      console.error("Sign out failed:", error);
+    } finally {
+      navigate({ to: "/", replace: true });
+    }
+  };
+
   useEffect(() => {
-    const local = JSON.parse(localStorage.getItem('userData') || '{}');
+    const local = JSON.parse(localStorage.getItem("userData") || "{}");
     const email = auth.currentUser?.email || local.email;
     if (email) {
       setUserEmail(email);
@@ -94,13 +110,18 @@ function DashboardPage() {
             const stored: any = { ...local, ...doc };
             const [y, m, d] = doc.dob.split("-").map(Number);
             const [h, min] = doc.timeOfBirth.split(":").map(Number);
-            getChart({ data: {
-              year: y, month: m, day: d,
-              hour: h || 12, minute: min || 0,
-              latitude: doc.latitude,
-              longitude: doc.longitude,
-              timezoneOffset: doc.timezoneOffset,
-            }}).then((result: any) => {
+            getChart({
+              data: {
+                year: y,
+                month: m,
+                day: d,
+                hour: h || 12,
+                minute: min || 0,
+                latitude: doc.latitude,
+                longitude: doc.longitude,
+                timezoneOffset: doc.timezoneOffset,
+              },
+            }).then((result: any) => {
               if (result.success) {
                 stored.chart = result.chart;
                 localStorage.setItem("userData", JSON.stringify(stored));
@@ -147,9 +168,21 @@ function DashboardPage() {
           }`}
         >
           <div className="flex items-center justify-between px-6 py-4 border-b border-border">
-            <span className="font-display text-lg">Astro<span className="text-primary">Vaanii</span></span>
-            <button onClick={() => setIsSidebarOpen(false)} className="text-muted-foreground hover:text-foreground">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <span className="font-display text-lg">
+              Astro<span className="text-primary">Vaanii</span>
+            </span>
+            <button
+              onClick={() => setIsSidebarOpen(false)}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <path d="M18 6L6 18M6 6l12 12" />
               </svg>
             </button>
@@ -166,7 +199,14 @@ function DashboardPage() {
                   : "text-muted-foreground hover:bg-background/50 hover:text-foreground"
               }`}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
               </svg>
               Chat
@@ -178,7 +218,14 @@ function DashboardPage() {
               }}
               className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:bg-background/50 hover:text-foreground"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
               </svg>
               Pricing
@@ -190,7 +237,14 @@ function DashboardPage() {
               }}
               className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:bg-background/50 hover:text-foreground"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <rect x="3" y="3" width="18" height="18" rx="2" />
                 <path d="M3 12h18M12 3v18M12 12l-4 4M12 12l4 4M12 12l-4-4M12 12l4-4" />
               </svg>
@@ -214,7 +268,14 @@ function DashboardPage() {
                   : "text-muted-foreground hover:bg-background/50 hover:text-foreground"
               }`}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <circle cx="12" cy="12" r="1" />
                 <circle cx="12" cy="5" r="1" />
                 <circle cx="12" cy="19" r="1" />
@@ -225,12 +286,19 @@ function DashboardPage() {
           <div className="px-4 py-4 border-t border-border">
             <button
               onClick={() => {
-                navigate({ to: "/" });
                 setIsSidebarOpen(false);
+                void handleSignOut();
               }}
               className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:bg-background/50 hover:text-foreground"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                 <polyline points="16 17 21 12 16 7" />
                 <line x1="21" y1="12" x2="9" y2="12" />
@@ -245,7 +313,9 @@ function DashboardPage() {
           {/* Logo */}
           <div className="flex items-center gap-3 px-6 py-5 border-b border-border">
             <img src={brandIcon} alt="" width={32} height={32} className="h-8 w-8" />
-            <span className="font-display text-lg">Astro<span className="text-primary">Vaanii</span></span>
+            <span className="font-display text-lg">
+              Astro<span className="text-primary">Vaanii</span>
+            </span>
           </div>
 
           {/* Profile section */}
@@ -278,7 +348,14 @@ function DashboardPage() {
                   : "text-muted-foreground hover:bg-background/50 hover:text-foreground"
               }`}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
               </svg>
               Chat
@@ -287,7 +364,14 @@ function DashboardPage() {
               onClick={() => navigate({ to: "/pricing" })}
               className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:bg-background/50 hover:text-foreground"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
               </svg>
               Pricing
@@ -296,7 +380,14 @@ function DashboardPage() {
               onClick={() => navigate({ to: "/my-chart" })}
               className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:bg-background/50 hover:text-foreground"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <rect x="3" y="3" width="18" height="18" rx="2" />
                 <path d="M3 12h18M12 3v18M12 12l-4 4M12 12l4 4M12 12l-4-4M12 12l4-4" />
               </svg>
@@ -314,7 +405,14 @@ function DashboardPage() {
                   : "text-muted-foreground hover:bg-background/50 hover:text-foreground"
               }`}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <circle cx="12" cy="12" r="1" />
                 <circle cx="12" cy="5" r="1" />
                 <circle cx="12" cy="19" r="1" />
@@ -368,10 +466,14 @@ function DashboardPage() {
                   </span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-[10px] uppercase tracking-widest text-primary mb-1">Vaanii AI</div>
+                  <div className="text-[10px] uppercase tracking-widest text-primary mb-1">
+                    Vaanii AI
+                  </div>
                   <div className="font-display text-base text-foreground mb-1"></div>
                   <p className="text-xs text-muted-foreground leading-relaxed mb-2">
-                    Hey {userName}! Your <span className="font-medium text-primary">{todayDate}</span> prediction are ready.
+                    Hey {userName}! Your{" "}
+                    <span className="font-medium text-primary">{todayDate}</span> prediction are
+                    ready.
                   </p>
                   <button
                     onClick={handleDailyPredictionClick}
@@ -398,10 +500,13 @@ function DashboardPage() {
               </button>
               <div className="flex flex-col items-center gap-3 p-6 text-center">
                 <div className="text-4xl">📅</div>
-                <div className="text-[10px] uppercase tracking-widest text-primary">Coming Soon</div>
+                <div className="text-[10px] uppercase tracking-widest text-primary">
+                  Coming Soon
+                </div>
                 <h3 className="font-display text-xl text-foreground">Calendar Feature</h3>
                 <p className="text-sm text-muted-foreground">
-                  Track important astrological dates, transits, and events. Stay tuned for this exciting feature!
+                  Track important astrological dates, transits, and events. Stay tuned for this
+                  exciting feature!
                 </p>
               </div>
             </div>
@@ -449,13 +554,25 @@ function DashboardPage() {
           {/* Header */}
           <header className="flex items-center justify-between px-6 py-4 border-b border-border bg-card/40 backdrop-blur-md">
             <div className="flex items-center gap-3 md:hidden">
-              <button onClick={() => setIsSidebarOpen(true)} className="text-muted-foreground hover:text-foreground">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <button
+                onClick={() => setIsSidebarOpen(true)}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
                   <path d="M3 12h18M3 6h18M3 18h18" />
                 </svg>
               </button>
               <img src={brandIcon} alt="" width={28} height={28} className="h-7 w-7" />
-              <span className="font-display text-base">Astro<span className="text-primary">Vaanii</span></span>
+              <span className="font-display text-base">
+                Astro<span className="text-primary">Vaanii</span>
+              </span>
             </div>
             <h1 className="hidden md:block font-display text-xl text-foreground">
               {activeTab === "chat"
@@ -465,7 +582,9 @@ function DashboardPage() {
                   : "More Options"}
             </h1>
             <button
-              onClick={() => navigate({ to: "/" })}
+              onClick={() => {
+                void handleSignOut();
+              }}
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               Sign out
@@ -486,14 +605,18 @@ function DashboardPage() {
                       className="relative h-20 w-20 rounded-full border-4 border-background object-cover shadow-2xl"
                     />
                   </div>
-                  <h2 className="font-display text-3xl text-primary mb-2">Welcome {userName} - Ask Your Question</h2>
+                  <h2 className="font-display text-3xl text-primary mb-2">
+                    Welcome {userName} - Ask Your Question
+                  </h2>
                 </div>
 
                 {/* Input area */}
                 <div className="relative">
                   <div className="mb-2 flex justify-center">
                     <div className="rounded-full bg-red-50 border border-red-200 px-4 py-2">
-                      <span className="text-sm font-medium text-red-500">{questionsRemaining} question{questionsRemaining !== 1 ? 's' : ''} remaining</span>
+                      <span className="text-sm font-medium text-red-500">
+                        {questionsRemaining} question{questionsRemaining !== 1 ? "s" : ""} remaining
+                      </span>
                     </div>
                   </div>
                   <div className="relative">
@@ -549,9 +672,19 @@ function DashboardPage() {
                     <span className="text-2xl">📊</span>
                     <div className="text-left flex-1">
                       <div className="font-medium text-foreground">View Birth Chart</div>
-                      <div className="text-sm text-muted-foreground">See your detailed astrological chart</div>
+                      <div className="text-sm text-muted-foreground">
+                        See your detailed astrological chart
+                      </div>
                     </div>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-muted-foreground">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      className="text-muted-foreground"
+                    >
                       <polyline points="9 18 15 12 9 6" />
                     </svg>
                   </button>
@@ -563,9 +696,19 @@ function DashboardPage() {
                     <span className="text-2xl">📅</span>
                     <div className="text-left flex-1">
                       <div className="font-medium text-foreground">Calendar</div>
-                      <div className="text-sm text-muted-foreground">View important astrological dates</div>
+                      <div className="text-sm text-muted-foreground">
+                        View important astrological dates
+                      </div>
                     </div>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-muted-foreground">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      className="text-muted-foreground"
+                    >
                       <polyline points="9 18 15 12 9 6" />
                     </svg>
                   </button>
@@ -579,13 +722,21 @@ function DashboardPage() {
                       <div className="font-medium text-foreground">Settings</div>
                       <div className="text-sm text-muted-foreground">Account and app settings</div>
                     </div>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-muted-foreground">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      className="text-muted-foreground"
+                    >
                       <polyline points="9 18 15 12 9 6" />
                     </svg>
                   </button>
 
                   <button
-                    onClick={() => window.location.href = "mailto:hi@astrovaanii.in"}
+                    onClick={() => (window.location.href = "mailto:hi@astrovaanii.in")}
                     className="w-full flex items-center gap-4 p-4 rounded-2xl border border-border bg-card/80 hover:bg-card transition-all"
                   >
                     <span className="text-2xl">❓</span>
@@ -593,7 +744,15 @@ function DashboardPage() {
                       <div className="font-medium text-foreground">Help & Support</div>
                       <div className="text-sm text-muted-foreground">hi@astrovaanii.in</div>
                     </div>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-muted-foreground">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      className="text-muted-foreground"
+                    >
                       <polyline points="9 18 15 12 9 6" />
                     </svg>
                   </button>

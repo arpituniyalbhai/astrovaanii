@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { Reveal } from "@/components/landing/Reveal";
 import brandIcon from "@/assets/astrovaanii-logo.webp";
 import type { MatchingResult } from "@/lib/kundali-matching";
@@ -323,13 +323,18 @@ function KundaliMatchingPage() {
 
   const [result, setResult] = useState<MatchResult | null>(null);
 
-  const messagesEndRef = useRef<HTMLDivElement>(null);
   const boyDebounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const girlDebounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
+  useLayoutEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
+
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ block: "end", behavior: "smooth" });
-  }, [result]);
+    if (step === "loading" || step === "result") {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    }
+  }, [step]);
 
   const fetchSuggestions = async (query: string, setter: (s: GeoapifyFeature[]) => void, showSetter: (s: boolean) => void) => {
     if (!query.trim()) { setter([]); showSetter(false); return; }
@@ -566,7 +571,6 @@ function KundaliMatchingPage() {
           <p>&copy; {new Date().getFullYear()} AstroVaanii. All rights reserved.</p>
         </div>
       </footer>
-      <div ref={messagesEndRef} />
     </main>
   );
 }

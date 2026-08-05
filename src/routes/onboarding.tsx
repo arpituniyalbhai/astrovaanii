@@ -6,6 +6,20 @@ import { getChart } from "@/lib/chart-server";
 import vaaniiPersona from "@/assets/vaanii-persona.jpg";
 import brandIcon from "@/assets/astrovaanii-logo.webp";
 
+interface GeoapifyFeature {
+  properties: {
+    formatted: string;
+    city?: string;
+    state?: string;
+    country?: string;
+    lat: number;
+    lon: number;
+    timezone?: { offset_sec: number };
+  };
+}
+
+const GEOAPIFY_KEY = import.meta.env.VITE_GEOAPIFY_API_KEY || "d629479cf35f491ebfb531d15f16dbfc";
+
 export const Route = createFileRoute("/onboarding")({
   head: () => ({
     meta: [
@@ -56,7 +70,7 @@ function OnboardingPage() {
   const [selectedDate, setSelectedDate] = useState("");
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [selectedTime, setSelectedTime] = useState("");
-  const [locationSuggestions, setLocationSuggestions] = useState<any[]>([]);
+  const [locationSuggestions, setLocationSuggestions] = useState<GeoapifyFeature[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const hasInitialized = useRef(false);
@@ -160,8 +174,8 @@ function OnboardingPage() {
     }, 500);
   };
 
-  const handleLocationSubmit = async (selectedLocation?: any) => {
-    const location = selectedLocation?.formatted || inputValue;
+  const handleLocationSubmit = async (selectedLocation?: GeoapifyFeature) => {
+    const location = selectedLocation?.properties.formatted || inputValue;
     if (!location.trim()) return;
     
     addUserMessage(location);
@@ -172,24 +186,18 @@ function OnboardingPage() {
     setIsTyping(true);
     
     try {
-      const response = await fetch(
-        `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(location)}&key=e6856ce2163d420dbae7d5adb0a104ec&limit=1`
-      );
-      const data = await response.json();
-      
-      if (data.results && data.results.length > 0) {
-        const { lat, lng } = data.results[0].geometry;
-        const annotations = data.results[0].annotations;
-        const tzOffsetSec = annotations?.timezone?.offset_sec;
+      const resolved = selectedLocation ?? await fetchLocationSuggestion(location);
+      if (resolved) {
+        const tzOffsetSec = resolved.properties.timezone?.offset_sec;
         setUserData((prev) => ({
           ...prev,
-          location,
-          latitude: lat,
-          longitude: lng,
+          location: resolved.properties.formatted,
+          latitude: resolved.properties.lat,
+          longitude: resolved.properties.lon,
           timezoneOffset: tzOffsetSec != null ? tzOffsetSec / 3600 : undefined,
         }));
         setIsTyping(false);
-        addBotMessage(`Got it! ${location} recorded. Now, what's your gender?`);
+        addBotMessage(`Got it! ${resolved.properties.formatted} recorded. Now, what's your gender?`);
         setCurrentStep("gender");
       } else {
         setIsTyping(false);
@@ -203,6 +211,16 @@ function OnboardingPage() {
     }
   };
 
+  const fetchLocationSuggestion = async (query: string): Promise<GeoapifyFeature | null> => {
+    if (!query.trim()) return null;
+
+    const response = await fetch(
+      `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&apiKey=${GEOAPIFY_KEY}&limit=1`
+    );
+    const data = await response.json();
+    return data.features?.[0] ?? null;
+  };
+
   const fetchLocationSuggestions = async (query: string) => {
     if (!query.trim() || currentStep !== "location") {
       setLocationSuggestions([]);
@@ -212,12 +230,12 @@ function OnboardingPage() {
 
     try {
       const response = await fetch(
-        `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(query)}&key=e6856ce2163d420dbae7d5adb0a104ec&limit=5`
+        `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&apiKey=${GEOAPIFY_KEY}&limit=5`
       );
       const data = await response.json();
       
-      if (data.results && data.results.length > 0) {
-        setLocationSuggestions(data.results);
+      if (data.features && data.features.length > 0) {
+        setLocationSuggestions(data.features);
         setShowSuggestions(true);
       } else {
         setLocationSuggestions([]);
@@ -479,14 +497,14 @@ function OnboardingPage() {
                       <button
                         key={index}
                         onClick={() => {
-                          setInputValue(suggestion.formatted);
+                          setInputValue(suggestion.properties.formatted);
                           handleLocationSubmit(suggestion);
                         }}
                         className="w-full px-4 py-3 text-left text-sm hover:bg-background/50 transition-colors border-b border-border last:border-b-0"
                       >
-                        <div className="font-medium text-foreground">{suggestion.formatted}</div>
+                        <div className="font-medium text-foreground">{suggestion.properties.formatted}</div>
                         <div className="text-xs text-muted-foreground mt-1">
-                          📍 {suggestion.geometry.lat.toFixed(4)}°, {suggestion.geometry.lng.toFixed(4)}°
+                          📍 {suggestion.properties.lat.toFixed(4)}°, {suggestion.properties.lon.toFixed(4)}°
                         </div>
                       </button>
                     ))}
