@@ -284,9 +284,9 @@ function OnboardingPage() {
     const email = auth.currentUser?.email || JSON.parse(localStorage.getItem('userData') || '{}').email;
     if (email) {
       try {
+        const { timezoneOffset: _timezoneOffset, ...userDataWithoutTimezoneOffset } = userData;
         const userDocPayload = {
-          ...userData,
-          ...(userData.timezoneOffset != null ? { timezoneOffset: userData.timezoneOffset } : {}),
+          ...userDataWithoutTimezoneOffset,
           questionsRemaining: 2,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
