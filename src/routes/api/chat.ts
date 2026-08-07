@@ -56,6 +56,42 @@ WRITING RULES
 - Never describe physical traits of people.
 - Detect user's language from their last message. Reply in the same language.`;
 
+const VEDIC_TAROT_PROMPT = `You are Vaanii, an experienced Vedic astrology guide giving a Vedic-inspired symbolic card reading.
+
+READING RULES
+- Answer the user's exact question directly. Do not give a generic card description.
+- Treat the selected card as a reflective Vedic symbol, not as proof of a fixed or guaranteed future.
+- Use birth-chart facts only when they are provided below. Never invent a placement, Dasha, date, yoga, or transit.
+- If chart facts are available, connect only the most relevant one or two facts to the question and card.
+- If chart facts are unavailable, do not claim the reading is personalized from a Kundli.
+- Be warm, specific, practical, and honest. Avoid fear, superstition, fatalism, and absolute promises.
+- Detect the language of the user's question and answer in the same language.
+- Write 180 to 240 words. Do not use tables or bullet lists.
+
+Use exactly these section headings:
+**Your Answer**
+**Why This Card Appeared**
+**Birth Chart Connection** (use **What This Reflects** instead when no chart facts are available)
+**Guidance**
+**Your Next Step**
+
+Keep each section concise and place its text on the next line.`;
+
+const VEDIC_TAROT_CARDS: Record<string, { essence: string; themes: string }> = {
+  Surya: { essence: "clarity and life force", themes: "confidence, direction, recognition, renewed energy" },
+  Chandra: { essence: "intuition and inner rhythm", themes: "inner knowing, sensitivity, home, memory, changing moods" },
+  Ganesha: { essence: "openings and wise beginnings", themes: "new starts, practical wisdom, learning, obstacle removal" },
+  Saraswati: { essence: "wisdom and expression", themes: "study, speech, creativity, skill, discernment" },
+  Lakshmi: { essence: "value and graceful abundance", themes: "resources, self-worth, harmony, generosity, sustainable prosperity" },
+  Hanuman: { essence: "courage and devoted action", themes: "discipline, loyalty, resilience, service, focused effort" },
+  Shiva: { essence: "release and transformation", themes: "transformation, endings, stillness, truth, renewal" },
+  Shakti: { essence: "creative power and movement", themes: "agency, creativity, passion, boundaries, momentum" },
+  "Dharma Chakra": { essence: "alignment and right action", themes: "purpose, responsibility, timing, ethics, long-term direction" },
+  Padma: { essence: "growth through experience", themes: "healing, patience, beauty, emotional growth, spiritual maturity" },
+  Deepa: { essence: "guidance and illumination", themes: "insight, hope, learning, protection, practical guidance" },
+  Kalpavriksha: { essence: "potential and patient creation", themes: "long-term wishes, support, legacy, patience, fruitful effort" },
+};
+
 async function handleStream(request: Request) {
   const data = await request.json() as {
     messages: { role: string; content: string }[];
@@ -64,8 +100,21 @@ async function handleStream(request: Request) {
     userDetails?: Record<string, unknown>;
     email?: string;
     isFree?: boolean;
+    mode?: "chat" | "vedic-tarot";
+    tarot?: { cardName?: string };
   };
-  const { messages, chart, userName, userDetails, email, isFree } = data;
+  const { messages, chart, userName, userDetails, email, isFree, mode, tarot } = data;
+  const isTarotReading = mode === "vedic-tarot";
+  const selectedTarotCard = isTarotReading && tarot?.cardName
+    ? VEDIC_TAROT_CARDS[tarot.cardName]
+    : undefined;
+
+  if (isTarotReading && !selectedTarotCard) {
+    return new Response(JSON.stringify({ error: "Please select a valid Vedic card." }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 
   let questionsRemaining = 0;
   let userRef: ReturnType<typeof doc> | null = null;
@@ -148,8 +197,15 @@ async function handleStream(request: Request) {
     : null;
 
   const systemMessages: { role: string; content: string }[] = [
-    { role: "system", content: SYSTEM_PROMPT },
+    { role: "system", content: isTarotReading ? VEDIC_TAROT_PROMPT : SYSTEM_PROMPT },
   ];
+
+  if (isTarotReading && tarot?.cardName && selectedTarotCard) {
+    systemMessages.push({
+      role: "system",
+      content: `[Selected Vedic Card]\nName: ${tarot.cardName}\nEssence: ${selectedTarotCard.essence}\nThemes: ${selectedTarotCard.themes}\nUse this symbolic context without claiming supernatural certainty.`,
+    });
+  }
 
   if (reasoning) {
     systemMessages.push({
@@ -200,6 +256,15 @@ async function handleStream(request: Request) {
     }
   }
 
+  if (isTarotReading) {
+    systemMessages.push({
+      role: "system",
+      content: chart
+        ? "[Personalization Status]\nVerified birth-chart calculations are available above."
+        : "[Personalization Status]\nNo verified birth-chart calculations are available. Do not invent or imply any.",
+    });
+  }
+
   systemMessages.push({
     role: "system",
     content: `Date: ${new Date().toLocaleDateString("en-IN", { year: "numeric", month: "long", day: "numeric" })}`,
@@ -231,7 +296,7 @@ async function handleStream(request: Request) {
         model: MODEL,
         messages: [...systemMessages, ...messages],
         temperature: 0.7,
-        max_tokens: 280,
+        max_tokens: isTarotReading ? 520 : 280,
         safe_prompt: false,
         stream: true,
       }),

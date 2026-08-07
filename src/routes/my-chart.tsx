@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import type { ChartData, PlanetData } from "@/lib/chart-calc";
 import brandIcon from "@/assets/astrovaanii-logo.webp";
@@ -32,6 +32,7 @@ type ProfileData = {
 };
 
 function MyChartPage() {
+  const navigate = useNavigate();
   const [chart, setChart] = useState<ChartData | null>(null);
   const [userName, setUserName] = useState("User");
   const [profile, setProfile] = useState<ProfileData>({});
@@ -60,6 +61,10 @@ function MyChartPage() {
       </main>
     );
   }
+
+  const askVaanii = (question: string) => {
+    navigate({ to: "/chat", search: { question } });
+  };
 
   return (
     <main className="min-h-screen bg-background grain">
@@ -97,6 +102,15 @@ function MyChartPage() {
               </span>
             </div>
             <NorthIndianChart chart={chart} />
+            <div className="mt-5 text-center">
+              <button
+                type="button"
+                onClick={() => askVaanii("Explain my birth chart, including my Lagna, Moon sign, Nakshatra, and the most important planetary placements.")}
+                className="rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+              >
+                Ask Vaanii about this chart
+              </button>
+            </div>
           </div>
 
           <div className="space-y-6">
@@ -105,9 +119,9 @@ function MyChartPage() {
           </div>
         </div>
 
-        <PlanetPositionsCard planets={chart.planets} />
+        <PlanetPositionsCard planets={chart.planets} onExplain={askVaanii} />
         <HouseOccupantsCard occupants={chart.houseOccupants} signNames={chart.houseSignNames} lords={chart.houseLords} />
-        <DashaCard chart={chart} />
+        <DashaCard chart={chart} onExplain={askVaanii} />
       </section>
     </main>
   );
@@ -205,7 +219,7 @@ function ChartSummaryCard({ chart }: { chart: ChartData }) {
   );
 }
 
-function PlanetPositionsCard({ planets }: { planets: Record<string, PlanetData> }) {
+function PlanetPositionsCard({ planets, onExplain }: { planets: Record<string, PlanetData>; onExplain: (question: string) => void }) {
   return (
     <div className="overflow-hidden rounded-3xl border border-border bg-card/80">
       <div className="border-b border-border px-6 py-5">
@@ -222,6 +236,7 @@ function PlanetPositionsCard({ planets }: { planets: Record<string, PlanetData> 
               <th className="px-4 py-3 font-medium">Bhava</th>
               <th className="px-4 py-3 font-medium">Nakshatra</th>
               <th className="px-4 py-3 font-medium">Pada</th>
+              <th className="px-4 py-3 font-medium">Ask Vaanii</th>
             </tr>
           </thead>
           <tbody>
@@ -233,6 +248,15 @@ function PlanetPositionsCard({ planets }: { planets: Record<string, PlanetData> 
                 <td className="px-4 py-3.5 text-muted-foreground">House {planet.house}</td>
                 <td className="px-4 py-3.5 text-muted-foreground">{planet.nakshatraName}</td>
                 <td className="px-4 py-3.5 text-muted-foreground">{planet.pada}</td>
+                <td className="px-4 py-3.5">
+                  <button
+                    type="button"
+                    onClick={() => onExplain(`Explain what ${name} in ${planet.signName}, House ${planet.house}, means in my birth chart.`)}
+                    className="text-xs font-medium text-primary hover:underline"
+                  >
+                    Explain {name}
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -268,7 +292,7 @@ function HouseOccupantsCard({ occupants, signNames, lords }: {
   );
 }
 
-function DashaCard({ chart }: { chart: ChartData }) {
+function DashaCard({ chart, onExplain }: { chart: ChartData; onExplain: (question: string) => void }) {
   return (
     <div className="rounded-3xl border border-border bg-card/80 p-6">
       <h2 className="font-display text-xl text-foreground">Vimshottari Dasha</h2>
@@ -284,6 +308,13 @@ function DashaCard({ chart }: { chart: ChartData }) {
           <div className="mt-1 text-xs text-muted-foreground">{formatDate(chart.antardasha.start)} - {formatDate(chart.antardasha.end)}</div>
         </div>
       </div>
+      <button
+        type="button"
+        onClick={() => onExplain(`Explain my ${chart.mahadasha.planet} Mahadasha and ${chart.antardasha.planet} Antardasha in my birth chart.`)}
+        className="mt-5 rounded-full border border-primary/30 bg-primary/5 px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
+      >
+        Ask Vaanii about this Dasha
+      </button>
       <div className="mt-5 divide-y divide-border/60 text-sm">
         {chart.vimshottari.map((d, i) => (
           <div key={`${d.planet}-${i}`} className="grid grid-cols-[1fr_auto] items-center gap-4 py-3">

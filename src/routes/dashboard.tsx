@@ -4,9 +4,11 @@ import { signOut } from "firebase/auth";
 import { auth, onUserDoc, getUserDoc } from "@/lib/firebase";
 import { clearAppStorage } from "@/lib/session";
 import { getChart } from "@/lib/chart-server";
+import type { ChartData } from "@/lib/chart-calc";
 import vaaniiPersona from "@/assets/vaanii-persona.jpg";
 import brandIcon from "@/assets/astrovaanii-logo.webp";
 import { FreeTools, FreeToolsNavButton } from "@/components/free-Tools";
+import { VedicTarotNavButton, VedicTarotReading } from "@/components/VedicTarotReading";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -21,15 +23,6 @@ export const Route = createFileRoute("/dashboard")({
   }),
   component: DashboardPage,
 });
-
-const suggestedQuestions = [
-  "What is my today's horoscope?",
-  "When will I get a job?",
-  "What are my lucky numbers today?",
-  "How is my love life this month?",
-  "What does my birth chart say about my career?",
-  "When will I find my soulmate?",
-];
 
 function DashboardPage() {
   const navigate = useNavigate();
@@ -47,6 +40,10 @@ function DashboardPage() {
     return "User";
   });
   const [questionsRemaining, setQuestionsRemaining] = useState(0);
+  const [chart, setChart] = useState<ChartData | null>(() => {
+    if (typeof window === "undefined") return null;
+    return JSON.parse(localStorage.getItem("userData") || "{}").chart || null;
+  });
   const [todayDate, setTodayDate] = useState("");
   const [userEmail, setUserEmail] = useState(() => {
     if (typeof window !== "undefined") {
@@ -125,6 +122,7 @@ function DashboardPage() {
               if (result.success) {
                 stored.chart = result.chart;
                 localStorage.setItem("userData", JSON.stringify(stored));
+                setChart(result.chart);
               }
             });
           }
@@ -145,6 +143,18 @@ function DashboardPage() {
     if (e.key === "Enter") {
       handleSendMessage();
     }
+  };
+
+  const currentDasha = chart?.mahadasha && chart?.antardasha ? chart : null;
+  const upcomingAntardasha = currentDasha
+    ? currentDasha.fullAntardashaTimeline.find((period) =>
+        period.mahadasha === currentDasha.mahadasha.planet &&
+        new Date(period.start).getTime() >= new Date(currentDasha.antardasha.end).getTime(),
+      )
+    : undefined;
+
+  const askAboutDasha = (question: string) => {
+    navigate({ to: "/chat", search: { question } });
   };
 
   return (
@@ -250,6 +260,13 @@ function DashboardPage() {
               </svg>
               My Chart
             </button>
+            <VedicTarotNavButton
+              active={activeTab === "tarot"}
+              onClick={() => {
+                setActiveTab("tarot");
+                setIsSidebarOpen(false);
+              }}
+            />
             <FreeToolsNavButton
               active={activeTab === "free-tools"}
               onClick={() => {
@@ -393,6 +410,10 @@ function DashboardPage() {
               </svg>
               My Chart
             </button>
+            <VedicTarotNavButton
+              active={activeTab === "tarot"}
+              onClick={() => setActiveTab("tarot")}
+            />
             <FreeToolsNavButton
               active={activeTab === "free-tools"}
               onClick={() => setActiveTab("free-tools")}
@@ -552,7 +573,7 @@ function DashboardPage() {
         {/* Main content */}
         <div className="flex-1 flex flex-col">
           {/* Header */}
-          <header className="flex items-center justify-between px-6 py-4 border-b border-border bg-card/40 backdrop-blur-md">
+          <header className="flex items-center gap-3 border-b border-primary/20 bg-primary/10 px-4 py-3 backdrop-blur-md md:px-6">
             <div className="flex items-center gap-3 md:hidden">
               <button
                 onClick={() => setIsSidebarOpen(true)}
@@ -574,13 +595,12 @@ function DashboardPage() {
                 Astro<span className="text-primary">Vaanii</span>
               </span>
             </div>
-            <h1 className="hidden md:block font-display text-xl text-foreground">
-              {activeTab === "chat"
-                ? "Chat with Vaanii"
-                : activeTab === "free-tools"
-                  ? "Free Tools"
-                  : "More Options"}
-            </h1>
+            <Link to="/pricing" className="min-w-0 flex-1 text-center text-xs font-medium text-foreground transition-colors hover:text-primary sm:text-sm">
+              <span className="mr-1.5 text-primary">&#10022;</span>
+              <span className="hidden sm:inline">{userName}, get 10 personalized questions for just Rs. 139.</span>
+              <span className="sm:hidden">10 personalized questions for Rs. 139</span>
+              <span className="ml-2 whitespace-nowrap text-primary hover:underline">Get offer &rarr;</span>
+            </Link>
             <button
               onClick={() => {
                 void handleSignOut();
@@ -592,7 +612,11 @@ function DashboardPage() {
           </header>
 
           {/* Content area */}
-          <div className="flex-1 flex flex-col items-center justify-center px-6 py-8">
+          <div
+            className={`flex-1 overflow-y-auto flex flex-col items-center px-4 py-8 sm:px-6 ${
+              activeTab === "tarot" ? "justify-start" : "justify-center"
+            }`}
+          >
             {activeTab === "chat" && (
               <div className="w-full max-w-2xl">
                 {/* Welcome message */}
@@ -606,8 +630,11 @@ function DashboardPage() {
                     />
                   </div>
                   <h2 className="font-display text-3xl text-primary mb-2">
-                    Welcome {userName} - Ask Your Question
+                    Welcome, {userName}. What would you like to know?
                   </h2>
+                  <p className="text-sm text-muted-foreground/70">
+                    Personalized answers based on your Vedic birth chart
+                  </p>
                 </div>
 
                 {/* Input area */}
@@ -617,6 +644,9 @@ function DashboardPage() {
                       <span className="text-sm font-medium text-red-500">
                         {questionsRemaining} question{questionsRemaining !== 1 ? "s" : ""} remaining
                       </span>
+                      <Link to="/pricing" className="ml-2 text-sm font-medium text-primary hover:underline">
+                        Get more
+                      </Link>
                     </div>
                   </div>
                   <div className="relative">
@@ -636,27 +666,47 @@ function DashboardPage() {
                       Send
                     </button>
                   </div>
+
+                  {currentDasha && (
+                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                      <section className="rounded-2xl border border-primary/20 bg-primary/5 p-4 text-left">
+                        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">Your Current Dasha</p>
+                        <p className="mt-2 font-display text-lg text-foreground">
+                          {currentDasha.mahadasha.planet} Mahadasha <span className="text-primary">&rarr;</span> {currentDasha.antardasha.planet} Antardasha
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => askAboutDasha(`Explain my ${currentDasha.mahadasha.planet} Mahadasha and ${currentDasha.antardasha.planet} Antardasha in my birth chart.`)}
+                          className="mt-3 text-sm font-medium text-primary hover:underline"
+                        >
+                          View what this means &rarr;
+                        </button>
+                      </section>
+
+                      {upcomingAntardasha && (
+                        <section className="rounded-2xl border border-border bg-card/80 p-4 text-left">
+                          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">Coming Up</p>
+                          <p className="mt-2 font-display text-lg text-foreground">{upcomingAntardasha.planet} Antardasha</p>
+                          <p className="mt-1 text-xs text-muted-foreground">{formatDashaDate(upcomingAntardasha.start)} to {formatDashaDate(upcomingAntardasha.end)}</p>
+                          <button
+                            type="button"
+                            onClick={() => askAboutDasha(`What should I understand about my upcoming ${upcomingAntardasha.planet} Antardasha from ${formatDashaDate(upcomingAntardasha.start)} to ${formatDashaDate(upcomingAntardasha.end)}?`)}
+                            className="mt-3 text-sm font-medium text-primary hover:underline"
+                          >
+                            Learn more &rarr;
+                          </button>
+                        </section>
+                      )}
+                    </div>
+                  )}
                 </div>
 
-                {/* Suggested questions */}
-                <div className="mt-6">
-                  <p className="text-sm text-muted-foreground mb-3 text-center">Try asking:</p>
-                  <div className="grid grid-cols-2 gap-2">
-                    {suggestedQuestions.map((question, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setInputValue(question)}
-                        className="rounded-full border border-border bg-background/70 px-4 py-2 text-sm text-muted-foreground hover:bg-card hover:border-primary/40 hover:text-foreground transition-all"
-                      >
-                        {question}
-                      </button>
-                    ))}
-                  </div>
-                </div>
               </div>
             )}
 
             {activeTab === "free-tools" && <FreeTools />}
+
+            {activeTab === "tarot" && <VedicTarotReading />}
 
             {activeTab === "more" && (
               <div className="w-full max-w-md">
@@ -764,4 +814,10 @@ function DashboardPage() {
       </div>
     </main>
   );
+}
+
+function formatDashaDate(value: string) {
+  const date = new Date(`${value}T00:00:00Z`);
+  if (Number.isNaN(date.getTime())) return value;
+  return new Intl.DateTimeFormat("en-IN", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }).format(date);
 }
