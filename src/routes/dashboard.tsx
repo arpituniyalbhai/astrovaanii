@@ -557,7 +557,7 @@ function DashboardPage() {
                     <div className="font-medium text-foreground">{userEmail}</div>
                   </div>
                   <div className="p-4 rounded-xl border border-border bg-background/50">
-                    <div className="text-sm text-muted-foreground mb-1">Questions Remaining</div>
+                    <div className="text-sm text-muted-foreground mb-1">Credits Remaining</div>
                     <div className="font-medium text-primary text-xl">{questionsRemaining}</div>
                   </div>
                   <div className="p-4 rounded-xl border border-border bg-background/50">
@@ -573,41 +573,67 @@ function DashboardPage() {
         {/* Main content */}
         <div className="flex-1 flex flex-col">
           {/* Header */}
-          <header className="flex items-center gap-3 border-b border-primary/20 bg-primary/10 px-4 py-3 backdrop-blur-md md:px-6">
-            <div className="flex items-center gap-3 md:hidden">
-              <button
-                onClick={() => setIsSidebarOpen(true)}
-                className="text-muted-foreground hover:text-foreground"
+          <header className="flex min-h-16 items-center gap-2 border-b border-primary/20 bg-primary/10 px-3 py-2 backdrop-blur-md md:gap-4 md:px-6">
+            <button
+              onClick={() => setIsSidebarOpen(true)}
+              aria-label="Open navigation"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-background/50 hover:text-foreground md:hidden"
+            >
+              <svg
+                width="23"
+                height="23"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
               >
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path d="M3 12h18M3 6h18M3 18h18" />
-                </svg>
-              </button>
-              <img src={brandIcon} alt="" width={28} height={28} className="h-7 w-7" />
-              <span className="font-display text-base">
-                Astro<span className="text-primary">Vaanii</span>
+                <path d="M3 12h18M3 6h18M3 18h18" />
+              </svg>
+            </button>
+            <Link
+              to="/pricing"
+              aria-label={`${userName}, get 10 Credits for Just Rs. 139`}
+              className="min-w-0 flex-1 text-center font-medium text-foreground transition-colors hover:text-primary"
+            >
+              <span className="hidden text-sm md:inline">
+                <span className="mr-1.5 text-primary">&#10022;</span>
+                {userName}, get 10 Credits for Just Rs. 139.
+                <span className="ml-2 whitespace-nowrap text-primary hover:underline">
+                  Get offer &rarr;
+                </span>
               </span>
-            </div>
-            <Link to="/pricing" className="min-w-0 flex-1 text-center text-xs font-medium text-foreground transition-colors hover:text-primary sm:text-sm">
-              <span className="mr-1.5 text-primary">&#10022;</span>
-              <span className="hidden sm:inline">{userName}, get 10 personalized questions for just Rs. 139.</span>
-              <span className="sm:hidden">10 personalized questions for Rs. 139</span>
-              <span className="ml-2 whitespace-nowrap text-primary hover:underline">Get offer &rarr;</span>
+              <span className="flex flex-col items-center leading-tight md:hidden">
+                <span className="max-w-full truncate text-xs">
+                  <span className="mr-1 text-primary">&#10022;</span>
+                  {userName}, 10 personalized questions
+                </span>
+                <span className="mt-1 text-sm font-semibold text-primary">
+                  Just Rs. 139{" "}
+                  <span className="ml-1 underline underline-offset-2">Get offer &rarr;</span>
+                </span>
+              </span>
             </Link>
             <button
               onClick={() => {
                 void handleSignOut();
               }}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Sign out"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-background/50 hover:text-foreground md:h-auto md:w-auto md:rounded-none md:text-sm"
             >
-              Sign out
+              <svg
+                className="md:hidden"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                aria-hidden="true"
+              >
+                <path d="M10 17l5-5-5-5M15 12H3" />
+                <path d="M14 3h5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-5" />
+              </svg>
+              <span className="hidden md:inline">Sign out</span>
             </button>
           </header>
 
