@@ -243,7 +243,6 @@ export function VedicTarotReading() {
               const token = parsed.choices?.[0]?.delta?.content;
               if (token) {
                 fullReading += token;
-                setAiReading(fullReading);
               }
             } catch {
               // Ignore incomplete SSE events until the next chunk arrives.
@@ -254,6 +253,7 @@ export function VedicTarotReading() {
 
       if (!fullReading.trim())
         throw new Error("Vaanii returned an empty reading. Please try again.");
+      setAiReading(fullReading);
       setStage("reading");
     } catch (error) {
       setReadingError(
@@ -438,23 +438,44 @@ export function VedicTarotReading() {
         </div>
       )}
 
-      {(stage === "generating" || stage === "reading") && selectedCard && (
-        <div className="mx-auto mt-9 grid max-w-4xl gap-6 md:grid-cols-[220px_1fr] md:items-center">
+      {stage === "generating" && selectedCard && (
+        <div className="mx-auto mt-9 flex max-w-2xl flex-col items-center text-center">
+          <RevealedCard card={selectedCard} />
           <div
-            className="mx-auto flex h-72 w-48 flex-col items-center justify-center rounded-[1.4rem] border border-primary/40 bg-gradient-to-br from-[color:var(--gold)]/20 via-card to-primary/15 p-5 text-center shadow-2xl shadow-primary/15"
-            style={{ animation: "vedic-card-reveal .7s ease-out both" }}
+            className="relative mt-8 w-full overflow-hidden rounded-3xl border border-primary/15 bg-card/80 px-6 py-7 shadow-xl backdrop-blur-md"
+            aria-live="polite"
           >
-            <div className="flex h-20 w-20 items-center justify-center rounded-full border border-primary/30 bg-background/70">
-              <span className="font-display text-sm font-semibold tracking-widest text-primary">
-                {selectedCard.symbol}
-              </span>
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(181,113,72,0.12),transparent_65%)]" />
+            <div className="relative flex flex-col items-center">
+              <div className="relative flex h-14 w-14 items-center justify-center">
+                <span className="absolute inset-0 animate-spin rounded-full border border-primary/15 border-t-primary" />
+                <span className="absolute inset-2 animate-pulse rounded-full border border-[color:var(--gold)]/35" />
+                <span className="font-display text-lg text-primary">ॐ</span>
+              </div>
+              <div className="mt-4 flex items-center gap-1.5" aria-hidden="true">
+                {[0, 1, 2].map((dot) => (
+                  <span
+                    key={dot}
+                    className="h-2 w-2 animate-bounce rounded-full bg-primary"
+                    style={{ animationDelay: `${dot * 140}ms` }}
+                  />
+                ))}
+              </div>
+              <h3 className="mt-4 font-display text-xl text-foreground">
+                Vaanii is preparing your reading
+              </h3>
+              <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
+                Reading {selectedCard.name}, your question, and any available birth-chart context to
+                prepare a useful answer.
+              </p>
             </div>
-            <p className="mt-5 font-display text-2xl text-foreground">{selectedCard.name}</p>
-            <p className="mt-1 text-lg text-primary">{selectedCard.devanagari}</p>
-            <p className="mt-3 text-xs uppercase tracking-[0.14em] text-muted-foreground">
-              {selectedCard.essence}
-            </p>
           </div>
+        </div>
+      )}
+
+      {stage === "reading" && selectedCard && (
+        <div className="mx-auto mt-9 grid max-w-4xl gap-6 md:grid-cols-[220px_1fr] md:items-center">
+          <RevealedCard card={selectedCard} />
 
           <div className="rounded-3xl border border-border bg-card/85 p-6 shadow-xl backdrop-blur-md sm:p-8">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
@@ -464,45 +485,29 @@ export function VedicTarotReading() {
               {selectedCard.name} answers your question
             </h3>
             <p className="mt-2 text-sm italic text-muted-foreground">“{submittedQuestion}”</p>
-            {stage === "generating" && !aiReading ? (
-              <div className="mt-6 rounded-2xl border border-primary/15 bg-primary/5 p-5">
-                <div className="flex items-center gap-3">
-                  <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-primary" />
-                  <p className="text-sm font-medium text-foreground">
-                    Vaanii is reading your card and birth chart...
-                  </p>
-                </div>
-                <p className="mt-2 text-xs text-muted-foreground">
-                  Connecting {selectedCard.name} with the question you asked.
-                </p>
-              </div>
-            ) : (
-              <StructuredReading content={aiReading} streaming={stage === "generating"} />
-            )}
-            {stage === "reading" && (
-              <div className="mt-6 flex flex-wrap gap-3">
-                <button
-                  type="button"
-                  onClick={resetReading}
-                  className="rounded-full border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:border-primary/40"
-                >
-                  Ask Another Question
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setCards(shuffledDeck());
-                    setSelectedIndex(null);
-                    setAiReading("");
-                    setReadingError("");
-                    setStage("shuffling");
-                  }}
-                  className="rounded-full border border-primary/30 bg-primary/5 px-5 py-2.5 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
-                >
-                  Shuffle Again
-                </button>
-              </div>
-            )}
+            <StructuredReading content={aiReading} />
+            <div className="mt-6 flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={resetReading}
+                className="rounded-full border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:border-primary/40"
+              >
+                Ask Another Question
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setCards(shuffledDeck());
+                  setSelectedIndex(null);
+                  setAiReading("");
+                  setReadingError("");
+                  setStage("shuffling");
+                }}
+                className="rounded-full border border-primary/30 bg-primary/5 px-5 py-2.5 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
+              >
+                Shuffle Again
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -515,7 +520,27 @@ export function VedicTarotReading() {
   );
 }
 
-function StructuredReading({ content, streaming }: { content: string; streaming: boolean }) {
+function RevealedCard({ card }: { card: VedicCard }) {
+  return (
+    <div
+      className="mx-auto flex h-72 w-48 flex-col items-center justify-center rounded-[1.4rem] border border-primary/40 bg-gradient-to-br from-[color:var(--gold)]/20 via-card to-primary/15 p-5 text-center shadow-2xl shadow-primary/15"
+      style={{ animation: "vedic-card-reveal .7s ease-out both" }}
+    >
+      <div className="flex h-20 w-20 items-center justify-center rounded-full border border-primary/30 bg-background/70">
+        <span className="font-display text-sm font-semibold tracking-widest text-primary">
+          {card.symbol}
+        </span>
+      </div>
+      <p className="mt-5 font-display text-2xl text-foreground">{card.name}</p>
+      <p className="mt-1 text-lg text-primary">{card.devanagari}</p>
+      <p className="mt-3 text-xs uppercase tracking-[0.14em] text-muted-foreground">
+        {card.essence}
+      </p>
+    </div>
+  );
+}
+
+function StructuredReading({ content }: { content: string }) {
   const blocks = content
     .split(/\n+/)
     .map((line) => line.trim())
@@ -542,9 +567,6 @@ function StructuredReading({ content, streaming }: { content: string; streaming:
           </p>
         );
       })}
-      {streaming && (
-        <span className="inline-block h-4 w-1 animate-pulse bg-primary" aria-hidden="true" />
-      )}
     </div>
   );
 }
