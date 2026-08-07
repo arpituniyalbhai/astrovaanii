@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { DashaCalculatorCallout } from "@/components/landing/DashaCalculatorCallout";
 
 export const Route = createFileRoute("/blogs/what-is-ai-astrologer")({
   head: () => ({
@@ -555,6 +556,8 @@ function WhatIsAiAstrologerPage() {
             </Link>
           </div>
         </section>
+
+        <DashaCalculatorCallout />
 
         {/* FAQ Section */}
         <section className="mt-16">

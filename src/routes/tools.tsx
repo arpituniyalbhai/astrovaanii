@@ -3,6 +3,7 @@ import { Reveal } from "@/components/landing/Reveal";
 import brandIcon from "@/assets/astrovaanii-logo.webp";
 import kundliImage from "@/assets/free-kundlai-generator.webp";
 import chatPreview from "@/assets/chat-preview.jpg";
+import dashaWheelImage from "@/assets/vimshottari-dasha-wheel.webp";
 
 export const Route = createFileRoute("/tools")({
   head: () => ({
@@ -50,20 +51,20 @@ const tools = [
     features: ["24/7 availability", "9 Indian languages", "Chart-aware conversations", "Classical Vedic interpretations"],
   },
   {
-    title: "What Is Lagna (Ascendant)? Guide",
-    description:
-      "Complete beginner's guide to understanding your Lagna (Rising Sign), how it is calculated, why it anchors your birth chart, and interactive North Indian Kundli chart breakdown.",
-    image: "/what-is-lagna-in-astrology.webp",
-    link: "/blogs/what-is-lagna-in-astrology",
-    features: ["North & South Indian Kundli guides", "12 Lagna signs explained", "Lagnesh breakdown", "Interactive SVG chart tutorial"],
-  },
-  {
     title: "Kundali Matching",
     description:
       "Check Kundali matching by name and date of birth. Ashta Koota Gun Milan with accurate Swiss Ephemeris calculations. Boy and girl compatibility score out of 36.",
     image: kundliImage,
     link: "/kundali-matching",
     features: ["Ashta Koota system", "Gun Milan out of 36", "Swiss Ephemeris accuracy", "Rashi & Nakshatra analysis"],
+  },
+  {
+    title: "Vimshottari Dasha Calculator",
+    description:
+      "Find your current Mahadasha and Antardasha using your exact birth date, time, and birthplace. View your Moon Nakshatra, Dasha balance, and complete planetary timeline.",
+    image: dashaWheelImage,
+    link: "/vimshottari-dasha-calculator",
+    features: ["Current Mahadasha", "Antardasha timeline", "Moon Nakshatra", "Swiss Ephemeris accuracy"],
   },
 ];
 

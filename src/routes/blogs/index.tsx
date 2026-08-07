@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { DashaCalculatorCallout } from "@/components/landing/DashaCalculatorCallout";
 
 const blogPosts = [
   {
@@ -132,6 +133,8 @@ function BlogsPage() {
         <p className="mt-3 text-lg text-muted-foreground">
           Articles about AI astrology, birth charts, and Vedic wisdom.
         </p>
+
+        <DashaCalculatorCallout />
 
         <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {blogPosts.map((post) => (

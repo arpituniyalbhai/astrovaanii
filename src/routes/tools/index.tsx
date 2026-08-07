@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import brandIcon from "@/assets/astrovaanii-logo.webp";
 import kundliImage from "@/assets/free-kundlai-generator.webp";
+import dashaWheelImage from "@/assets/vimshottari-dasha-wheel.webp";
 
 export const Route = createFileRoute("/tools/")({
   head: () => ({
@@ -64,25 +65,6 @@ function ToolsPage() {
             </span>
           </Link>
 
-          <Link to="/blogs/what-is-lagna-in-astrology" className="group rounded-3xl border border-border bg-card p-6 hover:shadow-xl transition-all duration-300 hover:border-primary/30">
-            <div className="aspect-video rounded-2xl overflow-hidden bg-background/70 mb-4">
-              <img
-                src="/what-is-lagna-in-astrology.webp"
-                alt="What Is Lagna (Ascendant) Guide"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-            </div>
-            <h3 className="font-display text-xl text-primary group-hover:text-primary/80 transition-colors">
-              What Is Lagna (Ascendant)?
-            </h3>
-            <p className="text-sm text-muted-foreground mt-2">
-              Complete beginner's guide to understanding your Lagna (Rising Sign), how it is calculated, and what it reveals about your birth chart.
-            </p>
-            <span className="inline-block mt-3 text-sm font-medium text-primary">
-              Read Guide &rarr;
-            </span>
-          </Link>
-
           <Link to="/kundali-matching" className="group rounded-3xl border border-border bg-card p-6 hover:shadow-xl transition-all duration-300 hover:border-primary/30">
             <div className="aspect-video rounded-2xl overflow-hidden bg-background/70 mb-4">
               <img
@@ -99,6 +81,27 @@ function ToolsPage() {
             </p>
             <span className="inline-block mt-3 text-sm font-medium text-primary">
               Check Match &rarr;
+            </span>
+          </Link>
+
+          <Link to="/vimshottari-dasha-calculator" className="group rounded-3xl border border-border bg-card p-6 hover:shadow-xl transition-all duration-300 hover:border-primary/30">
+            <div className="aspect-video rounded-2xl overflow-hidden bg-background/70 mb-4">
+              <img
+                src={dashaWheelImage}
+                alt="Vimshottari Dasha celestial timing wheel"
+                width={1279}
+                height={720}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <h3 className="font-display text-xl text-primary group-hover:text-primary/80 transition-colors">
+              Vimshottari Dasha Calculator
+            </h3>
+            <p className="text-sm text-muted-foreground mt-2">
+              Calculate your current Mahadasha and Antardasha from your Moon Nakshatra with Swiss Ephemeris and Lahiri ayanamsa.
+            </p>
+            <span className="inline-block mt-3 text-sm font-medium text-primary">
+              Calculate Dasha &rarr;
             </span>
           </Link>
         </div>

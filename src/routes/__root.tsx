@@ -96,32 +96,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" },
-      { title: "AI Astrology: Chat with Your Personal AI Astrologer" },
-      {
-        name: "description",
-        content:
-          "Meet Vaanii, your free AI astrologer. Explore accurate Vedic astrology, Kundli, birth chart, love, career, and daily predictions in 9 Indian languages.",
-      },
       { name: "author", content: "AstroVaanii" },
       { name: "theme-color", content: "#f2ead8" },
-      { property: "og:title", content: "AI Astrology: Chat with Your Personal AI Astrologer" },
-      {
-        property: "og:description",
-        content: "Meet Vaanii, your free AI astrologer. Get accurate Vedic astrology, Kundli, birth chart analysis, love, career, and daily predictions in 9 languages.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://astrovaanii.in/" },
       { property: "og:site_name", content: "AstroVaanii" },
-      { property: "og:image", content: "/social-sharing.jpg" },
-      { property: "og:image:width", content: "1200" },
-      { property: "og:image:height", content: "630" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "AI Astrology: Chat with Your Personal AI Astrologer" },
-      {
-        name: "twitter:description",
-        content: "Meet Vaanii, your free AI astrologer. Get accurate Vedic astrology, birth chart, and daily predictions in 9 Indian languages.",
-      },
-      { name: "twitter:image", content: "/social-sharing.jpg" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

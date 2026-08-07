@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VimshottariDashaCalculatorRouteImport } from './routes/vimshottari-dasha-calculator'
 import { Route as ToolsRouteImport } from './routes/tools'
 import { Route as TermsAndConditionsRouteImport } from './routes/terms-and-conditions'
 import { Route as SignupRouteImport } from './routes/signup'
@@ -37,12 +38,19 @@ import { Route as BlogsWhatIsAiAstrologerRouteImport } from './routes/blogs/what
 import { Route as BlogsTop5AiAstrologyPlatformInIndiaRouteImport } from './routes/blogs/top-5-ai-astrology-platform-in-india'
 import { Route as BlogsHowAiReadsYourBirthChartRouteImport } from './routes/blogs/how-ai-reads-your-birth-chart'
 import { Route as BlogsArpitUniyalRouteImport } from './routes/blogs/arpit-uniyal'
+import { Route as ApiVimshottariDashaRouteImport } from './routes/api/vimshottari-dasha'
 import { Route as ApiVerifyPaymentRouteImport } from './routes/api/verify-payment'
 import { Route as ApiKundaliMatchingRouteImport } from './routes/api/kundali-matching'
 import { Route as ApiFollowUpRouteImport } from './routes/api/follow-up'
 import { Route as ApiCreateOrderRouteImport } from './routes/api/create-order'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 
+const VimshottariDashaCalculatorRoute =
+  VimshottariDashaCalculatorRouteImport.update({
+    id: '/vimshottari-dasha-calculator',
+    path: '/vimshottari-dasha-calculator',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ToolsRoute = ToolsRouteImport.update({
   id: '/tools',
   path: '/tools',
@@ -186,6 +194,11 @@ const BlogsArpitUniyalRoute = BlogsArpitUniyalRouteImport.update({
   path: '/blogs/arpit-uniyal',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiVimshottariDashaRoute = ApiVimshottariDashaRouteImport.update({
+  id: '/api/vimshottari-dasha',
+  path: '/api/vimshottari-dasha',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiVerifyPaymentRoute = ApiVerifyPaymentRouteImport.update({
   id: '/api/verify-payment',
   path: '/api/verify-payment',
@@ -230,11 +243,13 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/tools': typeof ToolsRouteWithChildren
+  '/vimshottari-dasha-calculator': typeof VimshottariDashaCalculatorRoute
   '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/follow-up': typeof ApiFollowUpRoute
   '/api/kundali-matching': typeof ApiKundaliMatchingRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
+  '/api/vimshottari-dasha': typeof ApiVimshottariDashaRoute
   '/blogs/arpit-uniyal': typeof BlogsArpitUniyalRoute
   '/blogs/how-ai-reads-your-birth-chart': typeof BlogsHowAiReadsYourBirthChartRoute
   '/blogs/top-5-ai-astrology-platform-in-india': typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
@@ -264,11 +279,13 @@ export interface FileRoutesByTo {
   '/refund-policy': typeof RefundPolicyRoute
   '/signup': typeof SignupRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
+  '/vimshottari-dasha-calculator': typeof VimshottariDashaCalculatorRoute
   '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/follow-up': typeof ApiFollowUpRoute
   '/api/kundali-matching': typeof ApiKundaliMatchingRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
+  '/api/vimshottari-dasha': typeof ApiVimshottariDashaRoute
   '/blogs/arpit-uniyal': typeof BlogsArpitUniyalRoute
   '/blogs/how-ai-reads-your-birth-chart': typeof BlogsHowAiReadsYourBirthChartRoute
   '/blogs/top-5-ai-astrology-platform-in-india': typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
@@ -300,11 +317,13 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/tools': typeof ToolsRouteWithChildren
+  '/vimshottari-dasha-calculator': typeof VimshottariDashaCalculatorRoute
   '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/follow-up': typeof ApiFollowUpRoute
   '/api/kundali-matching': typeof ApiKundaliMatchingRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
+  '/api/vimshottari-dasha': typeof ApiVimshottariDashaRoute
   '/blogs/arpit-uniyal': typeof BlogsArpitUniyalRoute
   '/blogs/how-ai-reads-your-birth-chart': typeof BlogsHowAiReadsYourBirthChartRoute
   '/blogs/top-5-ai-astrology-platform-in-india': typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
@@ -337,11 +356,13 @@ export interface FileRouteTypes {
     | '/signup'
     | '/terms-and-conditions'
     | '/tools'
+    | '/vimshottari-dasha-calculator'
     | '/api/chat'
     | '/api/create-order'
     | '/api/follow-up'
     | '/api/kundali-matching'
     | '/api/verify-payment'
+    | '/api/vimshottari-dasha'
     | '/blogs/arpit-uniyal'
     | '/blogs/how-ai-reads-your-birth-chart'
     | '/blogs/top-5-ai-astrology-platform-in-india'
@@ -371,11 +392,13 @@ export interface FileRouteTypes {
     | '/refund-policy'
     | '/signup'
     | '/terms-and-conditions'
+    | '/vimshottari-dasha-calculator'
     | '/api/chat'
     | '/api/create-order'
     | '/api/follow-up'
     | '/api/kundali-matching'
     | '/api/verify-payment'
+    | '/api/vimshottari-dasha'
     | '/blogs/arpit-uniyal'
     | '/blogs/how-ai-reads-your-birth-chart'
     | '/blogs/top-5-ai-astrology-platform-in-india'
@@ -406,11 +429,13 @@ export interface FileRouteTypes {
     | '/signup'
     | '/terms-and-conditions'
     | '/tools'
+    | '/vimshottari-dasha-calculator'
     | '/api/chat'
     | '/api/create-order'
     | '/api/follow-up'
     | '/api/kundali-matching'
     | '/api/verify-payment'
+    | '/api/vimshottari-dasha'
     | '/blogs/arpit-uniyal'
     | '/blogs/how-ai-reads-your-birth-chart'
     | '/blogs/top-5-ai-astrology-platform-in-india'
@@ -442,11 +467,13 @@ export interface RootRouteChildren {
   SignupRoute: typeof SignupRoute
   TermsAndConditionsRoute: typeof TermsAndConditionsRoute
   ToolsRoute: typeof ToolsRouteWithChildren
+  VimshottariDashaCalculatorRoute: typeof VimshottariDashaCalculatorRoute
   ApiChatRoute: typeof ApiChatRoute
   ApiCreateOrderRoute: typeof ApiCreateOrderRoute
   ApiFollowUpRoute: typeof ApiFollowUpRoute
   ApiKundaliMatchingRoute: typeof ApiKundaliMatchingRoute
   ApiVerifyPaymentRoute: typeof ApiVerifyPaymentRoute
+  ApiVimshottariDashaRoute: typeof ApiVimshottariDashaRoute
   BlogsArpitUniyalRoute: typeof BlogsArpitUniyalRoute
   BlogsHowAiReadsYourBirthChartRoute: typeof BlogsHowAiReadsYourBirthChartRoute
   BlogsTop5AiAstrologyPlatformInIndiaRoute: typeof BlogsTop5AiAstrologyPlatformInIndiaRoute
@@ -461,6 +488,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/vimshottari-dasha-calculator': {
+      id: '/vimshottari-dasha-calculator'
+      path: '/vimshottari-dasha-calculator'
+      fullPath: '/vimshottari-dasha-calculator'
+      preLoaderRoute: typeof VimshottariDashaCalculatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tools': {
       id: '/tools'
       path: '/tools'
@@ -657,6 +691,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogsArpitUniyalRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/vimshottari-dasha': {
+      id: '/api/vimshottari-dasha'
+      path: '/api/vimshottari-dasha'
+      fullPath: '/api/vimshottari-dasha'
+      preLoaderRoute: typeof ApiVimshottariDashaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/verify-payment': {
       id: '/api/verify-payment'
       path: '/api/verify-payment'
@@ -723,11 +764,13 @@ const rootRouteChildren: RootRouteChildren = {
   SignupRoute: SignupRoute,
   TermsAndConditionsRoute: TermsAndConditionsRoute,
   ToolsRoute: ToolsRouteWithChildren,
+  VimshottariDashaCalculatorRoute: VimshottariDashaCalculatorRoute,
   ApiChatRoute: ApiChatRoute,
   ApiCreateOrderRoute: ApiCreateOrderRoute,
   ApiFollowUpRoute: ApiFollowUpRoute,
   ApiKundaliMatchingRoute: ApiKundaliMatchingRoute,
   ApiVerifyPaymentRoute: ApiVerifyPaymentRoute,
+  ApiVimshottariDashaRoute: ApiVimshottariDashaRoute,
   BlogsArpitUniyalRoute: BlogsArpitUniyalRoute,
   BlogsHowAiReadsYourBirthChartRoute: BlogsHowAiReadsYourBirthChartRoute,
   BlogsTop5AiAstrologyPlatformInIndiaRoute:

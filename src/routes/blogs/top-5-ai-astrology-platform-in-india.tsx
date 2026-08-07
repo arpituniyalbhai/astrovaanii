@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import featuredImage from "@/assets/top-5-ai-astrology-platform-in-india.webp";
+import { DashaCalculatorCallout } from "@/components/landing/DashaCalculatorCallout";
 
 export const Route = createFileRoute("/blogs/top-5-ai-astrology-platform-in-india")({
   head: () => ({
@@ -716,6 +717,8 @@ function Top5AiAstrologyPlatformsPage() {
             As AI technology continues to improve, these platforms are likely to become even more capable of helping users understand planetary influences, birth charts, and Vedic astrology concepts. However, users should remember that astrology is a guidance tool and should be used thoughtfully, especially when making major life decisions.
           </p>
         </section>
+
+        <DashaCalculatorCallout />
 
         <section className="mt-16">
           <h2 className="font-display text-3xl font-semibold text-foreground">Frequently Asked Questions</h2>

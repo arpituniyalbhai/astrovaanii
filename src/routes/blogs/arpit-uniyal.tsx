@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import arpitUniyalImage from "@/assets/arpit-uniyal.webp";
+import { DashaCalculatorCallout } from "@/components/landing/DashaCalculatorCallout";
 
 export const Route = createFileRoute("/blogs/arpit-uniyal")({
   head: () => ({
@@ -445,6 +446,8 @@ function ArpitUniyalPage() {
             </div>
           </div>
         </div>
+
+        <DashaCalculatorCallout />
 
         <footer className="mt-16 border-t border-border pt-8">
           <div className="flex flex-wrap items-center justify-between gap-4">

@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import featuredImage from "@/assets/what-is-lagna-in-astrology.webp";
 import brandIcon from "@/assets/astrovaanii-logo.webp";
+import { DashaCalculatorCallout } from "@/components/landing/DashaCalculatorCallout";
 
 export const Route = createFileRoute("/blogs/what-is-lagna-in-astrology")({
   head: () => ({
@@ -714,6 +715,8 @@ function WhatIsLagnaPage() {
             </div>
           </div>
         </article>
+
+        <DashaCalculatorCallout />
 
         {/* 10 High-Volume FAQs */}
         <section className="mt-14 space-y-6">

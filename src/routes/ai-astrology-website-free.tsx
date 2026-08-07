@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import brandIcon from "@/assets/astrovaanii-logo.webp";
+import { DashaCalculatorCallout } from "@/components/landing/DashaCalculatorCallout";
 import {
   Sparkles,
   Zap,
@@ -1123,6 +1124,8 @@ function FreeAiAstrologyPage() {
             </ul>
           </div>
         </article>
+
+        <DashaCalculatorCallout />
 
         {/* ===== FAQ SECTION ===== */}
         <section className="mt-20">

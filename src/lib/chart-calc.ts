@@ -284,12 +284,14 @@ function calcVimshottariMahadasha(moonNak: number, moonLon: number): [string, nu
 function calcFullDasha(mahadashaLord: string, balanceYears: number, birthDate: Date) {
   const startIdx = DASHA_ORDER.indexOf(mahadashaLord);
   const result: { planet: string; years: number; remaining: number; start: string; end: string }[] = [];
-  let cursor = new Date(birthDate);
+  const firstDashaYears = DASHA_YEARS[mahadashaLord];
+  // The active Mahadasha began before birth; only its balance remains at birth.
+  let cursor = new Date(birthDate.getTime() - (firstDashaYears - balanceYears) * 365.25 * 24 * 60 * 60 * 1000);
 
   for (let i = 0; i < 9; i++) {
     const idx = (startIdx + i) % 9;
     const planet = DASHA_ORDER[idx];
-    const years = i === 0 ? balanceYears : DASHA_YEARS[planet];
+    const years = i === 0 ? firstDashaYears : DASHA_YEARS[planet];
     const start = new Date(cursor);
     const ms = years * 365.25 * 24 * 60 * 60 * 1000;
     cursor = new Date(cursor.getTime() + ms);

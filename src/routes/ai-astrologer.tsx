@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect, useRef } from "react";
 import { Reveal } from "@/components/landing/Reveal";
+import { DashaCalculatorCallout } from "@/components/landing/DashaCalculatorCallout";
 import brandIcon from "@/assets/astrovaanii-logo.webp";
 import vaaniiPersona from "@/assets/vaanii-persona.jpg";
 import chatPreview from "@/assets/chat-preview.jpg";
@@ -73,22 +74,28 @@ const softwareAppJsonLd = {
 export const Route = createFileRoute("/ai-astrologer")({
   head: () => ({
     meta: [
-      { title: "AI Astrologer Online - Free Astrology Chat - AstroVaanii" },
+      { title: "Free AI Astrologer Online - Chat With Vaanii | AstroVaanii" },
       {
         name: "description",
         content:
-          "Meet Vaanii, an AI astrologer trained on classical Vedic astrology (Parashara & Jaimini). Instant predictions in 9 Indian languages. Free to start.",
+          "Chat with Vaanii, your free AI astrologer online. Get instant Vedic astrology guidance for your Kundli, love, career, and daily life in 9 Indian languages.",
       },
-      { property: "og:title", content: "AI Astrologer Online - Free Astrology Chat - AstroVaanii" },
+      { property: "og:title", content: "Free AI Astrologer Online - Chat With Vaanii | AstroVaanii" },
       {
         property: "og:description",
         content:
-          "Meet Vaanii, an AI astrologer trained on classical Vedic astrology. Instant predictions in 9 Indian languages. Free to start.",
+          "Chat with Vaanii, your free AI astrologer online. Get instant Vedic astrology guidance in 9 Indian languages.",
       },
       { property: "og:url", content: "https://astrovaanii.in/ai-astrologer" },
       { property: "og:type", content: "website" },
       { property: "og:image", content: "/social-sharing.jpg" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Free AI Astrologer Online - Chat With Vaanii | AstroVaanii" },
+      {
+        name: "twitter:description",
+        content: "Chat with Vaanii, your free AI astrologer online. Instant Vedic astrology guidance in 9 Indian languages.",
+      },
+      { name: "twitter:image", content: "/social-sharing.jpg" },
     ],
     links: [{ rel: "canonical", href: "https://astrovaanii.in/ai-astrologer" }],
     scripts: [
@@ -449,11 +456,11 @@ function AiAstrologerPage() {
         <Reveal>
           <div className="text-center">
             <h1 className="font-display text-4xl md:text-5xl text-foreground">
-              AI Astrologer<br />
+              Free AI Astrologer Online<br />
               <span className="text-primary">Chat with Vaanii</span>
             </h1>
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-              Your Personal Vedic AI Astrologer Available 24/7
+              Get instant, personal Vedic astrology guidance 24/7
             </p>
           </div>
         </Reveal>
@@ -881,6 +888,7 @@ function SeoContent() {
           </table>
         </div>
       </Reveal>
+      <DashaCalculatorCallout />
     </section>
   );
 }

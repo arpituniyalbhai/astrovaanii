@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { Reveal } from "@/components/landing/Reveal";
+import { DashaCalculatorCallout } from "@/components/landing/DashaCalculatorCallout";
 import brandIcon from "@/assets/astrovaanii-logo.webp";
 import type { MatchingResult } from "@/lib/kundali-matching";
 
@@ -902,6 +903,7 @@ function SeoContent() {
           </div>
         </div>
       </Reveal>
+      <DashaCalculatorCallout />
     </section>
   );
 }

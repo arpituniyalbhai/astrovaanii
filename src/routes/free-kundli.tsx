@@ -773,11 +773,16 @@ function SeoContent() {
             >
               Kundli Matching
             </Link>
+            <Link
+              to="/vimshottari-dasha-calculator"
+              className="inline-flex items-center justify-center rounded-full border border-primary/30 bg-primary/5 px-6 py-3 text-sm font-medium text-primary hover:bg-primary/10 transition-colors"
+            >
+              Vimshottari Dasha Calculator
+            </Link>
           </div>
         </section>
       </Reveal>
     </section>
   );
 }
-
 

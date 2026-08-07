@@ -129,13 +129,13 @@ function Hero() {
           </Reveal>
           <Reveal delay={80}>
             <h1 className="mt-6 font-display text-5xl leading-[1.05] tracking-tight text-foreground md:text-6xl">
-              Meet <em className="not-italic text-primary">Vaanii</em>, your personal AI astrologer.
+              Vedic astrology for <em className="not-italic text-primary">your life</em>.
             </h1>
           </Reveal>
           <Reveal delay={160}>
             <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">
-              AstroVaanii is a Vedic AI astrologer available 24/7 — no appointments, no waiting.
-              Classical Jyotish calculations, natural conversation, nine Indian languages.
+              Get personal Kundli insights, daily horoscope, and Vedic guidance for love, career, and life.
+              Meet Vaanii, your AI astrologer, available in nine Indian languages.
             </p>
           </Reveal>
           <Reveal delay={240}>
@@ -854,6 +854,27 @@ function FreeToolsSection() {
               </div>
             </Link>
           </Reveal>
+
+          <Reveal delay={200}>
+            <Link
+              to="/vimshottari-dasha-calculator"
+              className="group block h-full rounded-3xl border border-primary/25 bg-primary/5 p-6 shadow-xl backdrop-blur-md transition-all duration-300 hover:border-primary/50 hover:shadow-2xl"
+            >
+              <h3 className="font-display text-xl text-foreground transition-colors group-hover:text-primary">
+                Vimshottari Dasha Calculator
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                Find your current Mahadasha and Antardasha from your exact birth details. View your Moon Nakshatra and complete Dasha timeline.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {["Current Mahadasha", "Antardasha", "Moon Nakshatra", "Swiss Ephemeris"].map((feature) => (
+                  <span key={feature} className="rounded-full border border-border bg-background/70 px-3 py-1 text-xs text-muted-foreground">
+                    {feature}
+                  </span>
+                ))}
+              </div>
+            </Link>
+          </Reveal>
         </div>
       </div>
     </section>
@@ -1074,66 +1095,106 @@ function CTA() {
 
 function Footer() {
   return (
-    <footer className="border-t border-border bg-card/40 py-12">
-      <div className="mx-auto flex max-w-6xl flex-col gap-8 px-6">
-        <div className="flex flex-col justify-between gap-8 md:flex-row md:items-start">
+    <footer className="border-t border-border bg-card/40 py-14">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.25fr_1fr_1.35fr_1fr_0.9fr]">
           <div>
-            <div className="flex items-center gap-2">
-              <img src={brandIcon} alt="" width={28} height={28} className="h-7 w-7" />
-              <span className="font-display text-lg">AstroVaanii</span>
-            </div>
-            <p className="mt-2 max-w-xs text-sm text-muted-foreground">
-              Your personal AI astrologer. Vedic wisdom, instant answers.
+            <Link to="/" className="flex items-center gap-2" aria-label="AstroVaanii home">
+              <img src={brandIcon} alt="" width={32} height={32} className="h-8 w-8" />
+              <span className="font-display text-xl">Astro<span className="text-primary">Vaanii</span></span>
+            </Link>
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted-foreground">
+              Personal Vedic astrology, Kundli insights, and guidance from Vaanii, your AI astrologer.
             </p>
-          </div>
-          <div className="flex flex-wrap gap-8 text-sm text-muted-foreground">
-            <a href="#meet" className="hover:text-foreground">
-              Meet Vaanii
-            </a>
-            <a href="#daily" className="hover:text-foreground">
-              Daily prediction
-            </a>
-            <a href="#how" className="hover:text-foreground">
-              How it works
-            </a>
-            <a href="#faq" className="hover:text-foreground">
-              FAQ
-            </a>
-            <Link to="/blogs" className="hover:text-foreground">
-              Blog
-            </Link>
-            <Link to="/ai-astrology-website-free" className="hover:text-foreground">
-              Free AI Astrology
-            </Link>
-            <Link to="/tools" className="hover:text-foreground">
-              Tools
+            <Link
+              to="/signup"
+              className="mt-5 inline-flex rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+            >
+              Start Free Reading
             </Link>
           </div>
-          <div className="flex flex-col gap-3 text-sm">
-            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60">
-              Legal
-            </span>
-            <div className="flex flex-col gap-2 text-muted-foreground">
-              <Link to="/privacy-policy" className="hover:text-foreground">
-                Privacy Policy
-              </Link>
-              <Link to="/terms-and-conditions" className="hover:text-foreground">
-                Terms &amp; Conditions
-              </Link>
-              <Link to="/refund-policy" className="hover:text-foreground">
-                Refund Policy
-              </Link>
-              <Link to="/disclaimer" className="hover:text-foreground">
-                Disclaimer
-              </Link>
-            </div>
-          </div>
+
+          <FooterLinks
+            title="Tools"
+            links={[
+              { to: "/ai-astrologer", label: "Free AI Astrologer" },
+              { to: "/free-kundli", label: "Kundli Generator" },
+              { to: "/kundali-matching", label: "Kundali Matching" },
+              { to: "/vimshottari-dasha-calculator", label: "Dasha Calculator" },
+              { to: "/ai-astrology-website-free", label: "Free AI Astrology" },
+              { to: "/tools", label: "Explore All Tools" },
+            ]}
+          />
+
+          <FooterLinks
+            title="Latest Guides"
+            links={[
+              { to: "/blogs/what-is-lagna-in-astrology", label: "What Is Lagna?" },
+              { to: "/blogs/what-is-ai-astrologer", label: "What Is an AI Astrologer?" },
+              { to: "/blogs/how-ai-reads-your-birth-chart", label: "How AI Reads Your Birth Chart" },
+              { to: "/ai-astrology-website-free", label: "Free AI Astrology Website" },
+              { to: "/blogs/top-5-ai-astrology-platform-in-india", label: "Top AI Astrology Platforms" },
+              { to: "/blogs/arpit-uniyal", label: "About Our Founder" },
+              { to: "/blogs", label: "View All Blogs" },
+            ]}
+          />
+
+          <FooterLinks
+            title="Explore"
+            links={[
+              { to: "/", label: "Home" },
+              { to: "/puja", label: "Online Puja Services" },
+              { href: "#meet", label: "Meet Vaanii" },
+              { href: "#daily", label: "Daily Predictions" },
+              { href: "#how", label: "How It Works" },
+              { href: "#faq", label: "FAQ" },
+            ]}
+          />
+
+          <FooterLinks
+            title="Legal"
+            links={[
+              { to: "/privacy-policy", label: "Privacy Policy" },
+              { to: "/terms-and-conditions", label: "Terms & Conditions" },
+              { to: "/refund-policy", label: "Refund Policy" },
+              { to: "/disclaimer", label: "Disclaimer" },
+            ]}
+          />
         </div>
-        <div className="border-t border-border pt-6 text-center text-xs text-muted-foreground">
+        <div className="mt-12 border-t border-border pt-6 text-center text-xs text-muted-foreground">
           &copy; {new Date().getFullYear()} AstroVaanii
         </div>
       </div>
     </footer>
+  );
+}
+
+type FooterLink = {
+  label: string;
+  to?: string;
+  href?: string;
+};
+
+function FooterLinks({ title, links }: { title: string; links: FooterLink[] }) {
+  return (
+    <div className="flex flex-col gap-3 text-sm">
+      <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground/70">
+        {title}
+      </h2>
+      <div className="flex flex-col gap-2.5 text-muted-foreground">
+        {links.map((link) =>
+          link.to ? (
+            <Link key={link.to} to={link.to} className="leading-snug transition-colors hover:text-primary">
+              {link.label}
+            </Link>
+          ) : (
+            <a key={link.href} href={link.href} className="leading-snug transition-colors hover:text-primary">
+              {link.label}
+            </a>
+          ),
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -1151,17 +1212,17 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "AI Astrology: Chat with Your Personal AI Astrologer" },
+      { title: "Online Vedic Astrology, Kundli & Daily Horoscope | AstroVaanii" },
       {
         name: "description",
         content:
-          "Meet Vaanii, your free AI astrologer. Explore accurate Vedic astrology, Kundli, birth chart, love, career, and daily predictions in 9 Indian languages.",
+          "Explore Vedic astrology online with AstroVaanii. Get your Kundli, birth chart insights, daily horoscope, and guidance for love, career, and life in 9 Indian languages.",
       },
-      { property: "og:title", content: "AI Astrology: Chat with Your Personal AI Astrologer" },
+      { property: "og:title", content: "Online Vedic Astrology, Kundli & Daily Horoscope | AstroVaanii" },
       {
         property: "og:description",
         content:
-          "Meet Vaanii, your free AI astrologer. Get accurate Vedic astrology, Kundli, birth chart analysis, love, career, and daily predictions in 9 languages.",
+          "Explore Vedic astrology online with Kundli, birth chart insights, daily horoscope, and personal guidance in 9 Indian languages.",
       },
       { property: "og:url", content: "https://astrovaanii.in/" },
       { property: "og:type", content: "website" },
@@ -1169,11 +1230,11 @@ export const Route = createFileRoute("/")({
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "AI Astrology: Chat with Your Personal AI Astrologer" },
+      { name: "twitter:title", content: "Online Vedic Astrology, Kundli & Daily Horoscope | AstroVaanii" },
       {
         name: "twitter:description",
         content:
-          "Meet Vaanii, your free AI astrologer. Get accurate Vedic astrology, birth chart, and daily predictions in 9 Indian languages.",
+          "Explore Vedic astrology online with Kundli, birth chart insights, daily horoscope, and personal guidance in 9 Indian languages.",
       },
       { name: "twitter:image", content: "/social-sharing.webp" },
     ],
