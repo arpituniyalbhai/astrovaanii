@@ -1,7 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, getDoc, updateDoc, setDoc, increment, runTransaction } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  updateDoc,
+  setDoc,
+  increment,
+  runTransaction,
+} from "firebase/firestore";
 import { detectTopic } from "../../lib/topic-detection";
 import { generateReasoning } from "../../lib/reasoning-engine";
 
@@ -22,7 +30,17 @@ function emailToDocId(email: string) {
   return email.replace(/\./g, ",");
 }
 
-const PLANET_NAMES = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"];
+const PLANET_NAMES = [
+  "Sun",
+  "Moon",
+  "Mars",
+  "Mercury",
+  "Jupiter",
+  "Venus",
+  "Saturn",
+  "Rahu",
+  "Ketu",
+];
 
 function extractPreviousContext(messages: { role: string; content: string }[]): string {
   const lastBot = messages.filter((m) => m.role === "assistant").slice(-2);
@@ -64,7 +82,10 @@ READING RULES
 - Use birth-chart facts only when they are provided below. Never invent a placement, Dasha, date, yoga, or transit.
 - If chart facts are available, connect only the most relevant one or two facts to the question and card.
 - If chart facts are unavailable, do not claim the reading is personalized from a Kundli.
-- Be warm, specific, practical, and honest. Avoid fear, superstition, fatalism, and absolute promises.
+- Write in natural, conversational language that sounds like a thoughtful human astrologer, never like a template, textbook, or automated report.
+- Give a clear and genuinely useful answer with enough context to help the user make a decision or understand their situation.
+- Be warm, specific, practical, and honest. Avoid vague filler, fear, superstition, fatalism, and absolute promises.
+- Explain astrology terms in everyday words whenever one is necessary.
 - Detect the language of the user's question and answer in the same language.
 - Write 180 to 240 words. Do not use tables or bullet lists.
 
@@ -78,22 +99,58 @@ Use exactly these section headings:
 Keep each section concise and place its text on the next line.`;
 
 const VEDIC_TAROT_CARDS: Record<string, { essence: string; themes: string }> = {
-  Surya: { essence: "clarity and life force", themes: "confidence, direction, recognition, renewed energy" },
-  Chandra: { essence: "intuition and inner rhythm", themes: "inner knowing, sensitivity, home, memory, changing moods" },
-  Ganesha: { essence: "openings and wise beginnings", themes: "new starts, practical wisdom, learning, obstacle removal" },
-  Saraswati: { essence: "wisdom and expression", themes: "study, speech, creativity, skill, discernment" },
-  Lakshmi: { essence: "value and graceful abundance", themes: "resources, self-worth, harmony, generosity, sustainable prosperity" },
-  Hanuman: { essence: "courage and devoted action", themes: "discipline, loyalty, resilience, service, focused effort" },
-  Shiva: { essence: "release and transformation", themes: "transformation, endings, stillness, truth, renewal" },
-  Shakti: { essence: "creative power and movement", themes: "agency, creativity, passion, boundaries, momentum" },
-  "Dharma Chakra": { essence: "alignment and right action", themes: "purpose, responsibility, timing, ethics, long-term direction" },
-  Padma: { essence: "growth through experience", themes: "healing, patience, beauty, emotional growth, spiritual maturity" },
-  Deepa: { essence: "guidance and illumination", themes: "insight, hope, learning, protection, practical guidance" },
-  Kalpavriksha: { essence: "potential and patient creation", themes: "long-term wishes, support, legacy, patience, fruitful effort" },
+  Surya: {
+    essence: "clarity and life force",
+    themes: "confidence, direction, recognition, renewed energy",
+  },
+  Chandra: {
+    essence: "intuition and inner rhythm",
+    themes: "inner knowing, sensitivity, home, memory, changing moods",
+  },
+  Ganesha: {
+    essence: "openings and wise beginnings",
+    themes: "new starts, practical wisdom, learning, obstacle removal",
+  },
+  Saraswati: {
+    essence: "wisdom and expression",
+    themes: "study, speech, creativity, skill, discernment",
+  },
+  Lakshmi: {
+    essence: "value and graceful abundance",
+    themes: "resources, self-worth, harmony, generosity, sustainable prosperity",
+  },
+  Hanuman: {
+    essence: "courage and devoted action",
+    themes: "discipline, loyalty, resilience, service, focused effort",
+  },
+  Shiva: {
+    essence: "release and transformation",
+    themes: "transformation, endings, stillness, truth, renewal",
+  },
+  Shakti: {
+    essence: "creative power and movement",
+    themes: "agency, creativity, passion, boundaries, momentum",
+  },
+  "Dharma Chakra": {
+    essence: "alignment and right action",
+    themes: "purpose, responsibility, timing, ethics, long-term direction",
+  },
+  Padma: {
+    essence: "growth through experience",
+    themes: "healing, patience, beauty, emotional growth, spiritual maturity",
+  },
+  Deepa: {
+    essence: "guidance and illumination",
+    themes: "insight, hope, learning, protection, practical guidance",
+  },
+  Kalpavriksha: {
+    essence: "potential and patient creation",
+    themes: "long-term wishes, support, legacy, patience, fruitful effort",
+  },
 };
 
 async function handleStream(request: Request) {
-  const data = await request.json() as {
+  const data = (await request.json()) as {
     messages: { role: string; content: string }[];
     chart?: unknown;
     userName?: string;
@@ -105,9 +162,8 @@ async function handleStream(request: Request) {
   };
   const { messages, chart, userName, userDetails, email, isFree, mode, tarot } = data;
   const isTarotReading = mode === "vedic-tarot";
-  const selectedTarotCard = isTarotReading && tarot?.cardName
-    ? VEDIC_TAROT_CARDS[tarot.cardName]
-    : undefined;
+  const selectedTarotCard =
+    isTarotReading && tarot?.cardName ? VEDIC_TAROT_CARDS[tarot.cardName] : undefined;
 
   if (isTarotReading && !selectedTarotCard) {
     return new Response(JSON.stringify({ error: "Please select a valid Vedic card." }), {
@@ -146,39 +202,55 @@ async function handleStream(request: Request) {
       });
       questionsRemaining = result.remaining;
       if (!result.allowed) {
-        return new Response(JSON.stringify({
-          error: "NO_CREDITS",
-          remaining: 0,
-          message: "You've run out of credits. Please purchase more to continue your readings with Vaanii.",
-        }), {
-          status: 402,
-          headers: { "Content-Type": "application/json" },
-        });
+        return new Response(
+          JSON.stringify({
+            error: "NO_CREDITS",
+            remaining: 0,
+            message:
+              "You've run out of credits. Please purchase more to continue your readings with Vaanii.",
+          }),
+          {
+            status: 402,
+            headers: { "Content-Type": "application/json" },
+          },
+        );
       }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Unknown error";
       if (message === "USER_NOT_FOUND") {
-        return new Response(JSON.stringify({
-          error: "USER_NOT_FOUND",
-          message: "User profile not found. Please complete onboarding first.",
-        }), {
-          status: 404,
-          headers: { "Content-Type": "application/json" },
-        });
+        return new Response(
+          JSON.stringify({
+            error: "USER_NOT_FOUND",
+            message: "User profile not found. Please complete onboarding first.",
+          }),
+          {
+            status: 404,
+            headers: { "Content-Type": "application/json" },
+          },
+        );
       }
       console.error("Credit deduction failed:", err);
-      return new Response(JSON.stringify({
-        error: "CREDIT_CHECK_FAILED",
-        message: "Unable to verify credits. Please try again.",
-      }), {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({
+          error: "CREDIT_CHECK_FAILED",
+          message: "Unable to verify credits. Please try again.",
+        }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        },
+      );
     }
 
     // Track question in Firestore (non-blocking)
     try {
-      const questionsRef = doc(db, "Users", emailToDocId(email), "questions", Date.now().toString());
+      const questionsRef = doc(
+        db,
+        "Users",
+        emailToDocId(email),
+        "questions",
+        Date.now().toString(),
+      );
       await setDoc(questionsRef, {
         question: messages[messages.length - 1]?.content || "",
         askedAt: new Date().toISOString(),
@@ -219,9 +291,12 @@ async function handleStream(request: Request) {
       });
     }
     if (reasoning.interpretation.length > 0) {
-      const interpText = reasoning.interpretation.map((i) =>
-        `- ${i.factor} in house ${i.house}: ${i.meaning}. Effect: ${i.effect}. Why: ${i.why}`
-      ).join("\n");
+      const interpText = reasoning.interpretation
+        .map(
+          (i) =>
+            `- ${i.factor} in house ${i.house}: ${i.meaning}. Effect: ${i.effect}. Why: ${i.why}`,
+        )
+        .join("\n");
       systemMessages.push({
         role: "system",
         content: `[Interpretation]\n${interpText}`,
@@ -310,7 +385,9 @@ async function handleStream(request: Request) {
       if (userRef) {
         try {
           await updateDoc(userRef, { questionsRemaining: increment(1) });
-        } catch { /* non-critical */ }
+        } catch {
+          /* non-critical */
+        }
       }
       return new Response(text, { status: mistralRes.status });
     }
@@ -330,7 +407,9 @@ async function handleStream(request: Request) {
     if (userRef) {
       try {
         await updateDoc(userRef, { questionsRemaining: increment(1) });
-      } catch { /* non-critical */ }
+      } catch {
+        /* non-critical */
+      }
     }
     return new Response(JSON.stringify({ error: "AI service unavailable. Please try again." }), {
       status: 503,

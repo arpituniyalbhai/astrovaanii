@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import type { CSSProperties } from "react";
 import { auth } from "@/lib/firebase";
 
 type ReadingStage = "question" | "shuffling" | "choose" | "selected" | "generating" | "reading";
@@ -29,7 +30,8 @@ const VEDIC_DECK: VedicCard[] = [
     devanagari: "चन्द्र",
     symbol: "MOON",
     essence: "Intuition and inner rhythm",
-    message: "The answer is forming beneath the surface. Give your emotions time to settle before deciding.",
+    message:
+      "The answer is forming beneath the surface. Give your emotions time to settle before deciding.",
     focus: "Inner knowing, sensitivity, home, memory, and changing moods",
     action: "Pause, write down what you feel, and separate intuition from temporary fear.",
   },
@@ -38,7 +40,8 @@ const VEDIC_DECK: VedicCard[] = [
     devanagari: "गणेश",
     symbol: "OM",
     essence: "Openings and wise beginnings",
-    message: "The obstacle is also showing you the correct entrance. Simplify the path before pushing harder.",
+    message:
+      "The obstacle is also showing you the correct entrance. Simplify the path before pushing harder.",
     focus: "New starts, practical wisdom, learning, and obstacle removal",
     action: "Remove one unnecessary complication and begin again with a smaller first step.",
   },
@@ -49,14 +52,16 @@ const VEDIC_DECK: VedicCard[] = [
     essence: "Wisdom and expression",
     message: "Your progress depends on understanding and clear communication more than speed.",
     focus: "Study, speech, creativity, skill, and discernment",
-    action: "Ask the better question, gather the missing information, and express your truth calmly.",
+    action:
+      "Ask the better question, gather the missing information, and express your truth calmly.",
   },
   {
     name: "Lakshmi",
     devanagari: "लक्ष्मी",
     symbol: "LOTUS",
     essence: "Value and graceful abundance",
-    message: "Growth becomes possible when you recognise what is already valuable and nurture it consistently.",
+    message:
+      "Growth becomes possible when you recognise what is already valuable and nurture it consistently.",
     focus: "Resources, self-worth, harmony, generosity, and sustainable prosperity",
     action: "Protect your time and energy, then invest them where value is already taking root.",
   },
@@ -65,7 +70,8 @@ const VEDIC_DECK: VedicCard[] = [
     devanagari: "हनुमान",
     symbol: "GADA",
     essence: "Courage and devoted action",
-    message: "You have more strength than the present challenge suggests. Courage grows through purposeful action.",
+    message:
+      "You have more strength than the present challenge suggests. Courage grows through purposeful action.",
     focus: "Discipline, loyalty, resilience, service, and focused effort",
     action: "Do the difficult but necessary task first, without waiting to feel completely ready.",
   },
@@ -83,7 +89,8 @@ const VEDIC_DECK: VedicCard[] = [
     devanagari: "शक्ति",
     symbol: "FLAME",
     essence: "Creative power and movement",
-    message: "Energy is gathering around your intention. Direct it consciously instead of scattering it.",
+    message:
+      "Energy is gathering around your intention. Direct it consciously instead of scattering it.",
     focus: "Agency, creativity, passion, boundaries, and momentum",
     action: "Choose one priority and give it your undivided energy for the next seven days.",
   },
@@ -92,7 +99,8 @@ const VEDIC_DECK: VedicCard[] = [
     devanagari: "धर्म चक्र",
     symbol: "WHEEL",
     essence: "Alignment and right action",
-    message: "The most reliable path is the one that remains aligned with your values under pressure.",
+    message:
+      "The most reliable path is the one that remains aligned with your values under pressure.",
     focus: "Purpose, responsibility, timing, ethics, and long-term direction",
     action: "Choose the option you would still respect after the immediate pressure has passed.",
   },
@@ -103,7 +111,8 @@ const VEDIC_DECK: VedicCard[] = [
     essence: "Growth through experience",
     message: "Your present conditions do not define the quality of what can emerge from them.",
     focus: "Healing, patience, beauty, emotional growth, and spiritual maturity",
-    action: "Continue the quiet work. Measure progress by depth, not by how quickly others notice it.",
+    action:
+      "Continue the quiet work. Measure progress by depth, not by how quickly others notice it.",
   },
   {
     name: "Deepa",
@@ -243,10 +252,13 @@ export function VedicTarotReading() {
         }
       }
 
-      if (!fullReading.trim()) throw new Error("Vaanii returned an empty reading. Please try again.");
+      if (!fullReading.trim())
+        throw new Error("Vaanii returned an empty reading. Please try again.");
       setStage("reading");
     } catch (error) {
-      setReadingError(error instanceof Error ? error.message : "Something went wrong. Please try again.");
+      setReadingError(
+        error instanceof Error ? error.message : "Something went wrong. Please try again.",
+      );
       setStage("selected");
     }
   };
@@ -262,6 +274,20 @@ export function VedicTarotReading() {
         @keyframes vedic-card-reveal {
           0% { transform: rotateY(90deg) scale(.9); opacity: 0; }
           100% { transform: rotateY(0deg) scale(1); opacity: 1; }
+        }
+        .vedic-card-button {
+          transform: translateY(0) rotate(0deg);
+        }
+        .vedic-card-button.is-selected {
+          transform: translateY(-14px) rotate(0deg);
+        }
+        @media (min-width: 640px) {
+          .vedic-card-button {
+            transform: rotate(var(--card-rotation));
+          }
+          .vedic-card-button.is-selected {
+            transform: translateY(-20px) rotate(0deg);
+          }
         }
       `}</style>
 
@@ -307,6 +333,9 @@ export function VedicTarotReading() {
             Your question: <span className="font-medium text-foreground">{submittedQuestion}</span>
           </p>
         )}
+        <p className="mt-2 text-center text-[11px] text-muted-foreground/70">
+          Revealing your AI reading uses 1 question from your existing Vaanii credits.
+        </p>
       </div>
 
       {stage === "question" && (
@@ -339,40 +368,44 @@ export function VedicTarotReading() {
             </p>
           </div>
 
-          <div className="mx-auto mt-8 flex max-w-4xl items-end justify-center gap-1.5 sm:gap-3">
+          <div className="mx-auto mt-8 grid max-w-sm grid-cols-4 items-end gap-x-2 gap-y-5 px-2 sm:flex sm:max-w-4xl sm:justify-center sm:gap-3 sm:px-0">
             {cards.map((card, index) => {
               const rotation = (index - 3) * 4;
               const selected = selectedIndex === index;
               return (
-                <button
+                <div
                   key={card.name}
-                  type="button"
-                  disabled={stage === "shuffling"}
-                  aria-label={`Choose card ${index + 1}`}
-                  onClick={() => {
-                    setSelectedIndex(index);
-                    setStage("selected");
-                  }}
-                  className={`group relative h-40 w-20 origin-bottom rounded-xl border bg-gradient-to-br from-primary/20 via-card to-[color:var(--gold)]/15 shadow-lg transition-all duration-500 sm:h-52 sm:w-28 ${
-                    selected
-                      ? "-translate-y-5 border-primary ring-2 ring-primary/25"
-                      : "border-primary/25 hover:-translate-y-4 hover:border-primary/60"
-                  } ${selectedIndex !== null && !selected ? "opacity-55" : ""}`}
-                  style={{
-                    transform: selected
-                      ? "translateY(-20px) rotate(0deg)"
-                      : `rotate(${rotation}deg)`,
-                    animation:
-                      stage === "shuffling"
-                        ? `vedic-card-shuffle .55s ease-in-out ${index * 70}ms infinite alternate`
-                        : undefined,
-                  }}
+                  className={`flex justify-center ${index >= 4 ? "translate-x-1/2 sm:translate-x-0" : ""}`}
                 >
-                  <div className="absolute inset-2 rounded-lg border border-primary/20" />
-                  <div className="relative flex h-full items-center justify-center">
-                    <CardMandala compact />
-                  </div>
-                </button>
+                  <button
+                    type="button"
+                    disabled={stage === "shuffling"}
+                    aria-label={`Choose card ${index + 1}`}
+                    onClick={() => {
+                      setSelectedIndex(index);
+                      setStage("selected");
+                    }}
+                    className={`vedic-card-button group relative h-32 w-16 origin-bottom rounded-xl border bg-gradient-to-br from-primary/20 via-card to-[color:var(--gold)]/15 shadow-lg transition-all duration-500 sm:h-52 sm:w-28 ${
+                      selected
+                        ? "is-selected border-primary ring-2 ring-primary/25"
+                        : "border-primary/25 hover:border-primary/60 sm:hover:-translate-y-4"
+                    } ${selectedIndex !== null && !selected ? "opacity-55" : ""}`}
+                    style={
+                      {
+                        "--card-rotation": `${rotation}deg`,
+                        animation:
+                          stage === "shuffling"
+                            ? `vedic-card-shuffle .55s ease-in-out ${index * 70}ms infinite alternate`
+                            : undefined,
+                      } as CSSProperties
+                    }
+                  >
+                    <div className="absolute inset-2 rounded-lg border border-primary/20" />
+                    <div className="relative flex h-full items-center justify-center">
+                      <CardMandala compact />
+                    </div>
+                  </button>
+                </div>
               );
             })}
           </div>
@@ -430,9 +463,7 @@ export function VedicTarotReading() {
             <h3 className="mt-3 font-display text-2xl text-foreground">
               {selectedCard.name} answers your question
             </h3>
-            <p className="mt-2 text-sm italic text-muted-foreground">
-              “{submittedQuestion}”
-            </p>
+            <p className="mt-2 text-sm italic text-muted-foreground">“{submittedQuestion}”</p>
             {stage === "generating" && !aiReading ? (
               <div className="mt-6 rounded-2xl border border-primary/15 bg-primary/5 p-5">
                 <div className="flex items-center gap-3">
@@ -450,34 +481,35 @@ export function VedicTarotReading() {
             )}
             {stage === "reading" && (
               <div className="mt-6 flex flex-wrap gap-3">
-              <button
-                type="button"
-                onClick={resetReading}
-                className="rounded-full border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:border-primary/40"
-              >
-                Ask Another Question
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setCards(shuffledDeck());
-                  setSelectedIndex(null);
-                  setAiReading("");
-                  setReadingError("");
-                  setStage("shuffling");
-                }}
-                className="rounded-full border border-primary/30 bg-primary/5 px-5 py-2.5 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
-              >
-                Shuffle Again
-              </button>
-            </div>
+                <button
+                  type="button"
+                  onClick={resetReading}
+                  className="rounded-full border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:border-primary/40"
+                >
+                  Ask Another Question
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCards(shuffledDeck());
+                    setSelectedIndex(null);
+                    setAiReading("");
+                    setReadingError("");
+                    setStage("shuffling");
+                  }}
+                  className="rounded-full border border-primary/30 bg-primary/5 px-5 py-2.5 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
+                >
+                  Shuffle Again
+                </button>
+              </div>
             )}
           </div>
         </div>
       )}
 
       <p className="mt-8 text-center text-[11px] text-muted-foreground/70">
-        Vedic-inspired reflective guidance for personal insight. It does not guarantee future events.
+        Vedic-inspired reflective guidance for personal insight. It does not guarantee future
+        events.
       </p>
     </section>
   );
@@ -510,18 +542,14 @@ function StructuredReading({ content, streaming }: { content: string; streaming:
           </p>
         );
       })}
-      {streaming && <span className="inline-block h-4 w-1 animate-pulse bg-primary" aria-hidden="true" />}
+      {streaming && (
+        <span className="inline-block h-4 w-1 animate-pulse bg-primary" aria-hidden="true" />
+      )}
     </div>
   );
 }
 
-export function VedicTarotNavButton({
-  active,
-  onClick,
-}: {
-  active: boolean;
-  onClick: () => void;
-}) {
+export function VedicTarotNavButton({ active, onClick }: { active: boolean; onClick: () => void }) {
   return (
     <button
       type="button"
