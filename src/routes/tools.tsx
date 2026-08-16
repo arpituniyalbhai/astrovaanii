@@ -66,6 +66,14 @@ const tools = [
     link: "/vimshottari-dasha-calculator",
     features: ["Current Mahadasha", "Antardasha timeline", "Moon Nakshatra", "Swiss Ephemeris accuracy"],
   },
+  {
+    title: "Kaal Sarp Dosha Calculator",
+    description:
+      "Check whether the seven classical planets fall within the Rahu and Ketu axis in your Vedic birth chart. Uses Swiss Ephemeris and Lahiri ayanamsa.",
+    image: kundliImage,
+    link: "/kaal-sarp-dosha-calculator",
+    features: ["Rahu and Ketu axis", "Traditional type", "Swiss Ephemeris", "Lahiri ayanamsa"],
+  },
 ];
 
 function ToolsPage() {

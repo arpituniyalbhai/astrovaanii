@@ -704,7 +704,7 @@ function FreeAiAstrologyPage() {
             reveal relationship patterns, compatibility factors, and timing for meaningful
             connections. AI astrology can analyze planetary placements affecting your love life,
             including Venus, Moon, and the 7th lord. It can also perform{" "}
-<Link
+            <Link
               to="/kundali-matching"
               className="text-primary underline underline-offset-4 hover:opacity-80"
             >
@@ -1051,6 +1051,15 @@ function FreeAiAstrologyPage() {
                 What Is an AI Astrologer?
               </Link>
               — A simple guide to how AI astrology works
+            </li>
+            <li>
+              <Link
+                to="/kaal-sarp-dosha-calculator"
+                className="text-primary underline underline-offset-4 hover:opacity-80"
+              >
+                Kaal Sarp Dosha Calculator
+              </Link>
+              — Check the Rahu and Ketu axis in your Vedic birth chart
             </li>
             <li>
               <Link

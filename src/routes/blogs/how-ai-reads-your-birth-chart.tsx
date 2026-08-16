@@ -735,6 +735,11 @@ function HowAiReadsYourBirthChartPage() {
               description="Find your current Mahadasha and Antardasha from your exact birth details."
             />
             <RelatedLink
+              to="/kaal-sarp-dosha-calculator"
+              title="Kaal Sarp Dosha Calculator"
+              description="Check the Rahu and Ketu axis in a Swiss Ephemeris birth chart calculation."
+            />
+            <RelatedLink
               to="/blogs/top-5-ai-astrology-platform-in-india"
               title="Top 5 AI Astrology Platforms in India"
               description="See how AstroVaanii fits into the current AI astrology landscape."

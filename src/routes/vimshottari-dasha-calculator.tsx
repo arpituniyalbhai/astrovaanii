@@ -401,7 +401,7 @@ function DashaGuide() {
 
         <section className="mt-10">
           <h2 className="font-display text-2xl text-foreground">How to use the Vimshottari Dasha calculator</h2>
-          <p className="mt-3 leading-relaxed text-muted-foreground">Enter your birth date, exact birth time, and birthplace above, then select <strong className="text-foreground">Calculate My Dasha</strong>. Review your Moon Nakshatra, current Mahadasha, and Antardasha. For a more personal interpretation, compare the active planets with your complete <Link to="/free-kundli" className="text-primary underline underline-offset-4 hover:opacity-80">Kundli or birth chart</Link>, or ask <Link to="/ai-astrologer" className="text-primary underline underline-offset-4 hover:opacity-80">Vaanii, the AI astrologer</Link> about your Dasha period.</p>
+          <p className="mt-3 leading-relaxed text-muted-foreground">Enter your birth date, exact birth time, and birthplace above, then select <strong className="text-foreground">Calculate My Dasha</strong>. Review your Moon Nakshatra, current Mahadasha, and Antardasha. For a more personal interpretation, compare the active planets with your complete <Link to="/free-kundli" className="text-primary underline underline-offset-4 hover:opacity-80">Kundli or birth chart</Link>, review any Rahu–Ketu axis pattern with the <Link to="/kaal-sarp-dosha-calculator" className="text-primary underline underline-offset-4 hover:opacity-80">Kaal Sarp Dosha calculator</Link>, or ask <Link to="/ai-astrologer" className="text-primary underline underline-offset-4 hover:opacity-80">Vaanii, the AI astrologer</Link> about your Dasha period.</p>
         </section>
 
         <section className="mt-10">
@@ -414,7 +414,7 @@ function DashaGuide() {
 }
 
 function ContextualLinks() {
-  const tools = [["/ai-astrologer", "Free AI Astrologer"], ["/free-kundli", "Kundli Generator"], ["/kundali-matching", "Kundali Matching"], ["/ai-astrology-website-free", "Free AI Astrology"], ["/tools", "All Astrology Tools"]];
+  const tools = [["/ai-astrologer", "Free AI Astrologer"], ["/free-kundli", "Kundli Generator"], ["/kundali-matching", "Kundali Matching"], ["/kaal-sarp-dosha-calculator", "Kaal Sarp Dosha Calculator"], ["/ai-astrology-website-free", "Free AI Astrology"], ["/tools", "All Astrology Tools"]];
   const guides = [["/blogs/what-is-lagna-in-astrology", "What Is Lagna?"], ["/blogs/what-is-ai-astrologer", "What Is an AI Astrologer?"], ["/blogs/how-ai-reads-your-birth-chart", "How AI Reads Your Birth Chart"], ["/ai-astrology-website-free", "Free AI Astrology Website"], ["/blogs/top-5-ai-astrology-platform-in-india", "Top AI Astrology Platforms"], ["/blogs/arpit-uniyal", "About Our Founder"], ["/blogs", "View All Blogs"]];
   return <section className="relative z-10 border-t border-border bg-card/40 py-14"><div className="mx-auto grid max-w-4xl gap-10 px-6 md:grid-cols-2"><LinkColumn title="Explore More Tools" links={tools} /><LinkColumn title="Read Astrology Guides" links={guides} /></div></section>;
 }

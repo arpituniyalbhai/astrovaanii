@@ -1,7 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { auth } from "@/lib/firebase";
-import { Loader } from "@/components/landing/Loader";
 import { Reveal } from "@/components/landing/Reveal";
 import brandIcon from "@/assets/astrovaanii-logo.webp";
 import vaaniiPersona from "@/assets/vaanii-persona.jpg";
@@ -86,9 +84,6 @@ function Nav() {
           </span>
         </a>
         <nav className="hidden gap-8 text-sm text-muted-foreground md:flex">
-          <Link to="/puja" className="hover:text-primary font-medium text-foreground flex items-center gap-1">
-            Puja Services
-          </Link>
           <a href="#meet" className="hover:text-foreground">
             Meet Vaanii
           </a>
@@ -121,56 +116,46 @@ function Hero() {
 
       <div className="relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 py-20 md:grid-cols-2 md:py-28">
         <div>
-          <Reveal>
-            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground">
-              <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--sage)]" />
-              Trained on classical Parashara &amp; Jaimini methods
-            </span>
-          </Reveal>
-          <Reveal delay={80}>
-            <h1 className="mt-6 font-display text-5xl leading-[1.05] tracking-tight text-foreground md:text-6xl">
-              Vedic astrology for <em className="not-italic text-primary">your life</em>.
-            </h1>
-          </Reveal>
-          <Reveal delay={160}>
-            <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">
-              Get personal Kundli insights, daily horoscope, and Vedic guidance for love, career, and life.
-              Meet Vaanii, your AI astrologer, available in nine Indian languages.
-            </p>
-          </Reveal>
-          <Reveal delay={240}>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link
-                to="/signup"
-                className="rounded-full bg-primary px-8 py-4 text-base font-medium text-primary-foreground shadow-lg shadow-primary/20 hover:opacity-90"
-              >
-                Chat with Vaanii AI - it's Free
-              </Link>
+          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground">
+            <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--sage)]" />
+            Trained on classical Parashara &amp; Jaimini methods
+          </span>
+          <h1 className="mt-6 font-display text-5xl leading-[1.05] tracking-tight text-foreground md:text-6xl">
+            Vedic astrology for <em className="not-italic text-primary">your life</em>.
+          </h1>
+          <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">
+            Get personal Kundli insights, daily horoscope, and Vedic guidance for love, career, and life.
+            Meet Vaanii, your AI astrologer, available in nine Indian languages.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <Link
+              to="/signup"
+              className="rounded-full bg-primary px-8 py-4 text-base font-medium text-primary-foreground shadow-lg shadow-primary/20 hover:opacity-90"
+            >
+              Chat with Vaanii AI - it's Free
+            </Link>
+          </div>
+          <dl className="mt-12 grid max-w-md grid-cols-3 gap-6 border-t border-border pt-8">
+            <div>
+              <dt className="text-xs uppercase tracking-wider text-muted-foreground">
+                Conversations
+              </dt>
+              <dd className="mt-1 font-display text-2xl">2.4M+</dd>
             </div>
-          </Reveal>
-          <Reveal delay={320}>
-            <dl className="mt-12 grid max-w-md grid-cols-3 gap-6 border-t border-border pt-8">
-              <div>
-                <dt className="text-xs uppercase tracking-wider text-muted-foreground">
-                  Conversations
-                </dt>
-                <dd className="mt-1 font-display text-2xl">2.4M+</dd>
-              </div>
-              <div>
-                <dt className="text-xs uppercase tracking-wider text-muted-foreground">
-                  Languages
-                </dt>
-                <dd className="mt-1 font-display text-2xl">9</dd>
-              </div>
-              <div>
-                <dt className="text-xs uppercase tracking-wider text-muted-foreground">Rating</dt>
-                <dd className="mt-1 font-display text-2xl">4.9★</dd>
-              </div>
-            </dl>
-          </Reveal>
+            <div>
+              <dt className="text-xs uppercase tracking-wider text-muted-foreground">
+                Languages
+              </dt>
+              <dd className="mt-1 font-display text-2xl">9</dd>
+            </div>
+            <div>
+              <dt className="text-xs uppercase tracking-wider text-muted-foreground">Rating</dt>
+              <dd className="mt-1 font-display text-2xl">4.9★</dd>
+            </div>
+          </dl>
         </div>
 
-        <Reveal delay={200} className="relative">
+        <div className="relative">
           <div className="relative mx-auto aspect-[4/5] w-full max-w-md">
             {/* Portrait frame — arched profile card */}
             <div className="absolute inset-0 -rotate-3 rounded-[999px_999px_28px_28px] bg-[color:var(--accent)] shadow-xl" />
@@ -180,6 +165,8 @@ function Hero() {
                 alt="Portrait of Vaanii, the AstroVaanii AI astrologer"
                 width={1024}
                 height={1280}
+                fetchPriority="high"
+                decoding="async"
                 className="h-full w-full object-cover"
               />
               {/* soft gold halo */}
@@ -218,7 +205,7 @@ function Hero() {
               <div className="mt-1 text-xs">No appointment</div>
             </div>
           </div>
-        </Reveal>
+        </div>
       </div>
     </section>
   );
@@ -1121,6 +1108,7 @@ function Footer() {
               { to: "/free-kundli", label: "Kundli Generator" },
               { to: "/kundali-matching", label: "Kundali Matching" },
               { to: "/vimshottari-dasha-calculator", label: "Dasha Calculator" },
+              { to: "/kaal-sarp-dosha-calculator", label: "Kaal Sarp Dosha Calculator" },
               { to: "/ai-astrology-website-free", label: "Free AI Astrology" },
               { to: "/tools", label: "Explore All Tools" },
             ]}
@@ -1143,7 +1131,6 @@ function Footer() {
             title="Explore"
             links={[
               { to: "/", label: "Home" },
-              { to: "/puja", label: "Online Puja Services" },
               { href: "#meet", label: "Meet Vaanii" },
               { href: "#daily", label: "Daily Predictions" },
               { href: "#how", label: "How It Works" },
@@ -1247,16 +1234,29 @@ function Index() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Redirect logged-in users to dashboard
+    let cancelled = false;
     const local = JSON.parse(localStorage.getItem("userData") || "{}");
-    if (local.email || auth.currentUser) {
+
+    if (local.email) {
       navigate({ to: "/dashboard" });
+      return;
     }
+
+    // Authentication is not needed to render the public landing page. Loading it
+    // here keeps Firebase out of the critical homepage JavaScript path.
+    void import("@/lib/firebase").then(({ auth }) => {
+      if (!cancelled && auth.currentUser) {
+        navigate({ to: "/dashboard" });
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
   }, [navigate]);
 
   return (
     <>
-      <Loader />
       <main className="relative">
         <Nav />
         <Hero />
