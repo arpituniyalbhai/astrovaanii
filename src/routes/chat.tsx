@@ -686,13 +686,13 @@ function ChatPage() {
           </header>
 
           {/* Chat area */}
-          <div className="flex-1 flex flex-col overflow-hidden min-h-0 md:p-4">
+          <div className="flex-1 flex flex-col overflow-hidden min-h-0 md:p-5">
             
             {/* Desktop: white card container wrapping everything */}
-            <div className="flex-1 flex flex-col overflow-hidden min-h-0 md:bg-card/80 md:rounded-2xl md:border md:border-border md:shadow-sm">
+            <div className="flex-1 flex flex-col overflow-hidden min-h-0 md:mx-auto md:w-full md:max-w-6xl md:bg-card/80 md:rounded-2xl md:border md:border-border md:shadow-sm">
               
               {/* Credits remaining */}
-              <div className="flex-shrink-0 px-4 pt-4 pb-2 flex justify-start">
+              <div className="flex-shrink-0 px-4 pt-4 pb-2 flex justify-start md:px-8 md:pt-5">
                 <div className={`rounded-full px-4 py-1.5 ${questionsRemaining <= 0 ? "bg-red-50 border border-red-200" : "bg-amber-50 border border-amber-200"}`}>
                   <span className={`text-sm font-medium ${questionsRemaining <= 0 ? "text-red-500" : "text-amber-600"}`}>
                     {questionsRemaining <= 0 ? "No credits left" : `${questionsRemaining} credit${questionsRemaining !== 1 ? 's' : ''} remaining`}
@@ -703,7 +703,7 @@ function ChatPage() {
               {/* Messages */}
               <div
                 ref={messagesContainerRef}
-                className="flex-1 overflow-y-auto space-y-6 px-4 md:px-6 min-h-0"
+                className="flex-1 overflow-y-auto space-y-5 px-4 md:px-8 min-h-0"
                 style={{ WebkitOverflowScrolling: 'touch' }}
               >
                 {messages.map((message) => (
@@ -721,7 +721,7 @@ function ChatPage() {
                         />
                       )}
                       <div
-                        className={`max-w-[85%] md:max-w-[72%] rounded-2xl px-4 py-3 text-sm sm:text-[15px] leading-7 ${
+                        className={`max-w-[85%] md:max-w-none md:w-fit ${message.type === "bot" ? "md:max-w-[76%]" : "md:max-w-[56%]"} rounded-2xl px-4 py-3 text-sm sm:text-[15px] md:text-sm leading-7 md:leading-6 ${
                           message.type === "bot"
                             ? "rounded-tl-sm bg-background text-foreground border border-border/40 shadow-sm"
                             : "rounded-tr-sm bg-primary text-primary-foreground"
@@ -788,7 +788,7 @@ function ChatPage() {
 
               {/* Input area */}
               <div
-                className="flex-shrink-0 border-t border-border/60 px-4 pt-4 pb-[calc(env(safe-area-inset-bottom)+1.25rem)] md:mx-4 md:mb-4 md:rounded-2xl md:border md:border-border/60 md:bg-background/55 md:px-5 md:pb-4"
+                className="flex-shrink-0 border-t border-border/60 px-4 pt-4 pb-[calc(env(safe-area-inset-bottom)+1.25rem)] md:mx-6 md:mb-5 md:rounded-2xl md:border md:border-border/60 md:bg-background/55 md:px-5 md:pb-4"
               >
                 {questionsRemaining <= 0 ? (
                   <div className="rounded-2xl border border-border bg-background/80 p-5 text-center">
@@ -828,7 +828,7 @@ function ChatPage() {
                         onChange={(e) => setInputValue(e.target.value)}
                         onKeyPress={handleKeyPress}
                         placeholder="Ask Vaanii anything..."
-                        className="w-full rounded-full border border-border bg-background px-6 py-3.5 pr-12 text-base outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/10 transition-all"
+                        className="w-full rounded-full border border-border bg-background px-6 py-3.5 pr-12 text-base outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/10 transition-all md:py-2.5 md:text-sm"
                       />
                       <div className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -840,7 +840,7 @@ function ChatPage() {
                     <button
                       onClick={handleSendMessage}
                       disabled={!inputValue.trim()}
-                      className="rounded-full bg-primary px-6 py-4 text-base font-medium text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                      className="rounded-full bg-primary px-6 py-4 text-base font-medium text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all md:px-5 md:py-2.5 md:text-sm"
                     >
                       Send
                     </button>
