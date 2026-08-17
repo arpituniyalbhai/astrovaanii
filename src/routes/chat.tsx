@@ -712,7 +712,7 @@ function ChatPage() {
                     ref={message.id === activeMessageId ? activeMessageRef : undefined}
                     className="mx-auto flex w-full scroll-mt-3 flex-col md:max-w-6xl"
                   >
-                    <div className={`flex gap-3 ${message.type === "user" ? "items-end justify-end md:pr-16" : "items-start justify-start"}`}>
+                    <div className={`flex gap-3 ${message.type === "user" ? "items-end justify-end md:pr-16" : "items-start justify-start md:pl-8"}`}>
                       {message.type === "bot" && (
                         <img
                           src={vaaniiPersona}
