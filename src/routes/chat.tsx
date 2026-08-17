@@ -721,7 +721,7 @@ function ChatPage() {
                         />
                       )}
                       <div
-                        className={`max-w-[85%] md:w-fit ${message.type === "bot" ? "md:max-w-[80%]" : "md:max-w-[60%]"} rounded-2xl px-4 py-3 text-sm sm:text-[15px] md:text-sm leading-7 md:leading-6 ${
+                        className={`max-w-[85%] md:w-fit md:max-w-[30rem] rounded-2xl px-4 py-3 text-sm sm:text-[15px] md:text-sm leading-7 md:leading-6 ${
                           message.type === "bot"
                             ? "rounded-tl-sm bg-background text-foreground border border-border/40 shadow-sm"
                             : "rounded-tr-sm bg-primary text-primary-foreground"
