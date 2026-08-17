@@ -692,7 +692,7 @@ function ChatPage() {
             <div className="flex-1 flex flex-col overflow-hidden min-h-0 md:bg-card/80 md:rounded-2xl md:border md:border-border md:shadow-sm">
               
               {/* Credits remaining */}
-              <div className="flex-shrink-0 px-4 pt-4 pb-2 flex justify-start md:mx-auto md:w-full md:max-w-5xl md:px-0 md:pt-5">
+              <div className="flex-shrink-0 px-4 pt-4 pb-2 flex justify-start md:px-8 md:pt-5">
                 <div className={`rounded-full px-4 py-1.5 ${questionsRemaining <= 0 ? "bg-red-50 border border-red-200" : "bg-amber-50 border border-amber-200"}`}>
                   <span className={`text-sm font-medium ${questionsRemaining <= 0 ? "text-red-500" : "text-amber-600"}`}>
                     {questionsRemaining <= 0 ? "No credits left" : `${questionsRemaining} credit${questionsRemaining !== 1 ? 's' : ''} remaining`}
@@ -703,7 +703,7 @@ function ChatPage() {
               {/* Messages */}
               <div
                 ref={messagesContainerRef}
-                className="flex-1 w-full overflow-y-auto space-y-5 px-4 md:mx-auto md:max-w-5xl md:px-0 min-h-0"
+                className="flex-1 w-full overflow-y-auto space-y-5 px-4 md:px-8 min-h-0"
                 style={{ WebkitOverflowScrolling: 'touch' }}
               >
                 {messages.map((message) => (
@@ -721,7 +721,7 @@ function ChatPage() {
                         />
                       )}
                       <div
-                        className={`max-w-[85%] md:max-w-none md:w-fit ${message.type === "bot" ? "md:max-w-[76%]" : "md:max-w-[56%]"} rounded-2xl px-4 py-3 text-sm sm:text-[15px] md:text-sm leading-7 md:leading-6 ${
+                        className={`max-w-[85%] md:w-fit ${message.type === "bot" ? "md:max-w-[60%]" : "md:max-w-[44%]"} rounded-2xl px-4 py-3 text-sm sm:text-[15px] md:text-sm leading-7 md:leading-6 ${
                           message.type === "bot"
                             ? "rounded-tl-sm bg-background text-foreground border border-border/40 shadow-sm"
                             : "rounded-tr-sm bg-primary text-primary-foreground"
@@ -788,7 +788,7 @@ function ChatPage() {
 
               {/* Input area */}
               <div
-                className="flex-shrink-0 border-t border-border/60 px-4 pt-4 pb-[calc(env(safe-area-inset-bottom)+1.25rem)] md:mx-auto md:mb-5 md:w-[calc(100%-3rem)] md:max-w-5xl md:rounded-2xl md:border md:border-border/60 md:bg-background/55 md:px-5 md:pb-4"
+                className="flex-shrink-0 border-t border-border/60 px-4 pt-4 pb-[calc(env(safe-area-inset-bottom)+1.25rem)] md:mx-6 md:mb-5 md:rounded-2xl md:border md:border-border/60 md:bg-background/55 md:px-5 md:pb-4"
               >
                 {questionsRemaining <= 0 ? (
                   <div className="rounded-2xl border border-border bg-background/80 p-5 text-center">
