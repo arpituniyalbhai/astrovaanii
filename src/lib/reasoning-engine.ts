@@ -113,10 +113,17 @@ function generateInterpretation(
   topic: string,
   pmap: Record<string, number>,
   houseLords: Record<string, string>,
+  excludePairs: Set<string> = new Set(),
 ): InterpretationItem[] {
   const items: InterpretationItem[] = [];
-  const topicPlanets = TOPIC_PLANETS[topic] || TOPIC_PLANETS.general;
+  const allTopicPlanets = TOPIC_PLANETS[topic] || TOPIC_PLANETS.general;
   const topicHouses = TOPIC_HOUSES[topic] || TOPIC_HOUSES.general;
+
+  const usablePlanets = allTopicPlanets.filter((p) => {
+    const house = pmap[p];
+    return !house || !excludePairs.has(`${p}-${house}`);
+  });
+  const topicPlanets = usablePlanets.length > 0 ? usablePlanets : allTopicPlanets;
 
   for (const p of topicPlanets) {
     const house = pmap[p];
@@ -315,6 +322,10 @@ export function generateReasoning(
   const planets = chart.planets || {};
   const houseLords = chart.houseLords || {};
 
+  const excludePairs = new Set(
+    (previousContext || "").split(",").map((s) => s.trim()).filter(Boolean),
+  );
+
   const planetPositions: Record<string, PlanetPosition> = {};
   const facts: string[] = [];
 
@@ -345,7 +356,7 @@ export function generateReasoning(
     facts.push(`Current Antardasha: ${ad.planet}${ad.start ? ` (${ad.start} to ${ad.end})` : ""}.`);
   }
 
-  const interpretation = generateInterpretation(topic, pmap, houseLords);
+  const interpretation = generateInterpretation(topic, pmap, houseLords, excludePairs);
   const prediction = generatePrediction(topic, pmap, chart, md, interpretation);
   const broadPrediction = generateBroadPrediction(topic, pmap);
   const timing = generateTiming(topic, chart);
@@ -359,12 +370,11 @@ export function generateReasoning(
     description: y.description,
   }));
 
-  const already = previousContext ? previousContext.split(",").map((s) => s.trim()).filter(Boolean) : [];
   const memoryItems = [
     ...facts.slice(0, 2).map((f) => f.split(" is")[0] || f.split(".")[0]),
     ...timing.slice(0, 1).map((t) => t.period),
   ].filter(Boolean);
-  const allDiscussed = [...new Set([...already, ...memoryItems])];
+  const allDiscussed = [...new Set([...excludePairs, ...memoryItems])];
 
   const scratchpad = [
     `Topic: ${topicLabel}`,
