@@ -710,7 +710,7 @@ function ChatPage() {
                   <div
                     key={message.id}
                     ref={message.id === activeMessageId ? activeMessageRef : undefined}
-                    className="flex scroll-mt-3 flex-col"
+                    className="mx-auto flex w-full scroll-mt-3 flex-col md:max-w-6xl"
                   >
                     <div className={`flex gap-3 ${message.type === "user" ? "items-end justify-end" : "items-start justify-start"}`}>
                       {message.type === "bot" && (
@@ -721,7 +721,7 @@ function ChatPage() {
                         />
                       )}
                       <div
-                        className={`max-w-[85%] md:w-fit ${message.type === "bot" ? "md:max-w-[60%]" : "md:max-w-[44%]"} rounded-2xl px-4 py-3 text-sm sm:text-[15px] md:text-sm leading-7 md:leading-6 ${
+                        className={`max-w-[85%] md:w-fit ${message.type === "bot" ? "md:max-w-[80%]" : "md:max-w-[60%]"} rounded-2xl px-4 py-3 text-sm sm:text-[15px] md:text-sm leading-7 md:leading-6 ${
                           message.type === "bot"
                             ? "rounded-tl-sm bg-background text-foreground border border-border/40 shadow-sm"
                             : "rounded-tr-sm bg-primary text-primary-foreground"
@@ -759,7 +759,7 @@ function ChatPage() {
 
                 {/* Thinking animation */}
                 {isTyping && (
-                  <div className="flex gap-3 items-start">
+                  <div className="mx-auto flex w-full gap-3 items-start md:max-w-6xl">
                     <img
                       src={vaaniiPersona}
                       alt="Vaanii"
