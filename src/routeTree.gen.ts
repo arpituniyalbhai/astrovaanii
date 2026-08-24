@@ -13,9 +13,10 @@ import { Route as VimshottariDashaCalculatorRouteImport } from './routes/vimshot
 import { Route as ToolsRouteImport } from './routes/tools'
 import { Route as TermsAndConditionsRouteImport } from './routes/terms-and-conditions'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as ReportResultRouteImport } from './routes/report-result'
 import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
-import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as MyChartRouteImport } from './routes/my-chart'
 import { Route as KundaliMatchingRouteImport } from './routes/kundali-matching'
@@ -37,6 +38,7 @@ import { Route as BlogsArpitUniyalRouteImport } from './routes/blogs/arpit-uniya
 import { Route as ApiVimshottariDashaRouteImport } from './routes/api/vimshottari-dasha'
 import { Route as ApiVerifyPaymentRouteImport } from './routes/api/verify-payment'
 import { Route as ApiKundaliMatchingRouteImport } from './routes/api/kundali-matching'
+import { Route as ApiGenerateReportRouteImport } from './routes/api/generate-report'
 import { Route as ApiFollowUpRouteImport } from './routes/api/follow-up'
 import { Route as ApiCreateOrderRouteImport } from './routes/api/create-order'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
@@ -62,6 +64,16 @@ const SignupRoute = SignupRouteImport.update({
   path: '/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReportsRoute = ReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportResultRoute = ReportResultRouteImport.update({
+  id: '/report-result',
+  path: '/report-result',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RefundPolicyRoute = RefundPolicyRouteImport.update({
   id: '/refund-policy',
   path: '/refund-policy',
@@ -70,11 +82,6 @@ const RefundPolicyRoute = RefundPolicyRouteImport.update({
 const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
   id: '/privacy-policy',
   path: '/privacy-policy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PricingRoute = PricingRouteImport.update({
-  id: '/pricing',
-  path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OnboardingRoute = OnboardingRouteImport.update({
@@ -185,6 +192,11 @@ const ApiKundaliMatchingRoute = ApiKundaliMatchingRouteImport.update({
   path: '/api/kundali-matching',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiGenerateReportRoute = ApiGenerateReportRouteImport.update({
+  id: '/api/generate-report',
+  path: '/api/generate-report',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiFollowUpRoute = ApiFollowUpRouteImport.update({
   id: '/api/follow-up',
   path: '/api/follow-up',
@@ -214,9 +226,10 @@ export interface FileRoutesByFullPath {
   '/kundali-matching': typeof KundaliMatchingRoute
   '/my-chart': typeof MyChartRoute
   '/onboarding': typeof OnboardingRoute
-  '/pricing': typeof PricingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/refund-policy': typeof RefundPolicyRoute
+  '/report-result': typeof ReportResultRoute
+  '/reports': typeof ReportsRoute
   '/signup': typeof SignupRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/tools': typeof ToolsRoute
@@ -224,6 +237,7 @@ export interface FileRoutesByFullPath {
   '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/follow-up': typeof ApiFollowUpRoute
+  '/api/generate-report': typeof ApiGenerateReportRoute
   '/api/kundali-matching': typeof ApiKundaliMatchingRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
   '/api/vimshottari-dasha': typeof ApiVimshottariDashaRoute
@@ -247,9 +261,10 @@ export interface FileRoutesByTo {
   '/kundali-matching': typeof KundaliMatchingRoute
   '/my-chart': typeof MyChartRoute
   '/onboarding': typeof OnboardingRoute
-  '/pricing': typeof PricingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/refund-policy': typeof RefundPolicyRoute
+  '/report-result': typeof ReportResultRoute
+  '/reports': typeof ReportsRoute
   '/signup': typeof SignupRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/tools': typeof ToolsRoute
@@ -257,6 +272,7 @@ export interface FileRoutesByTo {
   '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/follow-up': typeof ApiFollowUpRoute
+  '/api/generate-report': typeof ApiGenerateReportRoute
   '/api/kundali-matching': typeof ApiKundaliMatchingRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
   '/api/vimshottari-dasha': typeof ApiVimshottariDashaRoute
@@ -281,9 +297,10 @@ export interface FileRoutesById {
   '/kundali-matching': typeof KundaliMatchingRoute
   '/my-chart': typeof MyChartRoute
   '/onboarding': typeof OnboardingRoute
-  '/pricing': typeof PricingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/refund-policy': typeof RefundPolicyRoute
+  '/report-result': typeof ReportResultRoute
+  '/reports': typeof ReportsRoute
   '/signup': typeof SignupRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/tools': typeof ToolsRoute
@@ -291,6 +308,7 @@ export interface FileRoutesById {
   '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/follow-up': typeof ApiFollowUpRoute
+  '/api/generate-report': typeof ApiGenerateReportRoute
   '/api/kundali-matching': typeof ApiKundaliMatchingRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
   '/api/vimshottari-dasha': typeof ApiVimshottariDashaRoute
@@ -316,9 +334,10 @@ export interface FileRouteTypes {
     | '/kundali-matching'
     | '/my-chart'
     | '/onboarding'
-    | '/pricing'
     | '/privacy-policy'
     | '/refund-policy'
+    | '/report-result'
+    | '/reports'
     | '/signup'
     | '/terms-and-conditions'
     | '/tools'
@@ -326,6 +345,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/create-order'
     | '/api/follow-up'
+    | '/api/generate-report'
     | '/api/kundali-matching'
     | '/api/verify-payment'
     | '/api/vimshottari-dasha'
@@ -349,9 +369,10 @@ export interface FileRouteTypes {
     | '/kundali-matching'
     | '/my-chart'
     | '/onboarding'
-    | '/pricing'
     | '/privacy-policy'
     | '/refund-policy'
+    | '/report-result'
+    | '/reports'
     | '/signup'
     | '/terms-and-conditions'
     | '/tools'
@@ -359,6 +380,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/create-order'
     | '/api/follow-up'
+    | '/api/generate-report'
     | '/api/kundali-matching'
     | '/api/verify-payment'
     | '/api/vimshottari-dasha'
@@ -382,9 +404,10 @@ export interface FileRouteTypes {
     | '/kundali-matching'
     | '/my-chart'
     | '/onboarding'
-    | '/pricing'
     | '/privacy-policy'
     | '/refund-policy'
+    | '/report-result'
+    | '/reports'
     | '/signup'
     | '/terms-and-conditions'
     | '/tools'
@@ -392,6 +415,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/create-order'
     | '/api/follow-up'
+    | '/api/generate-report'
     | '/api/kundali-matching'
     | '/api/verify-payment'
     | '/api/vimshottari-dasha'
@@ -416,9 +440,10 @@ export interface RootRouteChildren {
   KundaliMatchingRoute: typeof KundaliMatchingRoute
   MyChartRoute: typeof MyChartRoute
   OnboardingRoute: typeof OnboardingRoute
-  PricingRoute: typeof PricingRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   RefundPolicyRoute: typeof RefundPolicyRoute
+  ReportResultRoute: typeof ReportResultRoute
+  ReportsRoute: typeof ReportsRoute
   SignupRoute: typeof SignupRoute
   TermsAndConditionsRoute: typeof TermsAndConditionsRoute
   ToolsRoute: typeof ToolsRoute
@@ -426,6 +451,7 @@ export interface RootRouteChildren {
   ApiChatRoute: typeof ApiChatRoute
   ApiCreateOrderRoute: typeof ApiCreateOrderRoute
   ApiFollowUpRoute: typeof ApiFollowUpRoute
+  ApiGenerateReportRoute: typeof ApiGenerateReportRoute
   ApiKundaliMatchingRoute: typeof ApiKundaliMatchingRoute
   ApiVerifyPaymentRoute: typeof ApiVerifyPaymentRoute
   ApiVimshottariDashaRoute: typeof ApiVimshottariDashaRoute
@@ -467,6 +493,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/report-result': {
+      id: '/report-result'
+      path: '/report-result'
+      fullPath: '/report-result'
+      preLoaderRoute: typeof ReportResultRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/refund-policy': {
       id: '/refund-policy'
       path: '/refund-policy'
@@ -479,13 +519,6 @@ declare module '@tanstack/react-router' {
       path: '/privacy-policy'
       fullPath: '/privacy-policy'
       preLoaderRoute: typeof PrivacyPolicyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/pricing': {
-      id: '/pricing'
-      path: '/pricing'
-      fullPath: '/pricing'
-      preLoaderRoute: typeof PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/onboarding': {
@@ -635,6 +668,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiKundaliMatchingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/generate-report': {
+      id: '/api/generate-report'
+      path: '/api/generate-report'
+      fullPath: '/api/generate-report'
+      preLoaderRoute: typeof ApiGenerateReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/follow-up': {
       id: '/api/follow-up'
       path: '/api/follow-up'
@@ -672,9 +712,10 @@ const rootRouteChildren: RootRouteChildren = {
   KundaliMatchingRoute: KundaliMatchingRoute,
   MyChartRoute: MyChartRoute,
   OnboardingRoute: OnboardingRoute,
-  PricingRoute: PricingRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   RefundPolicyRoute: RefundPolicyRoute,
+  ReportResultRoute: ReportResultRoute,
+  ReportsRoute: ReportsRoute,
   SignupRoute: SignupRoute,
   TermsAndConditionsRoute: TermsAndConditionsRoute,
   ToolsRoute: ToolsRoute,
@@ -682,6 +723,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiChatRoute: ApiChatRoute,
   ApiCreateOrderRoute: ApiCreateOrderRoute,
   ApiFollowUpRoute: ApiFollowUpRoute,
+  ApiGenerateReportRoute: ApiGenerateReportRoute,
   ApiKundaliMatchingRoute: ApiKundaliMatchingRoute,
   ApiVerifyPaymentRoute: ApiVerifyPaymentRoute,
   ApiVimshottariDashaRoute: ApiVimshottariDashaRoute,

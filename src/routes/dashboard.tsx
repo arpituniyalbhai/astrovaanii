@@ -9,6 +9,8 @@ import vaaniiPersona from "@/assets/vaanii-persona.jpg";
 import brandIcon from "@/assets/astrovaanii-logo.webp";
 import { FreeTools, FreeToolsNavButton } from "@/components/free-Tools";
 import { VedicTarotNavButton, VedicTarotReading } from "@/components/VedicTarotReading";
+import { FileText } from "lucide-react";
+import { PricingDialog } from "@/components/PricingDialog";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -221,11 +223,8 @@ function DashboardPage() {
               </svg>
               Chat
             </button>
-            <button
-              onClick={() => {
-                navigate({ to: "/pricing" });
-                setIsSidebarOpen(false);
-              }}
+            <PricingDialog
+              onTriggerClick={() => setIsSidebarOpen(false)}
               className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:bg-background/50 hover:text-foreground"
             >
               <svg
@@ -239,7 +238,7 @@ function DashboardPage() {
                 <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
               </svg>
               Pricing
-            </button>
+            </PricingDialog>
             <button
               onClick={() => {
                 navigate({ to: "/my-chart" });
@@ -259,6 +258,16 @@ function DashboardPage() {
                 <path d="M3 12h18M12 3v18M12 12l-4 4M12 12l4 4M12 12l-4-4M12 12l4-4" />
               </svg>
               My Chart
+            </button>
+            <button
+              onClick={() => {
+                navigate({ to: "/reports" });
+                setIsSidebarOpen(false);
+              }}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:bg-background/50 hover:text-foreground"
+            >
+              <FileText size={18} aria-hidden="true" />
+              Reports
             </button>
             <VedicTarotNavButton
               active={activeTab === "tarot"}
@@ -377,8 +386,7 @@ function DashboardPage() {
               </svg>
               Chat
             </button>
-            <button
-              onClick={() => navigate({ to: "/pricing" })}
+            <PricingDialog
               className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:bg-background/50 hover:text-foreground"
             >
               <svg
@@ -392,7 +400,7 @@ function DashboardPage() {
                 <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
               </svg>
               Pricing
-            </button>
+            </PricingDialog>
             <button
               onClick={() => navigate({ to: "/my-chart" })}
               className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:bg-background/50 hover:text-foreground"
@@ -409,6 +417,13 @@ function DashboardPage() {
                 <path d="M3 12h18M12 3v18M12 12l-4 4M12 12l4 4M12 12l-4-4M12 12l4-4" />
               </svg>
               My Chart
+            </button>
+            <button
+              onClick={() => navigate({ to: "/reports" })}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground hover:bg-background/50 hover:text-foreground"
+            >
+              <FileText size={18} aria-hidden="true" />
+              Reports
             </button>
             <VedicTarotNavButton
               active={activeTab === "tarot"}
@@ -590,8 +605,7 @@ function DashboardPage() {
                 <path d="M3 12h18M3 6h18M3 18h18" />
               </svg>
             </button>
-            <Link
-              to="/pricing"
+            <PricingDialog
               aria-label={`${userName}, get 10 Credits for Just Rs. 139`}
               className="min-w-0 flex-1 text-center font-medium text-foreground transition-colors hover:text-primary"
             >
@@ -612,7 +626,7 @@ function DashboardPage() {
                   <span className="ml-1 underline underline-offset-2">Get offer &rarr;</span>
                 </span>
               </span>
-            </Link>
+            </PricingDialog>
             <button
               onClick={() => {
                 void handleSignOut();
@@ -670,9 +684,9 @@ function DashboardPage() {
                       <span className="text-sm font-medium text-red-500">
                         {questionsRemaining} question{questionsRemaining !== 1 ? "s" : ""} remaining
                       </span>
-                      <Link to="/pricing" className="ml-2 text-sm font-medium text-primary hover:underline">
+                      <PricingDialog className="ml-2 text-sm font-medium text-primary hover:underline">
                         Get more
-                      </Link>
+                      </PricingDialog>
                     </div>
                   </div>
                   <div className="relative">

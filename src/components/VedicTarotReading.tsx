@@ -1,7 +1,7 @@
-import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import type { CSSProperties } from "react";
 import { auth } from "@/lib/firebase";
+import { PricingDialog } from "@/components/PricingDialog";
 
 type ReadingStage = "question" | "shuffling" | "choose" | "selected" | "generating" | "reading";
 
@@ -423,10 +423,10 @@ export function VedicTarotReading() {
                 <div className="mx-auto mt-4 max-w-lg rounded-2xl border border-destructive/20 bg-destructive/5 px-4 py-3 text-sm text-destructive">
                   {readingError === "NO_CREDITS" ? (
                     <>
-                      You have no Creditsremaining.{" "}
-                      <Link to="/pricing" className="font-semibold underline underline-offset-4">
+                      You have no credits remaining.{" "}
+                      <PricingDialog className="font-semibold underline underline-offset-4">
                         Get more questions
-                      </Link>
+                      </PricingDialog>
                     </>
                   ) : (
                     readingError

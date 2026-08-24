@@ -5,6 +5,7 @@ import { auth, onUserDoc } from "@/lib/firebase";
 import vaaniiPersona from "@/assets/vaanii-persona.jpg";
 import brandIcon from "@/assets/astrovaanii-logo.webp";
 import { VaaniiLoadingAnimation } from "@/components/VaaniiLoadingAnimation";
+import { PricingDialog } from "@/components/PricingDialog";
 
 const chatSearchSchema = z.object({
   question: z.string().optional(),
@@ -819,12 +820,11 @@ function ChatPage() {
                       Namaste{userName !== "User" ? ` ${userName}` : ""}! You've used all your credits. To continue getting personalized Vedic readings, please purchase more credits.
                     </p>
                     <div className="flex justify-center gap-3">
-                      <Link
-                        to="/pricing"
+                      <PricingDialog
                         className="rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:opacity-90 transition-opacity"
                       >
                         Purchase Credits
-                      </Link>
+                      </PricingDialog>
                       <a
                         href="/dashboard"
                         className="rounded-full border border-border bg-background px-5 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"

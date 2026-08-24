@@ -157,6 +157,50 @@
 @keyframes spin-slow { to { transform: rotate(360deg); } }
 .spin-slow { animation: spin-slow 6s linear infinite; }
 
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+
+  html,
+  body {
+    background: white !important;
+    overflow: visible !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .report-document {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+
+  .report-cover {
+    min-height: 260mm;
+    break-after: page;
+    box-shadow: none !important;
+  }
+
+  .report-cover > img {
+    height: 260mm !important;
+  }
+
+  .report-section,
+  .report-artwork {
+    break-inside: avoid;
+    box-shadow: none !important;
+  }
+
+  .report-artwork img {
+    max-height: 105mm;
+  }
+}
+
 @keyframes fade-out {
   to { opacity: 0; visibility: hidden; }
 }
