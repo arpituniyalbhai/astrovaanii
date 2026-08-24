@@ -144,10 +144,14 @@ function ChatPage() {
 
   const scrollActiveMessageToTop = (behavior: ScrollBehavior = "auto") => {
     const message = activeMessageRef.current;
-    if (!message) return;
+    const container = messagesContainerRef.current;
+    if (!message || !container) return;
 
-    // Native scrolling finds the actual overflow parent on desktop and mobile.
-    message.scrollIntoView({ block: "start", inline: "nearest", behavior });
+    const containerTop = container.getBoundingClientRect().top;
+    const messageTop = message.getBoundingClientRect().top;
+    const targetTop = container.scrollTop + messageTop - containerTop - 12;
+
+    container.scrollTo({ top: Math.max(0, targetTop), behavior });
   };
 
   useLayoutEffect(() => {
@@ -234,6 +238,7 @@ function ChatPage() {
 
   const startNewChat = () => {
     setMessages([]);
+    setActiveMessageId(null);
     setActiveConversationId(null);
     setIsSidebarOpen(false);
   };
@@ -242,6 +247,7 @@ function ChatPage() {
     const conv = conversations.find((c) => c.id === id);
     if (conv) {
       setMessages(conv.messages);
+      setActiveMessageId(null);
       setActiveConversationId(id);
     }
     setIsSidebarOpen(false);
@@ -254,6 +260,7 @@ function ChatPage() {
     saveConversations(updated);
     if (activeConversationId === id) {
       setMessages([]);
+      setActiveMessageId(null);
       setActiveConversationId(null);
     }
   };
@@ -676,10 +683,9 @@ function ChatPage() {
               <img src={brandIcon} alt="" width={28} height={28} className="h-7 w-7" />
               <span className="font-display text-base">Astro<span className="text-primary">Vaanii</span></span>
             </div>
-            <h1 className="font-display text-sm md:text-xl text-foreground">Chat with Vaanii</h1>
             <button
               onClick={() => navigate({ to: "/dashboard" })}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="ml-auto text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               Back to Dashboard
             </button>
@@ -783,6 +789,15 @@ function ChatPage() {
                       </p>
                     </div>
                   </div>
+                )}
+
+                {/* Leave enough trailing room to place the newest question at the top. */}
+                {activeMessageId && (
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none w-full shrink-0"
+                    style={{ minHeight: "calc(100% - 5rem)" }}
+                  />
                 )}
               </div>
 
