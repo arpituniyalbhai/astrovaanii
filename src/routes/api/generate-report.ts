@@ -16,7 +16,10 @@ type GeneratedReport = {
 const reportTypes = new Set<ReportType>(["personal", "relationship", "wealth"]);
 
 function parseReport(raw: string): GeneratedReport {
-  const jsonText = raw.replace(/^```json\s*/i, "").replace(/\s*```$/, "").trim();
+  const jsonText = raw
+    .replace(/^```json\s*/i, "")
+    .replace(/\s*```$/, "")
+    .trim();
   const parsed = JSON.parse(jsonText) as Partial<GeneratedReport>;
 
   if (!Array.isArray(parsed.sections) || parsed.sections.length !== 8) {

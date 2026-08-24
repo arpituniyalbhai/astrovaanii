@@ -299,7 +299,9 @@ function ReportsPage() {
       await navigate({ to: "/report-result" });
     } catch (error) {
       setGenerationError(
-        error instanceof Error ? error.message : "Unable to generate your report. Please try again.",
+        error instanceof Error
+          ? error.message
+          : "Unable to generate your report. Please try again.",
       );
     } finally {
       setIsGenerating(false);
@@ -579,11 +581,7 @@ function ReportsPage() {
         </DialogContent>
       </Dialog>
 
-      <PricingDialog
-        open={isPricingOpen}
-        onOpenChange={setIsPricingOpen}
-        hideTrigger
-      />
+      <PricingDialog open={isPricingOpen} onOpenChange={setIsPricingOpen} hideTrigger />
 
       {isGenerating && <ReportGenerationLoader userName={userName} />}
     </main>
@@ -610,48 +608,60 @@ function ReportGenerationLoader({ userName }: { userName: string }) {
 
   return (
     <div
-      className="fixed inset-0 z-[80] flex items-center justify-center bg-background/90 px-5 backdrop-blur-xl"
+      className="fixed inset-0 z-[80] flex items-center justify-center overflow-y-auto bg-background/90 px-4 py-4 backdrop-blur-xl sm:px-6"
       role="status"
       aria-live="polite"
       aria-label={steps[step]}
     >
-      <div className="w-full max-w-md rounded-[2rem] border border-primary/15 bg-card/95 p-7 text-center shadow-2xl shadow-primary/15 sm:p-10">
-        <div className="relative mx-auto h-32 w-32">
-          <div className="absolute inset-0 rounded-full border border-primary/15" />
-          <div className="absolute inset-3 animate-[spin_8s_linear_infinite] rounded-full border border-dashed border-primary/35" />
-          <div className="absolute inset-7 animate-[spin_5s_linear_infinite_reverse] rounded-full border-2 border-transparent border-r-primary border-t-primary/40" />
-          <span className="absolute left-1/2 top-0 h-3 w-3 -translate-x-1/2 rounded-full bg-[color:var(--gold)] shadow-[0_0_18px_var(--color-gold)]" />
-          <span className="absolute bottom-3 left-3 h-2.5 w-2.5 rounded-full bg-[color:var(--sage)]" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <Sparkles size={30} className="animate-pulse text-primary" aria-hidden="true" />
+      <div className="w-full max-w-md rounded-[2rem] border border-primary/15 bg-card/95 px-6 py-8 text-center shadow-2xl shadow-primary/15 sm:px-10">
+        <div className="relative mx-auto h-52 w-52" aria-hidden="true">
+          <div className="absolute inset-0 animate-[spin_12s_linear_infinite] rounded-full border border-dashed border-primary/45" />
+          <div className="absolute inset-2 animate-[spin_8s_linear_infinite_reverse] rounded-full border border-[color:var(--gold)]/35" />
+          <span className="absolute left-1/2 top-[-0.2rem] z-10 h-3 w-3 -translate-x-1/2 rounded-full bg-[color:var(--gold)] shadow-[0_0_18px_rgba(194,149,69,0.9)]" />
+          <span className="absolute bottom-3 left-4 z-10 h-2.5 w-2.5 rounded-full bg-[color:var(--sage)] shadow-[0_0_14px_rgba(94,119,90,0.75)]" />
+
+          <div className="absolute inset-4 overflow-hidden rounded-full border-4 border-card bg-foreground shadow-xl shadow-primary/20 ring-1 ring-primary/25">
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              poster="/vaanii-chart-loading-poster.webp"
+              className="h-full w-full scale-105 object-cover"
+              style={{ objectPosition: "50% 42%" }}
+            >
+              <source src="/vaanii-chart-loading.mp4" type="video/mp4" />
+            </video>
+            <div className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-t from-foreground/20 via-transparent to-[color:var(--gold)]/10 ring-1 ring-inset ring-white/20" />
           </div>
         </div>
 
-        <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-          Creating your report
-        </p>
-        <h2 className="mt-3 min-h-[3.5rem] font-display text-2xl leading-snug text-foreground">
-          {steps[step]}
-        </h2>
-        <p className="mt-3 text-sm leading-6 text-muted-foreground">
-          Vaanii is turning your saved chart data into a clear, practical reading.
-        </p>
+        <div className="pt-5">
+          <p className="mx-auto inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/5 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">
+            <Sparkles size={13} className="animate-pulse" aria-hidden="true" />
+            Vaanii is reading your chart
+          </p>
+          <h2 className="mt-2 min-h-[3rem] font-display text-xl leading-snug text-foreground sm:text-2xl">
+            {steps[step]}
+          </h2>
 
-        <div className="mt-7 h-1.5 overflow-hidden rounded-full bg-primary/10">
-          <div
-            className="h-full rounded-full bg-primary transition-[width] duration-700 ease-out"
-            style={{ width: `${((step + 1) / steps.length) * 100}%` }}
-          />
-        </div>
-        <div className="mt-4 flex justify-center gap-2" aria-hidden="true">
-          {steps.map((_, index) => (
-            <span
-              key={index}
-              className={`h-1.5 rounded-full transition-all duration-500 ${
-                index <= step ? "w-5 bg-primary" : "w-1.5 bg-border"
-              }`}
+          <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-primary/10">
+            <div
+              className="h-full rounded-full bg-primary transition-[width] duration-700 ease-out"
+              style={{ width: `${((step + 1) / steps.length) * 100}%` }}
             />
-          ))}
+          </div>
+          <div className="mt-3 flex justify-center gap-2" aria-hidden="true">
+            {steps.map((_, index) => (
+              <span
+                key={index}
+                className={`h-1.5 rounded-full transition-all duration-500 ${
+                  index <= step ? "w-5 bg-primary" : "w-1.5 bg-border"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>

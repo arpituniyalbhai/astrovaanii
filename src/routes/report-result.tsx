@@ -125,7 +125,10 @@ function ReportResultPage() {
     <main className="min-h-screen bg-background print:bg-white">
       <header className="no-print sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
-          <Link to="/reports" className="flex items-center gap-3 text-sm text-muted-foreground hover:text-foreground">
+          <Link
+            to="/reports"
+            className="flex items-center gap-3 text-sm text-muted-foreground hover:text-foreground"
+          >
             <ArrowLeft size={18} aria-hidden="true" />
             <span className="hidden sm:inline">Back to reports</span>
           </Link>
@@ -147,7 +150,10 @@ function ReportResultPage() {
         </div>
       </header>
 
-      <article id="report-document" className="report-document mx-auto max-w-5xl px-4 py-8 sm:px-8 sm:py-12">
+      <article
+        id="report-document"
+        className="report-document mx-auto max-w-5xl px-4 py-8 sm:px-8 sm:py-12"
+      >
         <section className="report-cover relative overflow-hidden rounded-[2rem] border border-border bg-card shadow-2xl shadow-primary/10">
           <img
             src={reportCover}
@@ -183,7 +189,11 @@ function ReportResultPage() {
           </div>
 
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <DataItem icon={<UserRound size={17} />} label="Name" value={displayValue(profile.name)} />
+            <DataItem
+              icon={<UserRound size={17} />}
+              label="Name"
+              value={displayValue(profile.name)}
+            />
             <DataItem
               icon={<CalendarDays size={17} />}
               label="Date of birth"
@@ -205,8 +215,8 @@ function ReportResultPage() {
             <DataItem label="Antardasha" value={displayValue(antardasha.planet)} />
           </div>
           <p className="mt-5 text-xs leading-5 text-muted-foreground">
-            This report interprets the astrology-engine values shown above. It does not recalculate or
-            replace your saved chart.
+            This report interprets the astrology-engine values shown above. It does not recalculate
+            or replace your saved chart.
           </p>
         </section>
 
@@ -246,21 +256,21 @@ function ReportResultPage() {
                 </div>
               </section>
 
-              {index === 1 && (
+              {result.reportType === "personal" && index === 1 && (
                 <ReportArtwork
                   src={personalArtwork}
                   alt="Watercolor illustration of reflection and personal insight"
                   caption="Self-awareness turns patterns into choices."
                 />
               )}
-              {index === 3 && (
+              {result.reportType === "relationship" && index === 3 && (
                 <ReportArtwork
                   src={relationshipArtwork}
                   alt="Watercolor illustration of thoughtful communication and connection"
                   caption="Clear communication gives insight a practical place in daily life."
                 />
               )}
-              {index === 5 && (
+              {result.reportType === "wealth" && index === 5 && (
                 <ReportArtwork
                   src={wealthArtwork}
                   alt="Watercolor illustration of steady growth and opportunity"
@@ -280,10 +290,12 @@ function ReportResultPage() {
 
         <footer className="report-section mt-8 rounded-3xl bg-primary px-6 py-8 text-center text-primary-foreground sm:px-10">
           <Sparkles className="mx-auto" size={24} />
-          <h2 className="mt-3 font-display text-2xl">Your report, ready whenever you need clarity</h2>
+          <h2 className="mt-3 font-display text-2xl">
+            Your report, ready whenever you need clarity
+          </h2>
           <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-primary-foreground/80">
-            Revisit these insights as your priorities evolve, and use the practical actions as a guide
-            for your next decisions.
+            Revisit these insights as your priorities evolve, and use the practical actions as a
+            guide for your next decisions.
           </p>
         </footer>
       </article>
@@ -291,15 +303,7 @@ function ReportResultPage() {
   );
 }
 
-function DataItem({
-  icon,
-  label,
-  value,
-}: {
-  icon?: ReactNode;
-  label: string;
-  value: string;
-}) {
+function DataItem({ icon, label, value }: { icon?: ReactNode; label: string; value: string }) {
   return (
     <div className="rounded-2xl border border-border bg-background/55 p-4">
       <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.12em] text-primary">
