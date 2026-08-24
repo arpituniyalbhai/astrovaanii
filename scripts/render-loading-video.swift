@@ -98,17 +98,7 @@ func drawFrame(_ context: CGContext, frame: Int) {
     height: drawHeight
   )
 
-  context.saveGState()
-  context.translateBy(x: 0, y: CGFloat(height))
-  context.scaleBy(x: 1, y: -1)
-  let flippedRect = CGRect(
-    x: imageRect.origin.x,
-    y: CGFloat(height) - imageRect.maxY,
-    width: imageRect.width,
-    height: imageRect.height
-  )
-  context.draw(sourceCGImage, in: flippedRect)
-  context.restoreGState()
+  context.draw(sourceCGImage, in: imageRect)
 
   context.setBlendMode(.screen)
 

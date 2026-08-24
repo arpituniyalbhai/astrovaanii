@@ -284,14 +284,29 @@ function ReportsPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           reportType: selectedReport.type,
+          email: auth.currentUser?.email || userProfile.email,
           userData: userProfile,
           astrologyData: chart || null,
         }),
       });
       const result = await response.json();
 
+      if (response.status === 402) {
+        setSelectedReport(null);
+        setIsPricingOpen(true);
+        return;
+      }
+
       if (!response.ok || !result.success) {
         throw new Error(result.error || "Unable to generate your report.");
+      }
+
+      if (typeof result.creditsRemaining === "number") {
+        setQuestionsRemaining(result.creditsRemaining);
+        localStorage.setItem(
+          "userData",
+          JSON.stringify({ ...stored, questionsRemaining: result.creditsRemaining }),
+        );
       }
 
       sessionStorage.setItem("astrovaanii_generated_report", JSON.stringify(result));
@@ -598,13 +613,21 @@ function ReportGenerationLoader({ userName }: { userName: string }) {
     "Preparing your downloadable report...",
   ];
   const [step, setStep] = useState(0);
+  const [secondsRemaining, setSecondsRemaining] = useState(59);
 
   useEffect(() => {
     const interval = window.setInterval(() => {
       setStep((current) => Math.min(current + 1, steps.length - 1));
-    }, 2_200);
+    }, 9_000);
     return () => window.clearInterval(interval);
   }, [steps.length]);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setSecondsRemaining((current) => Math.max(current - 1, 0));
+    }, 1_000);
+    return () => window.clearInterval(interval);
+  }, []);
 
   return (
     <div
@@ -631,7 +654,7 @@ function ReportGenerationLoader({ userName }: { userName: string }) {
               className="h-full w-full scale-105 object-cover"
               style={{ objectPosition: "50% 42%" }}
             >
-              <source src="/vaanii-chart-loading.mp4" type="video/mp4" />
+              <source src="/vaanii-chart-loading.mp4?v=2" type="video/mp4" />
             </video>
             <div className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-t from-foreground/20 via-transparent to-[color:var(--gold)]/10 ring-1 ring-inset ring-white/20" />
           </div>
@@ -645,6 +668,21 @@ function ReportGenerationLoader({ userName }: { userName: string }) {
           <h2 className="mt-2 min-h-[3rem] font-display text-xl leading-snug text-foreground sm:text-2xl">
             {steps[step]}
           </h2>
+
+          <div className="mt-3 rounded-2xl border border-primary/10 bg-background/55 px-4 py-3">
+            {secondsRemaining > 0 ? (
+              <p className="text-sm text-muted-foreground">
+                Your report will be generated within{" "}
+                <span className="font-semibold tabular-nums text-foreground">
+                  00:{String(secondsRemaining).padStart(2, "0")}
+                </span>
+              </p>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                Vaanii is finalizing your report. The animation will continue until it is ready.
+              </p>
+            )}
+          </div>
 
           <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-primary/10">
             <div

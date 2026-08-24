@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
+import { getApps, initializeApp } from "firebase/app";
+import { doc, getFirestore, runTransaction } from "firebase/firestore";
 import { REPORT_PROMPTS, REPORT_TITLES, type ReportType } from "@/lib/report-prompts";
 
 type ReportSection = {
@@ -14,6 +16,42 @@ type GeneratedReport = {
 };
 
 const reportTypes = new Set<ReportType>(["personal", "relationship", "wealth"]);
+const REPORT_CREDIT_COST = 10;
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCPEGp0ub5sUeRSHlcZuctNU9ieJmDwceo",
+  authDomain: "astrovaanii-ai.firebaseapp.com",
+  projectId: "astrovaanii-ai",
+  storageBucket: "astrovaanii-ai.firebasestorage.app",
+  messagingSenderId: "244796939843",
+  appId: "1:244796939843:web:b7c143d15dea8fe7a47ef6",
+  measurementId: "G-WM1T1W6YFJ",
+};
+
+const reportFirebaseApp =
+  getApps().find((app) => app.name === "report-server") ??
+  initializeApp(firebaseConfig, "report-server");
+const reportDb = getFirestore(reportFirebaseApp);
+
+function emailToDocId(email: string) {
+  return email.replace(/\./g, ",");
+}
+
+async function deductReportCredits(email: string) {
+  const userRef = doc(reportDb, "Users", emailToDocId(email));
+
+  return runTransaction(reportDb, async (transaction) => {
+    const snapshot = await transaction.get(userRef);
+    if (!snapshot.exists()) throw new Error("USER_NOT_FOUND");
+
+    const currentCredits = Number(snapshot.data().questionsRemaining) || 0;
+    if (currentCredits < REPORT_CREDIT_COST) throw new Error("INSUFFICIENT_CREDITS");
+
+    const creditsRemaining = currentCredits - REPORT_CREDIT_COST;
+    transaction.update(userRef, { questionsRemaining: creditsRemaining });
+    return creditsRemaining;
+  });
+}
 
 function parseReport(raw: string): GeneratedReport {
   const jsonText = raw
@@ -47,6 +85,7 @@ async function generateReport(request: Request) {
   try {
     const body = (await request.json()) as {
       reportType?: ReportType;
+      email?: string;
       userData?: Record<string, unknown>;
       astrologyData?: Record<string, unknown>;
       partnerData?: Record<string, unknown>;
@@ -58,6 +97,13 @@ async function generateReport(request: Request) {
     }
     if (!body.userData || typeof body.userData !== "object") {
       return Response.json({ error: "User data is required to create a report." }, { status: 400 });
+    }
+    const email = body.email?.trim();
+    if (!email) {
+      return Response.json(
+        { error: "Please sign in again to generate your report." },
+        { status: 401 },
+      );
     }
     const apiKey = process.env.MISTRAL_API_KEY;
     if (!apiKey) {
@@ -122,13 +168,43 @@ async function generateReport(request: Request) {
         throw new Error("The AI report response was empty.");
       }
 
+      const report = parseReport(content);
+      let creditsRemaining: number;
+
+      try {
+        creditsRemaining = await deductReportCredits(email);
+      } catch (creditError) {
+        const creditMessage = creditError instanceof Error ? creditError.message : "";
+        if (creditMessage === "INSUFFICIENT_CREDITS") {
+          return Response.json(
+            {
+              error: "INSUFFICIENT_CREDITS",
+              message: "You need at least 10 credits to generate this report.",
+            },
+            { status: 402 },
+          );
+        }
+        if (creditMessage === "USER_NOT_FOUND") {
+          return Response.json(
+            { error: "Your profile was not found. Please complete onboarding first." },
+            { status: 404 },
+          );
+        }
+        console.error("Report credit deduction failed:", creditError);
+        return Response.json(
+          { error: "Unable to deduct report credits. Please try again." },
+          { status: 500 },
+        );
+      }
+
       return Response.json({
         success: true,
         reportType: body.reportType,
         generatedAt: generatedAt.toISOString(),
         currentDate,
         sourceData: suppliedContext,
-        report: parseReport(content),
+        report,
+        creditsRemaining,
       });
     } finally {
       clearTimeout(timeout);
