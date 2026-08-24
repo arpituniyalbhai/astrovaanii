@@ -60,26 +60,8 @@ function ChatPage() {
   const [isFreeUser, setIsFreeUser] = useState(false);
   const [hasUsedFreeChat, setHasUsedFreeChat] = useState(false);
 
-  const thinkingMessages = [
-    "Reading the cosmic positions...",
-    "Studying your birth Kundali...",
-    "Mapping your planetary dashas...",
-    "Calculating your life timeline...",
-    "Preparing your cosmic insight...",
-  ];
-  const [thinkingMessage, setThinkingMessage] = useState(thinkingMessages[0]);
   const [followUpSuggestions, setFollowUpSuggestions] = useState<Record<string, string[]>>({});
   const [activeMessageId, setActiveMessageId] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!isTyping) { setThinkingMessage(thinkingMessages[0]); return; }
-    let idx = 0;
-    const interval = setInterval(() => {
-      idx = (idx + 1) % thinkingMessages.length;
-      setThinkingMessage(thinkingMessages[idx]);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [isTyping]);
 
   const setMinLoading = (show: boolean) => {
     if (show) {
@@ -766,30 +748,10 @@ function ChatPage() {
 
                 {/* Thinking animation */}
                 {isTyping && (
-                  <div className="mx-auto flex w-full gap-3 items-start md:max-w-6xl">
-                    <img
-                      src={vaaniiPersona}
-                      alt="Vaanii"
-                      className="h-8 w-8 rounded-full object-cover border border-border shrink-0 self-start mt-1"
-                    />
-                    <div className="rounded-2xl rounded-tl-sm bg-background border border-border/40 shadow-sm px-4 py-3">
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1.5">
-                        <span className="font-medium">thinking</span>
-                        <span className="flex gap-1">
-                          {[0, 1, 2].map(i => (
-                            <span
-                              key={i}
-                              className="inline-block w-1.5 h-1.5 rounded-full bg-primary/60 animate-bounce"
-                              style={{ animationDelay: `${i * 0.15}s` }}
-                            />
-                          ))}
-                        </span>
-                      </div>
-                      <p className="text-sm text-muted-foreground italic">
-                        {thinkingMessage}
-                      </p>
-                    </div>
-                  </div>
+                  <VaaniiLoadingAnimation
+                    userName={userName}
+                    userQuestion={currentQuestionRef.current}
+                  />
                 )}
 
                 {/* Leave enough trailing room to place the newest question at the top. */}
