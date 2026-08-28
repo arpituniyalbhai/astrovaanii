@@ -189,9 +189,21 @@ export function PricingDialog({
             Continue your readings
           </DialogTitle>
           <DialogDescription className="leading-6">
-            Select a credit pack. One question uses one credit.
+            Select the credit pack that fits how you want to use Vaanii.
           </DialogDescription>
         </DialogHeader>
+
+        <div className="grid gap-2 sm:grid-cols-3" aria-label="Credit usage">
+          <div className="rounded-xl border border-primary/15 bg-primary/5 px-3 py-2.5 text-center text-xs font-medium text-foreground">
+            <span className="font-semibold text-primary">1 credit</span> = 1 question
+          </div>
+          <div className="rounded-xl border border-primary/15 bg-primary/5 px-3 py-2.5 text-center text-xs font-medium text-foreground">
+            <span className="font-semibold text-primary">1 credit</span> = 1 Tarot reading
+          </div>
+          <div className="rounded-xl border border-primary/15 bg-primary/5 px-3 py-2.5 text-center text-xs font-medium text-foreground">
+            <span className="font-semibold text-primary">10 credits</span> = 1 report
+          </div>
+        </div>
 
         {paymentMessage && (
           <div
