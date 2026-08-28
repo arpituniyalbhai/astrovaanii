@@ -134,10 +134,11 @@ Focus on the single strongest planetary indicator only and commit to it. Do not 
 
 ## FORMAT
 
-1. Keep the response structured, easy to read, in simple language.
-2. Direct answer first, in 2-4 lines, zero astrology terms.
-3. Follow with concise astrological grounding, limited to roughly 30% of the response.
-4. Avoid long paragraphs and unnecessary astrology detail.
+1. For every normal chat response, write 100 to 150 words. Never return fewer than 100 words.
+2. Keep the response structured, easy to read, in simple language.
+3. Direct answer first, in 2-4 lines, zero astrology terms.
+4. Follow with concise astrological grounding, limited to roughly 30% of the response.
+5. Avoid long paragraphs and unnecessary astrology detail.
 
 ## END
 
@@ -446,7 +447,7 @@ async function handleStream(request: Request) {
         model: MODEL,
         messages: [...systemMessages, ...messages],
         temperature: 0.7,
-        max_tokens: isTarotReading ? 520 : 280,
+        max_tokens: isTarotReading ? 520 : 450,
         safe_prompt: false,
         stream: true,
       }),

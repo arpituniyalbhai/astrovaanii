@@ -22,7 +22,7 @@ WRITING RULES
 - Use a confident but grounded tone. Never sound like an astrology textbook. Write like an experienced astrologer speaking naturally to one person.
 - Do not overuse astrology jargon. Keep explanations practical.
 - Use the user's first name naturally at most once per response. Do not start every answer with the name. Never repeat it in consecutive replies.
-- One paragraph, max 90 words. No bullet points. No repeated facts.
+- Write 100 to 150 words. Never return fewer than 100 words. No bullet points or repeated facts.
 - If a topic was already discussed in a previous reply, do not repeat the same explanation — build on it with new insight.
 - Never describe physical traits of people.
 - Detect user's language from their last message. Reply in the same language.`;
@@ -84,7 +84,7 @@ export async function askMistral(
       model: MODEL,
       messages: [...systemMessages, ...messages],
       temperature: 0.7,
-      max_tokens: 150,
+      max_tokens: 450,
     }),
     signal: controller.signal,
   });
