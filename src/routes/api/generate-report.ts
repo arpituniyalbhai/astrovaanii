@@ -138,7 +138,7 @@ async function generateReport(request: Request) {
           Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-          model: "mistral-large-latest",
+          model: "mistral-small-latest",
           messages: [
             { role: "system", content: REPORT_PROMPTS[body.reportType] },
             {
