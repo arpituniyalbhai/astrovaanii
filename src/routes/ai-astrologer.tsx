@@ -5,6 +5,7 @@ import { DashaCalculatorCallout } from "@/components/landing/DashaCalculatorCall
 import brandIcon from "@/assets/astrovaanii-logo.webp";
 import vaaniiPersona from "@/assets/vaanii-persona.jpg";
 import chatPreview from "@/assets/chat-preview.jpg";
+import { AstrologyHighlightedText } from "@/components/AstrologyHighlightedText";
 
 
 const faqs = [
@@ -611,7 +612,11 @@ function AiAstrologerPage() {
                         : "rounded-tr-sm bg-primary text-primary-foreground"
                     }`}
                   >
-                    {message.content}
+                    {message.type === "bot" ? (
+                      <AstrologyHighlightedText text={message.content} />
+                    ) : (
+                      message.content
+                    )}
                   </div>
                 </div>
               ))}

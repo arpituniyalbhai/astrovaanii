@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { CSSProperties } from "react";
 import { auth } from "@/lib/firebase";
 import { PricingDialog } from "@/components/PricingDialog";
+import { AstrologyHighlightedText } from "@/components/AstrologyHighlightedText";
 
 type ReadingStage = "question" | "shuffling" | "choose" | "selected" | "generating" | "reading";
 
@@ -556,14 +557,14 @@ function StructuredReading({ content }: { content: string }) {
               key={`${heading[1]}-${index}`}
               className="border-l-2 border-primary pl-3 text-sm font-semibold uppercase tracking-[0.12em] text-primary"
             >
-              {heading[1]}
+              <AstrologyHighlightedText text={heading[1]} />
             </h4>
           );
         }
 
         return (
           <p key={`${block.slice(0, 24)}-${index}`} className="leading-7 text-foreground/90">
-            {block.replace(/\*\*(.+?)\*\*/g, "$1")}
+            <AstrologyHighlightedText text={block.replace(/\*\*(.+?)\*\*/g, "$1")} />
           </p>
         );
       })}

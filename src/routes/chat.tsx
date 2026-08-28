@@ -6,6 +6,7 @@ import vaaniiPersona from "@/assets/vaanii-persona.jpg";
 import brandIcon from "@/assets/astrovaanii-logo.webp";
 import { VaaniiLoadingAnimation } from "@/components/VaaniiLoadingAnimation";
 import { PricingDialog } from "@/components/PricingDialog";
+import { AstrologyHighlightedText } from "@/components/AstrologyHighlightedText";
 
 const chatSearchSchema = z.object({
   question: z.string().optional(),
@@ -719,7 +720,9 @@ function ChatPage() {
                         {message.type === "bot" ? (
                           <div className="space-y-3">
                             {formatAssistantContent(message.content).map((paragraph, i) => (
-                              <p key={i} className="whitespace-pre-wrap">{paragraph}</p>
+                              <p key={i} className="whitespace-pre-wrap">
+                                <AstrologyHighlightedText text={paragraph} />
+                              </p>
                             ))}
                           </div>
                         ) : (
