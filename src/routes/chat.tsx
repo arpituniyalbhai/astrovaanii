@@ -808,14 +808,8 @@ function ChatPage() {
                         onChange={(e) => setInputValue(e.target.value)}
                         onKeyPress={handleKeyPress}
                         placeholder="Ask Vaanii anything..."
-                        className="w-full rounded-full border border-border bg-background px-6 py-3.5 pr-12 text-base outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/10 transition-all md:py-2.5 md:text-sm"
+                        className="w-full rounded-full border border-border bg-background px-6 py-3.5 text-base outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/10 transition-all md:py-2.5 md:text-sm"
                       />
-                      <div className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <circle cx="11" cy="11" r="8" />
-                          <path d="m21 21-4.35-4.35" />
-                        </svg>
-                      </div>
                     </div>
                     <button
                       onClick={handleSendMessage}
