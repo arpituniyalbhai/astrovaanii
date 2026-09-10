@@ -25,9 +25,10 @@ const EXALTATION_SIGNS: Record<string, number> = {
   Sun: 0, Moon: 1, Mars: 9, Mercury: 5, Jupiter: 3, Venus: 11, Saturn: 6,
 };
 
-const OWN_SIGNS: Record<string, number[]> = {
-  Sun: [4], Moon: [3], Mars: [0, 7], Mercury: [2, 5],
-  Jupiter: [8, 11], Venus: [1, 6], Saturn: [9, 10],
+const SIGN_LORDS: Record<number, string> = {
+  0: "Mars", 1: "Venus", 2: "Mercury", 3: "Moon",
+  4: "Sun", 5: "Mercury", 6: "Venus", 7: "Mars",
+  8: "Jupiter", 9: "Saturn", 10: "Saturn", 11: "Jupiter",
 };
 
 const KENDRA = [1, 4, 7, 10];
@@ -39,13 +40,21 @@ function getSignFromHouse(house: number, ascSign: number): number {
   return (ascSign + house - 1) % 12;
 }
 
+function houseFrom(referenceHouse: number, targetHouse: number): number {
+  return ((targetHouse - referenceHouse + 12) % 12) + 1;
+}
+
+function isKendraFrom(referenceHouse: number, targetHouse: number): boolean {
+  if (referenceHouse < 1 || targetHouse < 1) return false;
+  return KENDRA.includes(houseFrom(referenceHouse, targetHouse));
+}
+
 export function detectYogas(chart: ChartMap): YogaResult[] {
   const yogas: YogaResult[] = [];
   const planets = chart.planets || {};
   const houseMap = chart.planetHouseMap || {};
   const ascSign = chart.ascendantSign ?? Math.floor((chart.ascendant ?? 0) / 30);
   const houseLords = chart.houseLords || {};
-  const houseOccupants = chart.houseOccupants || {};
 
   const getHouse = (p: string): number => {
     if (houseMap[p] !== undefined) return houseMap[p];
@@ -56,20 +65,17 @@ export function detectYogas(chart: ChartMap): YogaResult[] {
     return planets[p]?.sign ?? getSignFromHouse(getHouse(p), ascSign);
   };
 
-  // Gaj Kesari Yoga: Jupiter + Moon in kendra from each other or same house
+  // Phaladeepika 6.14: Moon and Jupiter in mutual kendras (1/4/7/10).
   const moonHouse = getHouse("Moon");
   const jupHouse = getHouse("Jupiter");
-  if (moonHouse && jupHouse) {
-    const diff = Math.abs(moonHouse - jupHouse);
-    if (diff === 0 || diff === 3 || diff === 6 || diff === 9) {
-      yogas.push({
-        name: "Gaj Kesari Yoga",
-        type: "positive",
-        description: "Jupiter and Moon together create wisdom, fortune, and respect.",
-        planets: ["Moon", "Jupiter"],
-        confidence: 75,
-      });
-    }
+  if (moonHouse && jupHouse && isKendraFrom(moonHouse, jupHouse)) {
+    yogas.push({
+      name: "Gaj Kesari Yoga",
+      type: "positive",
+      description: "Jupiter is in a kendra from the Moon; the yoga's strength still depends on dignity and affliction.",
+      planets: ["Moon", "Jupiter"],
+      confidence: 75,
+    });
   }
 
   // Budh Aditya Yoga: Sun + Mercury in same house
@@ -79,128 +85,154 @@ export function detectYogas(chart: ChartMap): YogaResult[] {
     yogas.push({
       name: "Budh Aditya Yoga",
       type: "positive",
-      description: "Sun and Mercury together strengthen intellect, communication, and leadership.",
+      description: "Sun and Mercury occupy the same house; dignity, combustion, and affliction determine the yoga's strength.",
       planets: ["Sun", "Mercury"],
       confidence: 80,
     });
   }
 
-  // Raj Yoga: Kendra lord + Trikona lord in kendra/kona
+  // BPHS 34: a Kendra lord and Trikona lord must have an actual sambandha.
+  // We recognize conjunction, exchange, mutual 7th aspect, or occupation of
+  // one another's house; merely being in two good houses is not sufficient.
+  const seenRajaYogaPairs = new Set<string>();
   for (const k of KENDRA) {
     for (const t of TRIKONA) {
       const kLord = houseLords[k];
       const tLord = houseLords[t];
-      if (!kLord || !tLord) continue;
+      if (!kLord || !tLord || kLord === tLord) continue;
       const kLordHouse = getHouse(kLord);
       const tLordHouse = getHouse(tLord);
       if (!kLordHouse || !tLordHouse) continue;
-      if (KENDRA.includes(kLordHouse) || TRIKONA.includes(kLordHouse)) {
-        if (KENDRA.includes(tLordHouse) || TRIKONA.includes(tLordHouse)) {
-          yogas.push({
-            name: "Raj Yoga",
-            type: "positive",
-            description: `Lord of house ${k} (${kLord}) and lord of house ${t} (${tLord}) create powerful success yoga.`,
-            planets: [kLord, tLord],
-            confidence: 70,
-          });
-        }
-      }
-    }
-  }
 
-  // Neecha Bhanga: Debilitated planet in exaltation sign of its dispositor
-  for (const p of ALL_PLANETS) {
-    const sign = getSign(p);
-    if (DEBILITY_SIGNS[p] === sign) {
-      const owningLord = houseLords[sign + 1];
-      if (owningLord) {
-        const ownLordHouse = getHouse(owningLord);
-        if (ownLordHouse && (KENDRA.includes(ownLordHouse) || TRIKONA.includes(ownLordHouse))) {
-          yogas.push({
-            name: `Neecha Bhanga Raja Yoga (${p})`,
-            type: "positive",
-            description: `${p} is debilitated but its lord ${owningLord} is in a strong position, cancelling debility and turning it into strength.`,
-            planets: [p, owningLord],
-            confidence: 65,
-          });
-        }
-      }
-    }
-  }
+      const conjunct = kLordHouse === tLordHouse;
+      const exchanged = kLordHouse === t && tLordHouse === k;
+      const mutualSeventhAspect = houseFrom(kLordHouse, tLordHouse) === 7;
+      const occupiesOtherLordsHouse = kLordHouse === t || tLordHouse === k;
+      if (!conjunct && !exchanged && !mutualSeventhAspect && !occupiesOtherLordsHouse) continue;
 
-  // Vipreet Raj Yoga: Lord of dusthana in own house
-  for (const d of DUSTHANA) {
-    const lord = houseLords[d];
-    if (!lord) continue;
-    const lordHouse = getHouse(lord);
-    if (lordHouse === d) {
+      const pairKey = [kLord, tLord].sort().join("-");
+      if (seenRajaYogaPairs.has(pairKey)) continue;
+      seenRajaYogaPairs.add(pairKey);
+      const relationship = exchanged
+        ? "exchange houses"
+        : conjunct
+          ? `are conjunct in house ${kLordHouse}`
+          : mutualSeventhAspect
+            ? "are in mutual seventh-house aspect"
+            : "occupy one another's Kendra/Trikona domain";
       yogas.push({
-        name: `Vipreet Raj Yoga (House ${d})`,
+        name: "Kendra-Trikona Raja Yoga",
         type: "positive",
-        description: `Lord of house ${d} (${lord}) sitting in its own house turns obstacles into opportunities.`,
-        planets: [lord],
-        confidence: 80,
-      });
-    }
-  }
-
-  // Dhana Yoga: Lord of 2nd or 11th in kendra/trikona
-  for (const h of [2, 11]) {
-    const lord = houseLords[h];
-    if (!lord) continue;
-    const lordHouse = getHouse(lord);
-    if (lordHouse && (KENDRA.includes(lordHouse) || TRIKONA.includes(lordHouse))) {
-      yogas.push({
-        name: `Dhana Yoga (House ${h})`,
-        type: "positive",
-        description: `Lord of wealth house ${h} (${lord}) in a powerful position indicating financial prosperity.`,
-        planets: [lord],
+        description: `Lord of house ${k} (${kLord}) and lord of house ${t} (${tLord}) ${relationship}.`,
+        planets: [kLord, tLord],
         confidence: 72,
       });
     }
   }
 
-  // Kemadruma Yoga: No planets adjacent to Moon
-  if (moonHouse) {
-    const adjHouse1 = moonHouse === 1 ? 12 : moonHouse - 1;
-    const adjHouse2 = moonHouse === 12 ? 1 : moonHouse + 1;
-    const occ1 = houseOccupants[adjHouse1] || [];
-    const occ2 = houseOccupants[adjHouse2] || [];
-    if (occ1.length === 0 && occ2.length === 0) {
-      yogas.push({
-        name: "Kemadruma Yoga",
-        type: "challenge",
-        description: "Moon has no planetary support on either side, which may create emotional sensitivity.",
-        planets: ["Moon"],
-        confidence: 60,
-      });
-    }
-  }
-
-  // Debility check (challenge)
+  // Classical Neecha Bhanga: the lord of the debilitation sign, or the lord of
+  // the planet's exaltation sign, is in a kendra from Lagna or the Moon.
   for (const p of ALL_PLANETS) {
     const sign = getSign(p);
     if (DEBILITY_SIGNS[p] === sign) {
+      const debilityLord = SIGN_LORDS[sign];
+      const exaltationLord = SIGN_LORDS[EXALTATION_SIGNS[p]];
+      const cancellationLords = [...new Set([debilityLord, exaltationLord])].filter(Boolean);
+      const qualifyingLord = cancellationLords.find((lord) => {
+        const lordHouse = getHouse(lord);
+        return lordHouse && (
+          KENDRA.includes(lordHouse) ||
+          (moonHouse > 0 && isKendraFrom(moonHouse, lordHouse))
+        );
+      });
+      if (qualifyingLord) {
+        yogas.push({
+          name: `Neecha Bhanga Yoga (${p})`,
+          type: "neutral",
+          description: `${p}'s debility has a classical cancellation condition through ${qualifyingLord}; cancellation does not automatically make the planet exceptionally strong.`,
+          planets: [...new Set([p, qualifyingLord])],
+          confidence: 70,
+        });
+      }
+    }
+  }
+
+  // Phaladeepika Ch. 6: Harsha, Sarala and Vimala are keyed to occupancy of
+  // the 6th, 8th and 12th respectively by any lord of 6/8/12.
+  const viparitaNames: Record<number, string> = { 6: "Harsha", 8: "Sarala", 12: "Vimala" };
+  for (const targetHouse of DUSTHANA) {
+    const qualifyingLords = DUSTHANA
+      .map((sourceHouse) => ({ sourceHouse, lord: houseLords[sourceHouse] }))
+      .filter(({ lord }) => lord && getHouse(lord) === targetHouse);
+    if (qualifyingLords.length > 0) {
+      const sourceHouses = qualifyingLords.map(({ sourceHouse }) => sourceHouse).join(", ");
+      const yogaPlanets = [...new Set(qualifyingLords.map(({ lord }) => lord!))];
       yogas.push({
-        name: `${p} Debility`,
-        type: "challenge",
-        description: `${p} is in its debility sign, which may weaken its significations.`,
-        planets: [p],
-        confidence: 70,
+        name: `${viparitaNames[targetHouse]} Yoga`,
+        type: "positive",
+        description: `Lord${qualifyingLords.length > 1 ? "s" : ""} of dusthana house${qualifyingLords.length > 1 ? "s" : ""} ${sourceHouses} (${yogaPlanets.join(", ")}) ${qualifyingLords.length > 1 ? "occupy" : "occupies"} house ${targetHouse}.`,
+        planets: yogaPlanets,
+        confidence: 75,
       });
     }
   }
 
-  // Exaltation check (positive)
-  for (const p of ALL_PLANETS) {
-    const sign = getSign(p);
-    if (EXALTATION_SIGNS[p] === sign) {
+  // Strict wealth-house Dhana Yoga: require a direct 2nd/11th lord sambandha.
+  // A generic benefic (for example Venus) in the 10th never qualifies by itself.
+  const secondLord = houseLords[2];
+  const eleventhLord = houseLords[11];
+  if (secondLord && eleventhLord) {
+    const secondLordHouse = getHouse(secondLord);
+    const eleventhLordHouse = getHouse(eleventhLord);
+    const sameLord = secondLord === eleventhLord;
+    const conjunct = !sameLord && secondLordHouse > 0 && secondLordHouse === eleventhLordHouse;
+    const exchanged = secondLordHouse === 11 && eleventhLordHouse === 2;
+    const mutualSeventhAspect = !sameLord && secondLordHouse > 0 && eleventhLordHouse > 0 && houseFrom(secondLordHouse, eleventhLordHouse) === 7;
+    const placedInOtherWealthHouse = secondLordHouse === 11 || eleventhLordHouse === 2;
+    const sameLordStronglyPlaced = sameLord && [2, 11].includes(secondLordHouse);
+
+    if (conjunct || exchanged || mutualSeventhAspect || placedInOtherWealthHouse || sameLordStronglyPlaced) {
+      const relationship = exchanged
+        ? "exchange the 2nd and 11th houses"
+        : conjunct
+          ? `are conjunct in house ${secondLordHouse}`
+          : mutualSeventhAspect
+            ? "are in mutual seventh-house aspect"
+            : sameLord
+              ? `is placed in wealth house ${secondLordHouse}`
+              : "connect the 2nd and 11th wealth houses";
       yogas.push({
-        name: `${p} Exaltation`,
+        name: "Dhana Yoga (2nd–11th Connection)",
         type: "positive",
-        description: `${p} is exalted, giving exceptional strength to its significations.`,
-        planets: [p],
-        confidence: 85,
+        description: `The 2nd lord (${secondLord}) and 11th lord (${eleventhLord}) ${relationship}.`,
+        planets: [...new Set([secondLord, eleventhLord])],
+        confidence: 78,
+      });
+    }
+  }
+
+  // Phaladeepika 6.5 / Brihat Jataka 13.3: no planet other than the Sun in
+  // the 2nd or 12th from Moon, subject to the stated kendra/conjunction cancellations.
+  if (moonHouse) {
+    const adjHouse1 = moonHouse === 1 ? 12 : moonHouse - 1;
+    const adjHouse2 = moonHouse === 12 ? 1 : moonHouse + 1;
+    const supportingPlanets = ["Mars", "Mercury", "Jupiter", "Venus", "Saturn"];
+    const hasAdjacentSupport = supportingPlanets.some((planet) =>
+      [adjHouse1, adjHouse2].includes(getHouse(planet)),
+    );
+    const moonConjunctPlanet = supportingPlanets.some((planet) => getHouse(planet) === moonHouse);
+    const planetInKendraFromMoon = supportingPlanets.some((planet) =>
+      isKendraFrom(moonHouse, getHouse(planet)),
+    );
+    const moonInKendraFromLagna = KENDRA.includes(moonHouse);
+
+    if (!hasAdjacentSupport && !moonConjunctPlanet && !planetInKendraFromMoon && !moonInKendraFromLagna) {
+      yogas.push({
+        name: "Kemadruma Yoga",
+        type: "challenge",
+        description: "No eligible planet supports the Moon from the 2nd, 12th, conjunction, or a lunar kendra, and the Moon is not in a Lagna kendra.",
+        planets: ["Moon"],
+        confidence: 75,
       });
     }
   }
