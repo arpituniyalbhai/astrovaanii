@@ -3,7 +3,7 @@ import { detectTopic } from "./topic-detection";
 import { generateReasoning } from "./reasoning-engine";
 
 const API_KEY = process.env.MISTRAL_API_KEY;
-const MODEL = "mistral-small-latest";
+const MODEL = "ministral-14b-latest";
 const ENDPOINT = "https://api.mistral.ai/v1/chat/completions";
 
 interface ChatMessage {

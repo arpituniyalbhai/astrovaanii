@@ -27,7 +27,7 @@ async function handleFollowUp(request: Request) {
       Authorization: `Bearer ${API_KEY}`,
     },
     body: JSON.stringify({
-      model: "mistral-small-latest",
+      model: "ministral-14b-latest",
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
         { role: "user", content: prompt },
