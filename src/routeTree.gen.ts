@@ -26,6 +26,7 @@ import { Route as DisclaimerRouteImport } from './routes/disclaimer'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ChatRouteImport } from './routes/chat'
 import { Route as BlogRouteImport } from './routes/blog'
+import { Route as BabyNameByDateOfBirthRouteImport } from './routes/baby-name-by-date-of-birth'
 import { Route as AiAstrologyWebsiteFreeRouteImport } from './routes/ai-astrology-website-free'
 import { Route as AiAstrologerRouteImport } from './routes/ai-astrologer'
 import { Route as IndexRouteImport } from './routes/index'
@@ -42,6 +43,7 @@ import { Route as ApiGenerateReportRouteImport } from './routes/api/generate-rep
 import { Route as ApiFollowUpRouteImport } from './routes/api/follow-up'
 import { Route as ApiCreateOrderRouteImport } from './routes/api/create-order'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as ApiBabyNameRouteImport } from './routes/api/baby-name'
 
 const VimshottariDashaCalculatorRoute =
   VimshottariDashaCalculatorRouteImport.update({
@@ -129,6 +131,11 @@ const BlogRoute = BlogRouteImport.update({
   path: '/blog',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BabyNameByDateOfBirthRoute = BabyNameByDateOfBirthRouteImport.update({
+  id: '/baby-name-by-date-of-birth',
+  path: '/baby-name-by-date-of-birth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AiAstrologyWebsiteFreeRoute = AiAstrologyWebsiteFreeRouteImport.update({
   id: '/ai-astrology-website-free',
   path: '/ai-astrology-website-free',
@@ -212,11 +219,17 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiBabyNameRoute = ApiBabyNameRouteImport.update({
+  id: '/api/baby-name',
+  path: '/api/baby-name',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ai-astrologer': typeof AiAstrologerRoute
   '/ai-astrology-website-free': typeof AiAstrologyWebsiteFreeRoute
+  '/baby-name-by-date-of-birth': typeof BabyNameByDateOfBirthRoute
   '/blog': typeof BlogRoute
   '/chat': typeof ChatRoute
   '/dashboard': typeof DashboardRoute
@@ -234,6 +247,7 @@ export interface FileRoutesByFullPath {
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/tools': typeof ToolsRoute
   '/vimshottari-dasha-calculator': typeof VimshottariDashaCalculatorRoute
+  '/api/baby-name': typeof ApiBabyNameRoute
   '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/follow-up': typeof ApiFollowUpRoute
@@ -252,6 +266,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ai-astrologer': typeof AiAstrologerRoute
   '/ai-astrology-website-free': typeof AiAstrologyWebsiteFreeRoute
+  '/baby-name-by-date-of-birth': typeof BabyNameByDateOfBirthRoute
   '/blog': typeof BlogRoute
   '/chat': typeof ChatRoute
   '/dashboard': typeof DashboardRoute
@@ -269,6 +284,7 @@ export interface FileRoutesByTo {
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/tools': typeof ToolsRoute
   '/vimshottari-dasha-calculator': typeof VimshottariDashaCalculatorRoute
+  '/api/baby-name': typeof ApiBabyNameRoute
   '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/follow-up': typeof ApiFollowUpRoute
@@ -288,6 +304,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/ai-astrologer': typeof AiAstrologerRoute
   '/ai-astrology-website-free': typeof AiAstrologyWebsiteFreeRoute
+  '/baby-name-by-date-of-birth': typeof BabyNameByDateOfBirthRoute
   '/blog': typeof BlogRoute
   '/chat': typeof ChatRoute
   '/dashboard': typeof DashboardRoute
@@ -305,6 +322,7 @@ export interface FileRoutesById {
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/tools': typeof ToolsRoute
   '/vimshottari-dasha-calculator': typeof VimshottariDashaCalculatorRoute
+  '/api/baby-name': typeof ApiBabyNameRoute
   '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/follow-up': typeof ApiFollowUpRoute
@@ -325,6 +343,7 @@ export interface FileRouteTypes {
     | '/'
     | '/ai-astrologer'
     | '/ai-astrology-website-free'
+    | '/baby-name-by-date-of-birth'
     | '/blog'
     | '/chat'
     | '/dashboard'
@@ -342,6 +361,7 @@ export interface FileRouteTypes {
     | '/terms-and-conditions'
     | '/tools'
     | '/vimshottari-dasha-calculator'
+    | '/api/baby-name'
     | '/api/chat'
     | '/api/create-order'
     | '/api/follow-up'
@@ -360,6 +380,7 @@ export interface FileRouteTypes {
     | '/'
     | '/ai-astrologer'
     | '/ai-astrology-website-free'
+    | '/baby-name-by-date-of-birth'
     | '/blog'
     | '/chat'
     | '/dashboard'
@@ -377,6 +398,7 @@ export interface FileRouteTypes {
     | '/terms-and-conditions'
     | '/tools'
     | '/vimshottari-dasha-calculator'
+    | '/api/baby-name'
     | '/api/chat'
     | '/api/create-order'
     | '/api/follow-up'
@@ -395,6 +417,7 @@ export interface FileRouteTypes {
     | '/'
     | '/ai-astrologer'
     | '/ai-astrology-website-free'
+    | '/baby-name-by-date-of-birth'
     | '/blog'
     | '/chat'
     | '/dashboard'
@@ -412,6 +435,7 @@ export interface FileRouteTypes {
     | '/terms-and-conditions'
     | '/tools'
     | '/vimshottari-dasha-calculator'
+    | '/api/baby-name'
     | '/api/chat'
     | '/api/create-order'
     | '/api/follow-up'
@@ -431,6 +455,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AiAstrologerRoute: typeof AiAstrologerRoute
   AiAstrologyWebsiteFreeRoute: typeof AiAstrologyWebsiteFreeRoute
+  BabyNameByDateOfBirthRoute: typeof BabyNameByDateOfBirthRoute
   BlogRoute: typeof BlogRoute
   ChatRoute: typeof ChatRoute
   DashboardRoute: typeof DashboardRoute
@@ -448,6 +473,7 @@ export interface RootRouteChildren {
   TermsAndConditionsRoute: typeof TermsAndConditionsRoute
   ToolsRoute: typeof ToolsRoute
   VimshottariDashaCalculatorRoute: typeof VimshottariDashaCalculatorRoute
+  ApiBabyNameRoute: typeof ApiBabyNameRoute
   ApiChatRoute: typeof ApiChatRoute
   ApiCreateOrderRoute: typeof ApiCreateOrderRoute
   ApiFollowUpRoute: typeof ApiFollowUpRoute
@@ -584,6 +610,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/baby-name-by-date-of-birth': {
+      id: '/baby-name-by-date-of-birth'
+      path: '/baby-name-by-date-of-birth'
+      fullPath: '/baby-name-by-date-of-birth'
+      preLoaderRoute: typeof BabyNameByDateOfBirthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ai-astrology-website-free': {
       id: '/ai-astrology-website-free'
       path: '/ai-astrology-website-free'
@@ -696,6 +729,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/baby-name': {
+      id: '/api/baby-name'
+      path: '/api/baby-name'
+      fullPath: '/api/baby-name'
+      preLoaderRoute: typeof ApiBabyNameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -703,6 +743,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AiAstrologerRoute: AiAstrologerRoute,
   AiAstrologyWebsiteFreeRoute: AiAstrologyWebsiteFreeRoute,
+  BabyNameByDateOfBirthRoute: BabyNameByDateOfBirthRoute,
   BlogRoute: BlogRoute,
   ChatRoute: ChatRoute,
   DashboardRoute: DashboardRoute,
@@ -720,6 +761,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsAndConditionsRoute: TermsAndConditionsRoute,
   ToolsRoute: ToolsRoute,
   VimshottariDashaCalculatorRoute: VimshottariDashaCalculatorRoute,
+  ApiBabyNameRoute: ApiBabyNameRoute,
   ApiChatRoute: ApiChatRoute,
   ApiCreateOrderRoute: ApiCreateOrderRoute,
   ApiFollowUpRoute: ApiFollowUpRoute,

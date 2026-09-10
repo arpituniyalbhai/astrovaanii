@@ -772,6 +772,7 @@ function ContextualLinks() {
   const tools = [
     ["/free-kundli", "Kundli Generator"],
     ["/vimshottari-dasha-calculator", "Vimshottari Dasha Calculator"],
+    ["/baby-name-by-date-of-birth", "Baby Name Letter Calculator"],
     ["/kundali-matching", "Kundli Matching"],
     ["/ai-astrologer", "Free AI Astrologer"],
     ["/tools", "All Astrology Tools"],

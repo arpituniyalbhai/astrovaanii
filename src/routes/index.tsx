@@ -510,6 +510,7 @@ function MeetAI() {
               ))}
             </ul>
           </Reveal>
+
           <Reveal delay={280}>
             <a
               href="#meet"
@@ -862,6 +863,27 @@ function FreeToolsSection() {
               </div>
             </Link>
           </Reveal>
+
+          <Reveal delay={240}>
+            <Link
+              to="/baby-name-by-date-of-birth"
+              className="group block h-full rounded-3xl border border-border bg-card/80 p-6 shadow-xl backdrop-blur-md transition-all duration-300 hover:border-primary/30 hover:shadow-2xl"
+            >
+              <h3 className="font-display text-xl text-foreground transition-colors group-hover:text-primary">
+                Baby Name Letter Calculator
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                Find the traditional name-starting sound from a baby&apos;s exact birth date, time, and birthplace using Moon Nakshatra and Pada.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {["Nakshatra sound", "Exact Pada", "Swiss Ephemeris", "Lahiri Ayanamsa"].map((feature) => (
+                  <span key={feature} className="rounded-full border border-border bg-background/70 px-3 py-1 text-xs text-muted-foreground">
+                    {feature}
+                  </span>
+                ))}
+              </div>
+            </Link>
+          </Reveal>
         </div>
       </div>
     </section>
@@ -1109,6 +1131,7 @@ function Footer() {
               { to: "/kundali-matching", label: "Kundali Matching" },
               { to: "/vimshottari-dasha-calculator", label: "Dasha Calculator" },
               { to: "/kaal-sarp-dosha-calculator", label: "Kaal Sarp Dosha Calculator" },
+              { to: "/baby-name-by-date-of-birth", label: "Baby Name Letter Calculator" },
               { to: "/ai-astrology-website-free", label: "Free AI Astrology" },
               { to: "/tools", label: "Explore All Tools" },
             ]}

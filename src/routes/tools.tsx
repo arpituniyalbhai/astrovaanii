@@ -67,6 +67,14 @@ const tools = [
     features: ["Current Mahadasha", "Antardasha timeline", "Moon Nakshatra", "Swiss Ephemeris accuracy"],
   },
   {
+    title: "Baby Name Letter Calculator",
+    description:
+      "Find the traditional baby name starting sound from date of birth, exact time, and birthplace. Calculates the Moon Nakshatra and Pada using Swiss Ephemeris and Lahiri ayanamsa.",
+    image: kundliImage,
+    link: "/baby-name-by-date-of-birth",
+    features: ["Nakshatra name sound", "Exact Pada", "Birthplace timezone", "Swiss Ephemeris"],
+  },
+  {
     title: "Kaal Sarp Dosha Calculator",
     description:
       "Check whether the seven classical planets fall within the Rahu and Ketu axis in your Vedic birth chart. Uses Swiss Ephemeris and Lahiri ayanamsa.",
