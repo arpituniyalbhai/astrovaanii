@@ -57,6 +57,7 @@ interface ReasoningOutput {
   broadPrediction: { style: string; strengths: string[]; avoid: string[] };
   timing: TimingItem[];
   yogas: YogaItem[];
+  contextPairs: string[];
   memoryNote: string;
   scratchpad: string;
 }
@@ -370,11 +371,10 @@ export function generateReasoning(
     description: y.description,
   }));
 
-  const memoryItems = [
-    ...facts.slice(0, 2).map((f) => f.split(" is")[0] || f.split(".")[0]),
-    ...timing.slice(0, 1).map((t) => t.period),
-  ].filter(Boolean);
-  const allDiscussed = [...new Set([...excludePairs, ...memoryItems])];
+  const contextPairs = Object.entries(planetPositions)
+    .filter(([, position]) => position.house > 0)
+    .slice(0, 2)
+    .map(([planet, position]) => `${planet}-${position.house}`);
 
   const scratchpad = [
     `Topic: ${topicLabel}`,
@@ -393,7 +393,7 @@ export function generateReasoning(
     relevantYogas.length ? `Yogas: ${relevantYogas.map((y) => y.name).join(", ")}` : "",
     timing.length ? `Timing: ${timing[0].period} (${timing[0].start} to ${timing[0].end})` : "",
     ``,
-    allDiscussed.length ? `Already discussed: ${allDiscussed.join(", ")}. Build on it.` : "",
+    excludePairs.size ? `Already discussed: ${[...excludePairs].join(", ")}. Build on it.` : "",
     ``,
     `Response: Answer → Why → Practical action. One paragraph. Max 90 words. Same language as user. Make it feel unique, not templated.`,
   ].join("\n");
@@ -408,7 +408,8 @@ export function generateReasoning(
     broadPrediction,
     timing,
     yogas: relevantYogas,
-    memoryNote: allDiscussed.join(", "),
+    contextPairs,
+    memoryNote: [...excludePairs].join(", "),
     scratchpad,
   };
 }

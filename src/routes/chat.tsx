@@ -268,6 +268,7 @@ function ChatPage() {
   const streamToVaanii = async (
     content: string,
     history: Message[],
+    conversationId: string,
     onToken: (full: string) => void
   ): Promise<void> => {
     const local = JSON.parse(localStorage.getItem("userData") || "{}");
@@ -295,6 +296,7 @@ function ChatPage() {
         userName: userNameRef.current,
         userDetails: Object.keys(userDetails).length ? userDetails : undefined,
         email,
+        conversationId,
       }),
     });
 
@@ -359,7 +361,7 @@ function ChatPage() {
     setMinLoading(true);
     const botIdRef = { current: null as string | null };
 
-    streamToVaanii(initialQuestion, [], (full) => {
+    streamToVaanii(initialQuestion, [], convId, (full) => {
       if (!botIdRef.current) {
         botIdRef.current = (Date.now() + 1).toString();
         setMinLoading(false);
@@ -430,7 +432,7 @@ function ChatPage() {
     const botIdRef = { current: null as string | null };
     
     setMinLoading(true);
-    streamToVaanii(userMessage.content, currentHistory, (full) => {
+    streamToVaanii(userMessage.content, currentHistory, convId, (full) => {
       if (!botIdRef.current) {
         botIdRef.current = (Date.now() + 1).toString();
         setMinLoading(false);

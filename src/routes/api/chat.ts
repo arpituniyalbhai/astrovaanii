@@ -30,35 +30,12 @@ function emailToDocId(email: string) {
   return email.replace(/\./g, ",");
 }
 
-const PLANET_NAMES = [
-  "Sun",
-  "Moon",
-  "Mars",
-  "Mercury",
-  "Jupiter",
-  "Venus",
-  "Saturn",
-  "Rahu",
-  "Ketu",
-];
-
-function extractPreviousContext(messages: { role: string; content: string }[]): string {
-  const lastBot = messages.filter((m) => m.role === "assistant").slice(-3);
-  if (!lastBot.length) return "";
-  const pairs: string[] = [];
-  const planetRegex = new RegExp(
-    `(${PLANET_NAMES.join("|")})[^.]{0,25}?(\\d{1,2})(?:st|nd|rd|th)?\\s*house`,
-    "gi",
-  );
-  for (const reply of lastBot) {
-    const c = reply.content || "";
-    for (const match of c.matchAll(planetRegex)) {
-      const planet = match[1][0].toUpperCase() + match[1].slice(1).toLowerCase();
-      pairs.push(`${planet}-${match[2]}`);
-    }
-  }
-  return [...new Set(pairs)].join(",");
-}
+type StoredReasoningContext = {
+  topic?: string;
+  contextPairs?: string[];
+  planetPositions?: Record<string, { house?: number; sign?: string }>;
+  recordedAt?: string;
+};
 
 const SYSTEM_PROMPT = `You are Vanii AI, a grounded, confident, and smart Vedic astrology assistant for Veadicastro.
 
@@ -69,13 +46,7 @@ const SYSTEM_PROMPT = `You are Vanii AI, a grounded, confident, and smart Vedic 
 3. Never override astrology engine results.
 4. You may calculate and mention useful dates or realistic time periods yourself when answering the user. Think carefully and use the available astrology data, current date, age, dasha, and context to give the most accurate practical timeline.
 5. Do not repeatedly mention the same astrological fact, house, mahadasha, or antardasha in one response or across nearby responses unless it is necessary for answering the user's new question.
-
-## VARIATION RULE (applies even in a brand-new chat with no prior history)
-
-1. Never default to a templated "aapka [X] dasha chal raha hai jiska matlab hai..." paragraph. That structure is the single biggest source of answers feeling repeated across different chats — even for the same user with the same chart, a templated explanation sentence reads identically every time.
-2. Let the exact wording of the user's current question — not the dasha itself — decide the entry point, structure, and which specific real-life detail you lead with. Two different questions about the same life area (e.g. "shaadi kab hogi" vs "meri shaadi ka future kaisa hai") must NOT produce the same paragraph shape or the same explanatory sentence about the dasha, even if the underlying astrological driver is identical.
-3. When the same mahadasha/antardasha is genuinely the strongest indicator again, mention it only in passing — a phrase, not a re-explanation — and spend your words on a fresh, specific angle: a different life detail, a different practical consequence, a different example, different phrasing entirely.
-4. Treat every incoming question as if it could be from a user who has heard a dasha explanation before, even if you have no visible history — vary structure, opening line, and sentence rhythm by default rather than falling into one safe formula.
+6. Use yoga/dasha names exactly as provided in [Yogas]/[Facts] — never relabel or reinterpret their classical definition.
 
 ## LANGUAGE & TONE RULE
 
@@ -83,9 +54,7 @@ const SYSTEM_PROMPT = `You are Vanii AI, a grounded, confident, and smart Vedic 
 2. If the user's last message is in English (no Hindi/Hinglish words), respond ONLY in English. Do not slip into Hinglish, do not add Hindi words for flavor, do not default to Hinglish because that's the platform's typical audience — pure English input gets pure English output, every time.
 3. If the user's last message is in Hindi, respond only in pure Hindi using Devanagari script.
 4. If the user's last message is in Hinglish, respond in matching Hinglish.
-5. Before finalizing your response, check: does the language of my draft actually match the language of the user's last message? If the user wrote in English and your draft has any Hindi/Hinglish words, rewrite it fully in English before answering.
-6. ALWAYS address the user respectfully — use "aap"/"you" appropriately for the detected language, never "tu" or "tera" (तू / तेरा) in Hindi/Hinglish, regardless of how casual the user's own message is. Vanii speaks like a respected family astrologer, not a friend — respectful distance is non-negotiable even when the user is informal.
-7. This respect rule cannot be relaxed by user tone, slang, or informal phrasing in their message — match their casualness in vocabulary, never in the register (aap/tu) or in switching away from their actual language.
+5. ALWAYS address the user respectfully — use "aap"/"you" appropriately for the detected language, never "tu" or "tera" (तू / तेरा) in Hindi/Hinglish, regardless of how casual the user's own message is. Vanii speaks like a respected family astrologer, not a friend — respectful distance is non-negotiable even when the user is informal.
 
 ## LOGIC ORDER
 
@@ -95,7 +64,7 @@ Focus on the single strongest planetary indicator only and commit to it. Do not 
 
 ## REALITY FILTER
 
-1. Never use phrases like "watch for," "notice if," or "possibly."
+1. Avoid hedging phrases ("watch for," "possibly") for career/money/studies. For sensitive topics (ex-partners, health, family conflict), allow one soft qualifier and never sound fatalistic about another person's free will or health.
 2. Give practical, unique predictions for career, money, relationships, and studies.
 3. Do not give generic astrology answers that could apply to anyone.
 4. Connect the astrology data with the user's actual situation, age, question, and life stage.
@@ -125,12 +94,11 @@ Focus on the single strongest planetary indicator only and commit to it. Do not 
 
 1. Speak like a smart, experienced astrologer who understands both astrology and real human situations — not like someone showing off how much chart data they have access to.
 2. Focus on what the user actually wants to know.
-3. Give clear conclusions, not vague or generic statements.
+3. For relationship/emotional topics: inform, don't instruct. Give the read, skip telling the user how to feel or what to prioritize.
 4. Use a confident tone but allow realistic uncertainty when genuinely warranted.
 5. Keep answers concise, clear, natural, and engaging.
 6. When a useful timeline or date makes the answer more valuable, mention it.
-7. The answer should feel personally accurate and make the user want to explore further on their own — not because you added a hook, but because the prediction itself was sharp.
-8. Never let the response feel like a technical astrology report.
+7. Never let the response feel like a technical astrology report.
 
 ## FORMAT
 
@@ -235,8 +203,9 @@ async function handleStream(request: Request) {
     isFree?: boolean;
     mode?: "chat" | "vedic-tarot";
     tarot?: { cardName?: string };
+    conversationId?: string;
   };
-  const { messages, chart, userName, userDetails, email, isFree, mode, tarot } = data;
+  const { messages, chart, userName, userDetails, email, isFree, mode, tarot, conversationId } = data;
   const isTarotReading = mode === "vedic-tarot";
   const selectedTarotCard =
     isTarotReading && tarot?.cardName ? VEDIC_TAROT_CARDS[tarot.cardName] : undefined;
@@ -339,7 +308,33 @@ async function handleStream(request: Request) {
 
   const lastUserMsg = [...messages].reverse().find((m) => m.role === "user");
   const topic = detectTopic(lastUserMsg?.content || "");
-  const previousCtx = extractPreviousContext(messages);
+  const safeConversationId = conversationId?.trim().replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 128);
+  let reasoningContextRef: ReturnType<typeof doc> | null = null;
+  let storedReasoningContexts: StoredReasoningContext[] = [];
+
+  if (email && safeConversationId) {
+    try {
+      reasoningContextRef = doc(
+        db,
+        "Users",
+        emailToDocId(email),
+        "conversationContexts",
+        safeConversationId,
+      );
+      const contextSnapshot = await getDoc(reasoningContextRef);
+      const stored = contextSnapshot.data()?.recentReasoningContexts;
+      if (Array.isArray(stored)) storedReasoningContexts = stored.slice(-3);
+    } catch (error) {
+      console.error("Unable to load structured reasoning context:", error);
+      reasoningContextRef = null;
+    }
+  }
+
+  const previousCtx = [...new Set(
+    storedReasoningContexts.flatMap((context) =>
+      Array.isArray(context.contextPairs) ? context.contextPairs : [],
+    ),
+  )].join(",");
   const reasoning = chart
     ? generateReasoning(chart as Record<string, unknown>, topic, previousCtx)
     : null;
@@ -446,7 +441,7 @@ async function handleStream(request: Request) {
       body: JSON.stringify({
         model: MODEL,
         messages: [...systemMessages, ...messages],
-        temperature: 0.7,
+        temperature: 0.4,
         max_tokens: isTarotReading ? 520 : 450,
         safe_prompt: false,
         stream: true,
@@ -466,6 +461,27 @@ async function handleStream(request: Request) {
         }
       }
       return new Response(text, { status: mistralRes.status });
+    }
+
+    if (reasoningContextRef && reasoning) {
+      try {
+        const nextContext: StoredReasoningContext = {
+          topic,
+          contextPairs: reasoning.contextPairs,
+          planetPositions: reasoning.planetPositions,
+          recordedAt: new Date().toISOString(),
+        };
+        await setDoc(
+          reasoningContextRef,
+          {
+            recentReasoningContexts: [...storedReasoningContexts, nextContext].slice(-3),
+            updatedAt: new Date().toISOString(),
+          },
+          { merge: true },
+        );
+      } catch (error) {
+        console.error("Unable to save structured reasoning context:", error);
+      }
     }
 
     const headers: Record<string, string> = {
