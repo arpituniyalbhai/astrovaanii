@@ -34,7 +34,7 @@ function routeUrl(filePath) {
 
 function priorityFor(url) {
   if (url === "/") return "1.0";
-  if (["/free-kundli", "/ai-astrologer", "/kundali-matching", "/vimshottari-dasha-calculator"].includes(url)) return "0.9";
+  if (["/free-kundli", "/ai-astrologer", "/ai-prashna-kundli", "/kundali-matching", "/vimshottari-dasha-calculator"].includes(url)) return "0.9";
   if (url === "/tools" || url === "/blogs" || url.startsWith("/blogs/")) return "0.8";
   return "0.7";
 }

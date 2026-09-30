@@ -35,6 +35,14 @@ export const Route = createFileRoute("/tools")({
 
 const tools = [
   {
+    title: "AI Prashna Kundli",
+    description:
+      "Ask one sincere question and receive a focused Vedic horary reading from the exact question time and your current location. No birth date or birth time is needed.",
+    image: chatPreview,
+    link: "/ai-prashna-kundli",
+    features: ["No birth details", "Exact question moment", "Vedic house analysis", "Focused AI answer"],
+  },
+  {
     title: "Free Kundli Generator",
     description:
       "Generate your complete Janam Kundli by date of birth, time, and birthplace. Get a full North Indian style birth chart with planet positions, house details, and Vimshottari Dasha using accurate Swiss Ephemeris calculations.",

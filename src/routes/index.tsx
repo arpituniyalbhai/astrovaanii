@@ -780,6 +780,27 @@ function FreeToolsSection() {
         </Reveal>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Reveal delay={40}>
+            <Link
+              to="/ai-prashna-kundli"
+              className="group block h-full rounded-3xl border border-primary/25 bg-primary/5 p-6 shadow-xl backdrop-blur-md transition-all duration-300 hover:border-primary/50 hover:shadow-2xl"
+            >
+              <h3 className="font-display text-xl text-foreground transition-colors group-hover:text-primary">
+                AI Prashna Kundli
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                Ask one clear question and receive a focused Vedic horary reading from the exact question time and your current location. No birth details are needed.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {["No birth details", "Exact question moment", "Vedic chart", "Focused answer"].map((feature) => (
+                  <span key={feature} className="rounded-full border border-border bg-background/70 px-3 py-1 text-xs text-muted-foreground">
+                    {feature}
+                  </span>
+                ))}
+              </div>
+            </Link>
+          </Reveal>
+
           <Reveal delay={80}>
             <Link
               to="/free-kundli"

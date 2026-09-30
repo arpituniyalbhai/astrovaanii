@@ -739,7 +739,14 @@ function KaalSarpGuide() {
             >
               Kundli Matching
             </Link>
-            .
+            . If you have one immediate concern and do not have reliable birth details, ask the{" "}
+            <Link
+              to="/ai-prashna-kundli"
+              className="text-primary underline underline-offset-4 hover:opacity-80"
+            >
+              AI Prashna Kundli
+            </Link>{" "}
+            instead. It reads a separate Vedic question chart for the exact moment you ask.
           </p>
           <p className="mt-4 leading-relaxed text-muted-foreground">
             If a result makes you worried, pause before making an important decision. Rituals and

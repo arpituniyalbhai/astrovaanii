@@ -96,7 +96,9 @@ function calcAllAntardashas(dashaList: { planet: string; start: string; end: str
     for (let i = 0; i < 9; i++) {
       const idx = (startIdx + i) % 9;
       const adPlanet = DASHA_ORDER[idx];
-      const adYears = (DASHA_YEARS[adPlanet] / DASHA_YEARS[md.planet]) * totalMdYears;
+      // An Antardasha occupies its Vimshottari share of the enclosing
+      // Mahadasha. All nine planetary periods add up to 120 years.
+      const adYears = (DASHA_YEARS[adPlanet] / 120) * totalMdYears;
       const adMs = adYears * 365.25 * 24 * 60 * 60 * 1000;
       const adEnd = new Date(cursor.getTime() + adMs);
 
@@ -330,7 +332,7 @@ function calcAntardasha(mahadashaPlanet: string, mdStart: Date, mdEnd: Date, bir
   for (let i = 0; i < 9; i++) {
     const idx = (startIdx + i) % 9;
     const planet = DASHA_ORDER[idx];
-    const adYears = (DASHA_YEARS[planet] / DASHA_YEARS[mahadashaPlanet]) * totalMdYears;
+    const adYears = (DASHA_YEARS[planet] / 120) * totalMdYears;
     const adMs = adYears * 365.25 * 24 * 60 * 60 * 1000;
     const adEnd = new Date(cursor.getTime() + adMs);
 

@@ -27,6 +27,7 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ChatRouteImport } from './routes/chat'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as BabyNameByDateOfBirthRouteImport } from './routes/baby-name-by-date-of-birth'
+import { Route as AiPrashnaKundliRouteImport } from './routes/ai-prashna-kundli'
 import { Route as AiAstrologyWebsiteFreeRouteImport } from './routes/ai-astrology-website-free'
 import { Route as AiAstrologerRouteImport } from './routes/ai-astrologer'
 import { Route as IndexRouteImport } from './routes/index'
@@ -38,11 +39,11 @@ import { Route as BlogsHowAiReadsYourBirthChartRouteImport } from './routes/blog
 import { Route as BlogsArpitUniyalRouteImport } from './routes/blogs/arpit-uniyal'
 import { Route as ApiVimshottariDashaRouteImport } from './routes/api/vimshottari-dasha'
 import { Route as ApiVerifyPaymentRouteImport } from './routes/api/verify-payment'
+import { Route as ApiPrashnaRouteImport } from './routes/api/prashna'
 import { Route as ApiKundaliMatchingRouteImport } from './routes/api/kundali-matching'
 import { Route as ApiGenerateReportRouteImport } from './routes/api/generate-report'
 import { Route as ApiFollowUpRouteImport } from './routes/api/follow-up'
 import { Route as ApiCreateOrderRouteImport } from './routes/api/create-order'
-import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as ApiBabyNameRouteImport } from './routes/api/baby-name'
 
 const VimshottariDashaCalculatorRoute =
@@ -136,6 +137,11 @@ const BabyNameByDateOfBirthRoute = BabyNameByDateOfBirthRouteImport.update({
   path: '/baby-name-by-date-of-birth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AiPrashnaKundliRoute = AiPrashnaKundliRouteImport.update({
+  id: '/ai-prashna-kundli',
+  path: '/ai-prashna-kundli',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AiAstrologyWebsiteFreeRoute = AiAstrologyWebsiteFreeRouteImport.update({
   id: '/ai-astrology-website-free',
   path: '/ai-astrology-website-free',
@@ -194,6 +200,11 @@ const ApiVerifyPaymentRoute = ApiVerifyPaymentRouteImport.update({
   path: '/api/verify-payment',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPrashnaRoute = ApiPrashnaRouteImport.update({
+  id: '/api/prashna',
+  path: '/api/prashna',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiKundaliMatchingRoute = ApiKundaliMatchingRouteImport.update({
   id: '/api/kundali-matching',
   path: '/api/kundali-matching',
@@ -214,11 +225,6 @@ const ApiCreateOrderRoute = ApiCreateOrderRouteImport.update({
   path: '/api/create-order',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiChatRoute = ApiChatRouteImport.update({
-  id: '/api/chat',
-  path: '/api/chat',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiBabyNameRoute = ApiBabyNameRouteImport.update({
   id: '/api/baby-name',
   path: '/api/baby-name',
@@ -229,6 +235,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ai-astrologer': typeof AiAstrologerRoute
   '/ai-astrology-website-free': typeof AiAstrologyWebsiteFreeRoute
+  '/ai-prashna-kundli': typeof AiPrashnaKundliRoute
   '/baby-name-by-date-of-birth': typeof BabyNameByDateOfBirthRoute
   '/blog': typeof BlogRoute
   '/chat': typeof ChatRoute
@@ -248,11 +255,11 @@ export interface FileRoutesByFullPath {
   '/tools': typeof ToolsRoute
   '/vimshottari-dasha-calculator': typeof VimshottariDashaCalculatorRoute
   '/api/baby-name': typeof ApiBabyNameRoute
-  '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/follow-up': typeof ApiFollowUpRoute
   '/api/generate-report': typeof ApiGenerateReportRoute
   '/api/kundali-matching': typeof ApiKundaliMatchingRoute
+  '/api/prashna': typeof ApiPrashnaRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
   '/api/vimshottari-dasha': typeof ApiVimshottariDashaRoute
   '/blogs/arpit-uniyal': typeof BlogsArpitUniyalRoute
@@ -266,6 +273,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ai-astrologer': typeof AiAstrologerRoute
   '/ai-astrology-website-free': typeof AiAstrologyWebsiteFreeRoute
+  '/ai-prashna-kundli': typeof AiPrashnaKundliRoute
   '/baby-name-by-date-of-birth': typeof BabyNameByDateOfBirthRoute
   '/blog': typeof BlogRoute
   '/chat': typeof ChatRoute
@@ -285,11 +293,11 @@ export interface FileRoutesByTo {
   '/tools': typeof ToolsRoute
   '/vimshottari-dasha-calculator': typeof VimshottariDashaCalculatorRoute
   '/api/baby-name': typeof ApiBabyNameRoute
-  '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/follow-up': typeof ApiFollowUpRoute
   '/api/generate-report': typeof ApiGenerateReportRoute
   '/api/kundali-matching': typeof ApiKundaliMatchingRoute
+  '/api/prashna': typeof ApiPrashnaRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
   '/api/vimshottari-dasha': typeof ApiVimshottariDashaRoute
   '/blogs/arpit-uniyal': typeof BlogsArpitUniyalRoute
@@ -304,6 +312,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/ai-astrologer': typeof AiAstrologerRoute
   '/ai-astrology-website-free': typeof AiAstrologyWebsiteFreeRoute
+  '/ai-prashna-kundli': typeof AiPrashnaKundliRoute
   '/baby-name-by-date-of-birth': typeof BabyNameByDateOfBirthRoute
   '/blog': typeof BlogRoute
   '/chat': typeof ChatRoute
@@ -323,11 +332,11 @@ export interface FileRoutesById {
   '/tools': typeof ToolsRoute
   '/vimshottari-dasha-calculator': typeof VimshottariDashaCalculatorRoute
   '/api/baby-name': typeof ApiBabyNameRoute
-  '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/follow-up': typeof ApiFollowUpRoute
   '/api/generate-report': typeof ApiGenerateReportRoute
   '/api/kundali-matching': typeof ApiKundaliMatchingRoute
+  '/api/prashna': typeof ApiPrashnaRoute
   '/api/verify-payment': typeof ApiVerifyPaymentRoute
   '/api/vimshottari-dasha': typeof ApiVimshottariDashaRoute
   '/blogs/arpit-uniyal': typeof BlogsArpitUniyalRoute
@@ -343,6 +352,7 @@ export interface FileRouteTypes {
     | '/'
     | '/ai-astrologer'
     | '/ai-astrology-website-free'
+    | '/ai-prashna-kundli'
     | '/baby-name-by-date-of-birth'
     | '/blog'
     | '/chat'
@@ -362,11 +372,11 @@ export interface FileRouteTypes {
     | '/tools'
     | '/vimshottari-dasha-calculator'
     | '/api/baby-name'
-    | '/api/chat'
     | '/api/create-order'
     | '/api/follow-up'
     | '/api/generate-report'
     | '/api/kundali-matching'
+    | '/api/prashna'
     | '/api/verify-payment'
     | '/api/vimshottari-dasha'
     | '/blogs/arpit-uniyal'
@@ -380,6 +390,7 @@ export interface FileRouteTypes {
     | '/'
     | '/ai-astrologer'
     | '/ai-astrology-website-free'
+    | '/ai-prashna-kundli'
     | '/baby-name-by-date-of-birth'
     | '/blog'
     | '/chat'
@@ -399,11 +410,11 @@ export interface FileRouteTypes {
     | '/tools'
     | '/vimshottari-dasha-calculator'
     | '/api/baby-name'
-    | '/api/chat'
     | '/api/create-order'
     | '/api/follow-up'
     | '/api/generate-report'
     | '/api/kundali-matching'
+    | '/api/prashna'
     | '/api/verify-payment'
     | '/api/vimshottari-dasha'
     | '/blogs/arpit-uniyal'
@@ -417,6 +428,7 @@ export interface FileRouteTypes {
     | '/'
     | '/ai-astrologer'
     | '/ai-astrology-website-free'
+    | '/ai-prashna-kundli'
     | '/baby-name-by-date-of-birth'
     | '/blog'
     | '/chat'
@@ -436,11 +448,11 @@ export interface FileRouteTypes {
     | '/tools'
     | '/vimshottari-dasha-calculator'
     | '/api/baby-name'
-    | '/api/chat'
     | '/api/create-order'
     | '/api/follow-up'
     | '/api/generate-report'
     | '/api/kundali-matching'
+    | '/api/prashna'
     | '/api/verify-payment'
     | '/api/vimshottari-dasha'
     | '/blogs/arpit-uniyal'
@@ -455,6 +467,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AiAstrologerRoute: typeof AiAstrologerRoute
   AiAstrologyWebsiteFreeRoute: typeof AiAstrologyWebsiteFreeRoute
+  AiPrashnaKundliRoute: typeof AiPrashnaKundliRoute
   BabyNameByDateOfBirthRoute: typeof BabyNameByDateOfBirthRoute
   BlogRoute: typeof BlogRoute
   ChatRoute: typeof ChatRoute
@@ -474,11 +487,11 @@ export interface RootRouteChildren {
   ToolsRoute: typeof ToolsRoute
   VimshottariDashaCalculatorRoute: typeof VimshottariDashaCalculatorRoute
   ApiBabyNameRoute: typeof ApiBabyNameRoute
-  ApiChatRoute: typeof ApiChatRoute
   ApiCreateOrderRoute: typeof ApiCreateOrderRoute
   ApiFollowUpRoute: typeof ApiFollowUpRoute
   ApiGenerateReportRoute: typeof ApiGenerateReportRoute
   ApiKundaliMatchingRoute: typeof ApiKundaliMatchingRoute
+  ApiPrashnaRoute: typeof ApiPrashnaRoute
   ApiVerifyPaymentRoute: typeof ApiVerifyPaymentRoute
   ApiVimshottariDashaRoute: typeof ApiVimshottariDashaRoute
   BlogsArpitUniyalRoute: typeof BlogsArpitUniyalRoute
@@ -617,6 +630,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BabyNameByDateOfBirthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ai-prashna-kundli': {
+      id: '/ai-prashna-kundli'
+      path: '/ai-prashna-kundli'
+      fullPath: '/ai-prashna-kundli'
+      preLoaderRoute: typeof AiPrashnaKundliRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ai-astrology-website-free': {
       id: '/ai-astrology-website-free'
       path: '/ai-astrology-website-free'
@@ -694,6 +714,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiVerifyPaymentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/prashna': {
+      id: '/api/prashna'
+      path: '/api/prashna'
+      fullPath: '/api/prashna'
+      preLoaderRoute: typeof ApiPrashnaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/kundali-matching': {
       id: '/api/kundali-matching'
       path: '/api/kundali-matching'
@@ -722,13 +749,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiCreateOrderRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/chat': {
-      id: '/api/chat'
-      path: '/api/chat'
-      fullPath: '/api/chat'
-      preLoaderRoute: typeof ApiChatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/baby-name': {
       id: '/api/baby-name'
       path: '/api/baby-name'
@@ -743,6 +763,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AiAstrologerRoute: AiAstrologerRoute,
   AiAstrologyWebsiteFreeRoute: AiAstrologyWebsiteFreeRoute,
+  AiPrashnaKundliRoute: AiPrashnaKundliRoute,
   BabyNameByDateOfBirthRoute: BabyNameByDateOfBirthRoute,
   BlogRoute: BlogRoute,
   ChatRoute: ChatRoute,
@@ -762,11 +783,11 @@ const rootRouteChildren: RootRouteChildren = {
   ToolsRoute: ToolsRoute,
   VimshottariDashaCalculatorRoute: VimshottariDashaCalculatorRoute,
   ApiBabyNameRoute: ApiBabyNameRoute,
-  ApiChatRoute: ApiChatRoute,
   ApiCreateOrderRoute: ApiCreateOrderRoute,
   ApiFollowUpRoute: ApiFollowUpRoute,
   ApiGenerateReportRoute: ApiGenerateReportRoute,
   ApiKundaliMatchingRoute: ApiKundaliMatchingRoute,
+  ApiPrashnaRoute: ApiPrashnaRoute,
   ApiVerifyPaymentRoute: ApiVerifyPaymentRoute,
   ApiVimshottariDashaRoute: ApiVimshottariDashaRoute,
   BlogsArpitUniyalRoute: BlogsArpitUniyalRoute,

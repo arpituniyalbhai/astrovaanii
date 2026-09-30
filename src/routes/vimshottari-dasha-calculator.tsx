@@ -385,7 +385,7 @@ function DashaGuide() {
         <section className="mt-10">
           <h2 className="font-display text-2xl text-foreground">Why accurate birth details matter</h2>
           <p className="mt-3 leading-relaxed text-muted-foreground">Your date of birth establishes the day of the calculation. Your exact birth time helps place the Moon correctly within its Nakshatra. Your birthplace supplies the geographical coordinates and timezone. Small differences can change the Nakshatra, Pada, or the remaining balance of the first Dasha, especially when the Moon is close to a Nakshatra boundary.</p>
-          <p className="mt-4 leading-relaxed text-muted-foreground">For the best result, use the time recorded on official documents or confirmed by family. If the birth time is uncertain, treat the Dasha timeline as an estimate and consult the complete chart before making important decisions.</p>
+          <p className="mt-4 leading-relaxed text-muted-foreground">For the best result, use the time recorded on official documents or confirmed by family. If the birth time is uncertain, treat the Dasha timeline as an estimate and consult the complete chart before making important decisions. When you do not know your birth time and want guidance about one present concern, use the <Link to="/ai-prashna-kundli" className="text-primary underline underline-offset-4 hover:opacity-80">AI Prashna Kundli</Link>, which creates a separate question chart from the time and place you ask.</p>
         </section>
 
         <aside className="mt-10 rounded-2xl border border-primary/20 bg-primary/5 p-5">
