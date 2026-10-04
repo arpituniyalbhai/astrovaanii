@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Reveal } from "@/components/landing/Reveal";
-import brandIcon from "@/assets/astrovaanii-logo.webp";
+import brandIcon from "@/assets/astrovaanii-logo.png";
 import vaaniiPersona from "@/assets/vaanii-persona.jpg";
 import chatPreview from "@/assets/chat-preview.jpg";
 import sectionCosmos from "@/assets/section-cosmos.jpg";
@@ -959,7 +959,7 @@ function BlogSection() {
                   impressions, making it the fastest growing AI bootstrapped platform.
                 </p>
                 <Link
-                  to="/arpit-uniyal.webp"
+                  to="/blogs/arpit-uniyal"
                   className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
                 >
                   Read the full story &rarr;

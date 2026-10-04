@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { ArrowLeft, CalendarDays, Download, MapPin, Sparkles, UserRound } from "lucide-react";
-import brandIcon from "@/assets/astrovaanii-logo.webp";
+import brandIcon from "@/assets/astrovaanii-logo.png";
 import reportCover from "@/assets/report-result-cover.webp";
 import personalArtwork from "@/assets/report-result-personal.webp";
 import relationshipArtwork from "@/assets/report-result-relationship.webp";

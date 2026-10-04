@@ -11,7 +11,7 @@ export const Route = createFileRoute("/blogs/arpit-uniyal")({
         content:
           " Arpit Uniyal, an 18-year-old village founder who built Veadicastro — a 30,000-user AI astrology startup bringing Vedic wisdom to millions.",
       },
-      { property: "og:image", content: "https://astrovaanii.in/arpit-uniyal.webp" },
+      { property: "og:image", content: "https://astrovaanii.in/social-sharing.webp" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       { property: "og:title", content: "From a Remote Village in Uttarakhand to a $150K Startup at Age of 18" },
@@ -21,7 +21,7 @@ export const Route = createFileRoute("/blogs/arpit-uniyal")({
           "Discover the inspiring story of Arpit Uniyal, an 18-year-old village founder who built Veadicastro — a 30,000-user AI astrology startup bringing Vedic wisdom to millions.",
       },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "https://astrovaanii.in/arpit-uniyal.webp" },
+      { name: "twitter:image", content: "https://astrovaanii.in/social-sharing.webp" },
       { name: "twitter:title", content: "From a Remote Village in Uttarakhand to a $150K Startup at Age of 18" },
       {
         name: "twitter:description",
@@ -29,10 +29,7 @@ export const Route = createFileRoute("/blogs/arpit-uniyal")({
           "Discover the inspiring story of Arpit Uniyal, an 18-year-old village founder who built Veadicastro — a 30,000-user AI astrology startup bringing Vedic wisdom to millions.",
       },
     ],
-    links: [
-      { rel: "canonical", href: "https://astrovaanii.in/blogs/arpit-uniyal" },
-      { rel: "preload", href: "/arpit-uniyal.webp", as: "image" },
-    ],
+    links: [{ rel: "canonical", href: "https://astrovaanii.in/blogs/arpit-uniyal" }],
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(articleJsonLd) },
       { type: "application/ld+json", children: JSON.stringify(breadcrumbJsonLd) },
@@ -46,7 +43,6 @@ const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
   headline: "From a Remote Village in Uttarakhand to a $150K Startup at Age of 18",
-  image: "https://astrovaanii.in/arpit-uniyal.webp",
   author: {
     "@type": "Person",
     name: "AstroVaanii Team",
@@ -56,7 +52,7 @@ const articleJsonLd = {
     name: "AstroVaanii",
     logo: {
       "@type": "ImageObject",
-      url: "https://astrovaanii.in/astrovaanii-logo.webp",
+      url: "https://astrovaanii.in/astrovaanii-schema-logo.png",
     },
   },
   datePublished: "2026-07-25",
@@ -84,7 +80,6 @@ const personJsonLd = {
   name: "Arpit Uniyal",
   jobTitle: "Founder, Veadicastro",
   description: "18-year-old founder of Veadicastro, an AI astrology startup with 30,000+ users",
-  image: "https://astrovaanii.in/arpit-uniyal.webp",
   url: "https://veadicastro.in/arpit-uniyal",
   sameAs: [
     "https://in.linkedin.com/in/veadicarpit",

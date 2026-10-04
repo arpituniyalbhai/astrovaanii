@@ -75,7 +75,7 @@ const articleJsonLd = {
     url: "https://astrovaanii.in",
     logo: {
       "@type": "ImageObject",
-      url: "https://astrovaanii.in/astrovaanii-logo.webp",
+      url: "https://astrovaanii.in/astrovaanii-schema-logo.png",
     },
   },
   mainEntityOfPage: "https://astrovaanii.in/blogs/how-ai-reads-your-birth-chart",

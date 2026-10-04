@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { getChart } from "@/lib/chart-server";
 import type { ChartData } from "@/lib/chart-calc";
 import { Reveal } from "@/components/landing/Reveal";
-import brandIcon from "@/assets/astrovaanii-logo.webp";
+import brandIcon from "@/assets/astrovaanii-logo.png";
 
 const faqs = [
   { q: "Is this Kundli generator completely free?", a: "Yes. You can generate your Kundli online without paying any fee. Simply enter your birth details and your birth chart will be created within seconds." },

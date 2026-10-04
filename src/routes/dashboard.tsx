@@ -6,7 +6,7 @@ import { clearAppStorage } from "@/lib/session";
 import { getChart } from "@/lib/chart-server";
 import type { ChartData } from "@/lib/chart-calc";
 import vaaniiPersona from "@/assets/vaanii-persona.jpg";
-import brandIcon from "@/assets/astrovaanii-logo.webp";
+import brandIcon from "@/assets/astrovaanii-logo.png";
 import { FreeTools, FreeToolsNavButton } from "@/components/free-Tools";
 import { VedicTarotNavButton, VedicTarotReading } from "@/components/VedicTarotReading";
 import { FileText } from "lucide-react";

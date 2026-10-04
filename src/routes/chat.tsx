@@ -3,7 +3,7 @@ import { useState, useRef, useEffect, useLayoutEffect } from "react";
 import { z } from "zod";
 import { auth, onUserDoc } from "@/lib/firebase";
 import vaaniiPersona from "@/assets/vaanii-persona.jpg";
-import brandIcon from "@/assets/astrovaanii-logo.webp";
+import brandIcon from "@/assets/astrovaanii-logo.png";
 import { VaaniiLoadingAnimation } from "@/components/VaaniiLoadingAnimation";
 import { PricingDialog } from "@/components/PricingDialog";
 import { AstrologyHighlightedText } from "@/components/AstrologyHighlightedText";

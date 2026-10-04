@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { Reveal } from "@/components/landing/Reveal";
 import { DashaCalculatorCallout } from "@/components/landing/DashaCalculatorCallout";
-import brandIcon from "@/assets/astrovaanii-logo.webp";
+import brandIcon from "@/assets/astrovaanii-logo.png";
 import type { MatchingResult } from "@/lib/kundali-matching";
 
 const faqs = [
@@ -118,9 +118,10 @@ const faqJsonLd = {
   })),
 };
 
-const toolJsonLd = {
+const appJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
+  "@id": "https://astrovaanii.in/kundali-matching#web-application",
   name: "Free Kundali Matching by Name and Date of Birth — Ashtakoot Guna Milan Online",
   applicationCategory: "LifestyleApplication",
   operatingSystem: "Any",
@@ -140,17 +141,6 @@ const breadcrumbJsonLd = {
     { "@type": "ListItem", position: 1, name: "Home", item: "https://astrovaanii.in" },
     { "@type": "ListItem", position: 2, name: "Free Kundali Matching", item: "https://astrovaanii.in/kundali-matching" },
   ],
-};
-
-const softwareAppJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "AstroVaanii Kundali Matching",
-  applicationCategory: "LifestyleApplication",
-  operatingSystem: "All",
-  offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
-  url: "https://astrovaanii.in/kundali-matching",
-  description: "Free online Kundali matching tool using Ashta Koota Guna Milan with Swiss Ephemeris for accurate marriage compatibility analysis.",
 };
 
 export const Route = createFileRoute("/kundali-matching")({
@@ -181,9 +171,8 @@ export const Route = createFileRoute("/kundali-matching")({
     links: [{ rel: "canonical", href: "https://astrovaanii.in/kundali-matching" }],
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(faqJsonLd) },
-      { type: "application/ld+json", children: JSON.stringify(toolJsonLd) },
+      { type: "application/ld+json", children: JSON.stringify(appJsonLd) },
       { type: "application/ld+json", children: JSON.stringify(breadcrumbJsonLd) },
-      { type: "application/ld+json", children: JSON.stringify(softwareAppJsonLd) },
     ],
   }),
   component: KundaliMatchingPage,

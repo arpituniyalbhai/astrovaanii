@@ -5,7 +5,7 @@ import { signInWithGoogle, signUpWithEmail, getUserDoc } from "@/lib/firebase";
 import { clearAppStorage } from "@/lib/session";
 import { getChart } from "@/lib/chart-server";
 import vaaniiPersona from "@/assets/vaanii-persona.jpg";
-import brandIcon from "@/assets/astrovaanii-logo.webp";
+import brandIcon from "@/assets/astrovaanii-logo.png";
 
 export const Route = createFileRoute("/signup")({
   head: () => ({

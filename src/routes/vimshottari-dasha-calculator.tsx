@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import brandIcon from "@/assets/astrovaanii-logo.webp";
+import brandIcon from "@/assets/astrovaanii-logo.png";
 import dashaWheelImage from "@/assets/vimshottari-dasha-wheel.webp";
 import { Reveal } from "@/components/landing/Reveal";
 

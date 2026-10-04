@@ -38,6 +38,58 @@ declare global {
   }
 }
 
+const RAZORPAY_CHECKOUT_SRC = "https://checkout.razorpay.com/v1/checkout.js";
+let razorpayScriptPromise: Promise<void> | null = null;
+
+function loadRazorpayCheckout(): Promise<void> {
+  if (typeof window === "undefined") {
+    return Promise.reject(new Error("Payment checkout is only available in the browser."));
+  }
+
+  if (window.Razorpay) {
+    return Promise.resolve();
+  }
+
+  if (razorpayScriptPromise) {
+    return razorpayScriptPromise;
+  }
+
+  razorpayScriptPromise = new Promise((resolve, reject) => {
+    const handleLoad = () => {
+      if (window.Razorpay) {
+        resolve();
+        return;
+      }
+
+      razorpayScriptPromise = null;
+      reject(new Error("Payment checkout failed to initialize. Please try again."));
+    };
+    const handleError = (event: Event) => {
+      (event.currentTarget as HTMLScriptElement | null)?.remove();
+      razorpayScriptPromise = null;
+      reject(new Error("Payment checkout failed to load. Please try again."));
+    };
+
+    const existingScript = document.querySelector<HTMLScriptElement>(
+      `script[src="${RAZORPAY_CHECKOUT_SRC}"]`,
+    );
+    if (existingScript) {
+      existingScript.addEventListener("load", handleLoad, { once: true });
+      existingScript.addEventListener("error", handleError, { once: true });
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = RAZORPAY_CHECKOUT_SRC;
+    script.async = true;
+    script.addEventListener("load", handleLoad, { once: true });
+    script.addEventListener("error", handleError, { once: true });
+    document.head.appendChild(script);
+  });
+
+  return razorpayScriptPromise;
+}
+
 const plans = [
   {
     name: "Starter",
@@ -102,22 +154,26 @@ export function PricingDialog({
     setPaymentMessage(null);
 
     try {
-      if (!window.Razorpay) {
-        throw new Error("Payment checkout is still loading. Please try again.");
-      }
-
-      const orderResponse = await fetch("/api/create-order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ planName, amount: price, email }),
-      });
+      const [orderResponse] = await Promise.all([
+        fetch("/api/create-order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ planName, amount: price, email }),
+        }),
+        loadRazorpayCheckout(),
+      ]);
       const order = await orderResponse.json();
 
       if (!orderResponse.ok) {
         throw new Error(order.error || "Failed to create order");
       }
 
-      const checkout = new window.Razorpay({
+      const RazorpayCheckout = window.Razorpay;
+      if (!RazorpayCheckout) {
+        throw new Error("Payment checkout failed to initialize. Please try again.");
+      }
+
+      const checkout = new RazorpayCheckout({
         key: order.keyId,
         amount: order.amount,
         currency: order.currency,

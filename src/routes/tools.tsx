@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Reveal } from "@/components/landing/Reveal";
-import brandIcon from "@/assets/astrovaanii-logo.webp";
+import brandIcon from "@/assets/astrovaanii-logo.png";
 import kundliImage from "@/assets/free-kundlai-generator.webp";
 import chatPreview from "@/assets/chat-preview.jpg";
 import dashaWheelImage from "@/assets/vimshottari-dasha-wheel.webp";

@@ -4,7 +4,7 @@ import { Reveal } from "@/components/landing/Reveal";
 import { auth, createUserDoc } from "@/lib/firebase";
 import { getChart } from "@/lib/chart-server";
 import vaaniiPersona from "@/assets/vaanii-persona.jpg";
-import brandIcon from "@/assets/astrovaanii-logo.webp";
+import brandIcon from "@/assets/astrovaanii-logo.png";
 
 interface GeoapifyFeature {
   properties: {

@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import featuredImage from "@/assets/what-is-lagna-in-astrology.webp";
-import brandIcon from "@/assets/astrovaanii-logo.webp";
+import brandIcon from "@/assets/astrovaanii-logo.png";
 import { DashaCalculatorCallout } from "@/components/landing/DashaCalculatorCallout";
 
 export const Route = createFileRoute("/blogs/what-is-lagna-in-astrology")({
@@ -119,7 +119,7 @@ const articleJsonLd = {
     url: "https://astrovaanii.in",
     logo: {
       "@type": "ImageObject",
-      url: "https://astrovaanii.in/astrovaanii-logo.webp",
+      url: "https://astrovaanii.in/astrovaanii-schema-logo.png",
     },
   },
   datePublished: "2026-07-28",

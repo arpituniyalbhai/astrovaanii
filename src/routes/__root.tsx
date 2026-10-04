@@ -81,14 +81,6 @@ const webSiteSchema = {
   url: "https://astrovaanii.in/",
   description:
     "Chat with Vaanii, an AI astrologer trained on classical Parashara & Jaimini methods. Get today & tomorrow predictions in 9 Indian languages.",
-  potentialAction: {
-    "@type": "SearchAction",
-    target: {
-      "@type": "EntryPoint",
-      urlTemplate: "https://astrovaanii.in/chat?question={search_term_string}",
-    },
-    "query-input": "required name=search_term_string",
-  },
 };
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
@@ -123,10 +115,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
             overscroll-behavior: none;
           }
         `,
-      },
-      {
-        src: "https://checkout.razorpay.com/v1/checkout.js",
-        async: true,
       },
     ],
   }),

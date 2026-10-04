@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect, useRef } from "react";
 import { Reveal } from "@/components/landing/Reveal";
 import { DashaCalculatorCallout } from "@/components/landing/DashaCalculatorCallout";
-import brandIcon from "@/assets/astrovaanii-logo.webp";
+import brandIcon from "@/assets/astrovaanii-logo.png";
 import vaaniiPersona from "@/assets/vaanii-persona.jpg";
 import chatPreview from "@/assets/chat-preview.jpg";
 import { AstrologyHighlightedText } from "@/components/AstrologyHighlightedText";
@@ -36,9 +36,10 @@ const faqJsonLd = {
   })),
 };
 
-const toolJsonLd = {
+const appJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
+  "@id": "https://astrovaanii.in/ai-astrologer#web-application",
   name: "AI Astrologer - Free Vedic AI Astrology Chat",
   applicationCategory: "LifestyleApplication",
   operatingSystem: "Any",
@@ -59,17 +60,6 @@ const breadcrumbJsonLd = {
     { "@type": "ListItem", position: 1, name: "Home", item: "https://astrovaanii.in" },
     { "@type": "ListItem", position: 2, name: "AI Astrologer", item: "https://astrovaanii.in/ai-astrologer" },
   ],
-};
-
-const softwareAppJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "Vaanii AI Astrologer",
-  applicationCategory: "LifestyleApplication",
-  operatingSystem: "All",
-  offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
-  url: "https://astrovaanii.in/ai-astrologer",
-  description: "Chat with Vaanii, your free AI astrologer trained on classical Vedic astrology.",
 };
 
 export const Route = createFileRoute("/ai-astrologer")({
@@ -101,9 +91,8 @@ export const Route = createFileRoute("/ai-astrologer")({
     links: [{ rel: "canonical", href: "https://astrovaanii.in/ai-astrologer" }],
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(faqJsonLd) },
-      { type: "application/ld+json", children: JSON.stringify(toolJsonLd) },
+      { type: "application/ld+json", children: JSON.stringify(appJsonLd) },
       { type: "application/ld+json", children: JSON.stringify(breadcrumbJsonLd) },
-      { type: "application/ld+json", children: JSON.stringify(softwareAppJsonLd) },
     ],
   }),
   component: AiAstrologerPage,

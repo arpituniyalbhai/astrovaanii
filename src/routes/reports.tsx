@@ -13,7 +13,7 @@ import {
   Sparkles,
   X,
 } from "lucide-react";
-import brandIcon from "@/assets/astrovaanii-logo.webp";
+import brandIcon from "@/assets/astrovaanii-logo.png";
 import relationshipReportImage from "@/assets/report-kundli.jpg";
 import wealthReportImage from "@/assets/report-wealth.jpg";
 import personalReportImage from "@/assets/report-pastlife.jpg";

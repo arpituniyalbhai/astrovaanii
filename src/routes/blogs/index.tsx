@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import arpitUniyalImage from "@/assets/arpit-uniyal.webp";
 import { DashaCalculatorCallout } from "@/components/landing/DashaCalculatorCallout";
 
 const blogPosts = [
@@ -19,7 +20,7 @@ const blogPosts = [
       "Discover the inspiring story of Arpit Uniyal, an 18-year-old village founder who built Veadicastro — a 30,000-user AI astrology startup with 90K-1 lakh monthly users and 3M+ Google impressions, the fastest growing AI bootstrapped platform.",
     date: "July 25, 2026",
     readTime: "8 min read",
-    image: "/arpit-uniyal.webp",
+    image: arpitUniyalImage,
     imageAlt: "Arpit Uniyal - Founder of Veadicastro, an 18-year-old village entrepreneur",
   },
   {

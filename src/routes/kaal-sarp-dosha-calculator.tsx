@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { getChart } from "@/lib/chart-server";
 import type { ChartData } from "@/lib/chart-calc";
-import brandIcon from "@/assets/astrovaanii-logo.webp";
+import brandIcon from "@/assets/astrovaanii-logo.png";
 import { Reveal } from "@/components/landing/Reveal";
 
 type GeoapifyFeature = {
