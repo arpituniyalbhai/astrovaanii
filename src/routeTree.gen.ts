@@ -9,142 +9,46 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as VimshottariDashaCalculatorRouteImport } from './routes/vimshottari-dasha-calculator'
-import { Route as ToolsRouteImport } from './routes/tools'
-import { Route as TermsAndConditionsRouteImport } from './routes/terms-and-conditions'
-import { Route as SignupRouteImport } from './routes/signup'
-import { Route as ReportsRouteImport } from './routes/reports'
-import { Route as ReportResultRouteImport } from './routes/report-result'
-import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
-import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
-import { Route as OnboardingRouteImport } from './routes/onboarding'
-import { Route as MyChartRouteImport } from './routes/my-chart'
-import { Route as KundaliMatchingRouteImport } from './routes/kundali-matching'
-import { Route as KaalSarpDoshaCalculatorRouteImport } from './routes/kaal-sarp-dosha-calculator'
-import { Route as FreeKundliRouteImport } from './routes/free-kundli'
-import { Route as DisclaimerRouteImport } from './routes/disclaimer'
-import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as ChatRouteImport } from './routes/chat'
-import { Route as BlogRouteImport } from './routes/blog'
-import { Route as BabyNameByDateOfBirthRouteImport } from './routes/baby-name-by-date-of-birth'
-import { Route as AiPrashnaKundliRouteImport } from './routes/ai-prashna-kundli'
-import { Route as AiAstrologyWebsiteFreeRouteImport } from './routes/ai-astrology-website-free'
-import { Route as AiAstrologerRouteImport } from './routes/ai-astrologer'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as BlogsIndexRouteImport } from './routes/blogs/index'
-import { Route as BlogsWhatIsLagnaInAstrologyRouteImport } from './routes/blogs/what-is-lagna-in-astrology'
-import { Route as BlogsWhatIsAiAstrologerRouteImport } from './routes/blogs/what-is-ai-astrologer'
-import { Route as BlogsTop5AiAstrologyPlatformInIndiaRouteImport } from './routes/blogs/top-5-ai-astrology-platform-in-india'
-import { Route as BlogsHowAiReadsYourBirthChartRouteImport } from './routes/blogs/how-ai-reads-your-birth-chart'
-import { Route as BlogsArpitUniyalRouteImport } from './routes/blogs/arpit-uniyal'
-import { Route as ApiVimshottariDashaRouteImport } from './routes/api/vimshottari-dasha'
-import { Route as ApiVerifyPaymentRouteImport } from './routes/api/verify-payment'
-import { Route as ApiPrashnaRouteImport } from './routes/api/prashna'
-import { Route as ApiKundaliMatchingRouteImport } from './routes/api/kundali-matching'
-import { Route as ApiGenerateReportRouteImport } from './routes/api/generate-report'
-import { Route as ApiFollowUpRouteImport } from './routes/api/follow-up'
-import { Route as ApiCreateOrderRouteImport } from './routes/api/create-order'
+import { Route as AiAstrologerRouteImport } from './routes/ai-astrologer'
+import { Route as AiAstrologyWebsiteFreeRouteImport } from './routes/ai-astrology-website-free'
+import { Route as AiPrashnaKundliRouteImport } from './routes/ai-prashna-kundli'
+import { Route as BabyNameByDateOfBirthRouteImport } from './routes/baby-name-by-date-of-birth'
+import { Route as BlogRouteImport } from './routes/blog'
+import { Route as ChatRouteImport } from './routes/chat'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as DisclaimerRouteImport } from './routes/disclaimer'
+import { Route as FreeKundliRouteImport } from './routes/free-kundli'
+import { Route as KaalSarpDoshaCalculatorRouteImport } from './routes/kaal-sarp-dosha-calculator'
+import { Route as KundaliMatchingRouteImport } from './routes/kundali-matching'
+import { Route as MyChartRouteImport } from './routes/my-chart'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
+import { Route as ReportResultRouteImport } from './routes/report-result'
+import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as TermsAndConditionsRouteImport } from './routes/terms-and-conditions'
+import { Route as ToolsRouteImport } from './routes/tools'
+import { Route as VimshottariDashaCalculatorRouteImport } from './routes/vimshottari-dasha-calculator'
 import { Route as ApiBabyNameRouteImport } from './routes/api/baby-name'
+import { Route as ApiCreateOrderRouteImport } from './routes/api/create-order'
+import { Route as ApiFollowUpRouteImport } from './routes/api/follow-up'
+import { Route as ApiGenerateReportRouteImport } from './routes/api/generate-report'
+import { Route as ApiKundaliMatchingRouteImport } from './routes/api/kundali-matching'
+import { Route as ApiPrashnaRouteImport } from './routes/api/prashna'
+import { Route as ApiVerifyPaymentRouteImport } from './routes/api/verify-payment'
+import { Route as ApiVimshottariDashaRouteImport } from './routes/api/vimshottari-dasha'
+import { Route as BlogsIndexRouteImport } from './routes/blogs/index'
+import { Route as BlogsArpitUniyalRouteImport } from './routes/blogs/arpit-uniyal'
+import { Route as BlogsHowAiReadsYourBirthChartRouteImport } from './routes/blogs/how-ai-reads-your-birth-chart'
+import { Route as BlogsTop5AiAstrologyPlatformInIndiaRouteImport } from './routes/blogs/top-5-ai-astrology-platform-in-india'
+import { Route as BlogsWhatIsAiAstrologerRouteImport } from './routes/blogs/what-is-ai-astrologer'
+import { Route as BlogsWhatIsLagnaInAstrologyRouteImport } from './routes/blogs/what-is-lagna-in-astrology'
 
-const VimshottariDashaCalculatorRoute =
-  VimshottariDashaCalculatorRouteImport.update({
-    id: '/vimshottari-dasha-calculator',
-    path: '/vimshottari-dasha-calculator',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ToolsRoute = ToolsRouteImport.update({
-  id: '/tools',
-  path: '/tools',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TermsAndConditionsRoute = TermsAndConditionsRouteImport.update({
-  id: '/terms-and-conditions',
-  path: '/terms-and-conditions',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SignupRoute = SignupRouteImport.update({
-  id: '/signup',
-  path: '/signup',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ReportsRoute = ReportsRouteImport.update({
-  id: '/reports',
-  path: '/reports',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ReportResultRoute = ReportResultRouteImport.update({
-  id: '/report-result',
-  path: '/report-result',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RefundPolicyRoute = RefundPolicyRouteImport.update({
-  id: '/refund-policy',
-  path: '/refund-policy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
-  id: '/privacy-policy',
-  path: '/privacy-policy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OnboardingRoute = OnboardingRouteImport.update({
-  id: '/onboarding',
-  path: '/onboarding',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MyChartRoute = MyChartRouteImport.update({
-  id: '/my-chart',
-  path: '/my-chart',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const KundaliMatchingRoute = KundaliMatchingRouteImport.update({
-  id: '/kundali-matching',
-  path: '/kundali-matching',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const KaalSarpDoshaCalculatorRoute = KaalSarpDoshaCalculatorRouteImport.update({
-  id: '/kaal-sarp-dosha-calculator',
-  path: '/kaal-sarp-dosha-calculator',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FreeKundliRoute = FreeKundliRouteImport.update({
-  id: '/free-kundli',
-  path: '/free-kundli',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DisclaimerRoute = DisclaimerRouteImport.update({
-  id: '/disclaimer',
-  path: '/disclaimer',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ChatRoute = ChatRouteImport.update({
-  id: '/chat',
-  path: '/chat',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BlogRoute = BlogRouteImport.update({
-  id: '/blog',
-  path: '/blog',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BabyNameByDateOfBirthRoute = BabyNameByDateOfBirthRouteImport.update({
-  id: '/baby-name-by-date-of-birth',
-  path: '/baby-name-by-date-of-birth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AiPrashnaKundliRoute = AiPrashnaKundliRouteImport.update({
-  id: '/ai-prashna-kundli',
-  path: '/ai-prashna-kundli',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AiAstrologyWebsiteFreeRoute = AiAstrologyWebsiteFreeRouteImport.update({
-  id: '/ai-astrology-website-free',
-  path: '/ai-astrology-website-free',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AiAstrologerRoute = AiAstrologerRouteImport.update({
@@ -152,14 +56,172 @@ const AiAstrologerRoute = AiAstrologerRouteImport.update({
   path: '/ai-astrologer',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AiAstrologyWebsiteFreeRoute = AiAstrologyWebsiteFreeRouteImport.update({
+  id: '/ai-astrology-website-free',
+  path: '/ai-astrology-website-free',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiPrashnaKundliRoute = AiPrashnaKundliRouteImport.update({
+  id: '/ai-prashna-kundli',
+  path: '/ai-prashna-kundli',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BabyNameByDateOfBirthRoute = BabyNameByDateOfBirthRouteImport.update({
+  id: '/baby-name-by-date-of-birth',
+  path: '/baby-name-by-date-of-birth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChatRoute = ChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DisclaimerRoute = DisclaimerRouteImport.update({
+  id: '/disclaimer',
+  path: '/disclaimer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FreeKundliRoute = FreeKundliRouteImport.update({
+  id: '/free-kundli',
+  path: '/free-kundli',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KaalSarpDoshaCalculatorRoute = KaalSarpDoshaCalculatorRouteImport.update({
+  id: '/kaal-sarp-dosha-calculator',
+  path: '/kaal-sarp-dosha-calculator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KundaliMatchingRoute = KundaliMatchingRouteImport.update({
+  id: '/kundali-matching',
+  path: '/kundali-matching',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MyChartRoute = MyChartRouteImport.update({
+  id: '/my-chart',
+  path: '/my-chart',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefundPolicyRoute = RefundPolicyRouteImport.update({
+  id: '/refund-policy',
+  path: '/refund-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportResultRoute = ReportResultRouteImport.update({
+  id: '/report-result',
+  path: '/report-result',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsRoute = ReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsAndConditionsRoute = TermsAndConditionsRouteImport.update({
+  id: '/terms-and-conditions',
+  path: '/terms-and-conditions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsRoute = ToolsRouteImport.update({
+  id: '/tools',
+  path: '/tools',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VimshottariDashaCalculatorRoute =
+  VimshottariDashaCalculatorRouteImport.update({
+    id: '/vimshottari-dasha-calculator',
+    path: '/vimshottari-dasha-calculator',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiBabyNameRoute = ApiBabyNameRouteImport.update({
+  id: '/api/baby-name',
+  path: '/api/baby-name',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiCreateOrderRoute = ApiCreateOrderRouteImport.update({
+  id: '/api/create-order',
+  path: '/api/create-order',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiFollowUpRoute = ApiFollowUpRouteImport.update({
+  id: '/api/follow-up',
+  path: '/api/follow-up',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiGenerateReportRoute = ApiGenerateReportRouteImport.update({
+  id: '/api/generate-report',
+  path: '/api/generate-report',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiKundaliMatchingRoute = ApiKundaliMatchingRouteImport.update({
+  id: '/api/kundali-matching',
+  path: '/api/kundali-matching',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPrashnaRoute = ApiPrashnaRouteImport.update({
+  id: '/api/prashna',
+  path: '/api/prashna',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiVerifyPaymentRoute = ApiVerifyPaymentRouteImport.update({
+  id: '/api/verify-payment',
+  path: '/api/verify-payment',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiVimshottariDashaRoute = ApiVimshottariDashaRouteImport.update({
+  id: '/api/vimshottari-dasha',
+  path: '/api/vimshottari-dasha',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogsIndexRoute = BlogsIndexRouteImport.update({
   id: '/blogs/',
   path: '/blogs/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogsArpitUniyalRoute = BlogsArpitUniyalRouteImport.update({
+  id: '/blogs/arpit-uniyal',
+  path: '/blogs/arpit-uniyal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogsHowAiReadsYourBirthChartRoute =
+  BlogsHowAiReadsYourBirthChartRouteImport.update({
+    id: '/blogs/how-ai-reads-your-birth-chart',
+    path: '/blogs/how-ai-reads-your-birth-chart',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const BlogsTop5AiAstrologyPlatformInIndiaRoute =
+  BlogsTop5AiAstrologyPlatformInIndiaRouteImport.update({
+    id: '/blogs/top-5-ai-astrology-platform-in-india',
+    path: '/blogs/top-5-ai-astrology-platform-in-india',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const BlogsWhatIsAiAstrologerRoute = BlogsWhatIsAiAstrologerRouteImport.update({
+  id: '/blogs/what-is-ai-astrologer',
+  path: '/blogs/what-is-ai-astrologer',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogsWhatIsLagnaInAstrologyRoute =
@@ -168,68 +230,6 @@ const BlogsWhatIsLagnaInAstrologyRoute =
     path: '/blogs/what-is-lagna-in-astrology',
     getParentRoute: () => rootRouteImport,
   } as any)
-const BlogsWhatIsAiAstrologerRoute = BlogsWhatIsAiAstrologerRouteImport.update({
-  id: '/blogs/what-is-ai-astrologer',
-  path: '/blogs/what-is-ai-astrologer',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BlogsTop5AiAstrologyPlatformInIndiaRoute =
-  BlogsTop5AiAstrologyPlatformInIndiaRouteImport.update({
-    id: '/blogs/top-5-ai-astrology-platform-in-india',
-    path: '/blogs/top-5-ai-astrology-platform-in-india',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const BlogsHowAiReadsYourBirthChartRoute =
-  BlogsHowAiReadsYourBirthChartRouteImport.update({
-    id: '/blogs/how-ai-reads-your-birth-chart',
-    path: '/blogs/how-ai-reads-your-birth-chart',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const BlogsArpitUniyalRoute = BlogsArpitUniyalRouteImport.update({
-  id: '/blogs/arpit-uniyal',
-  path: '/blogs/arpit-uniyal',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiVimshottariDashaRoute = ApiVimshottariDashaRouteImport.update({
-  id: '/api/vimshottari-dasha',
-  path: '/api/vimshottari-dasha',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiVerifyPaymentRoute = ApiVerifyPaymentRouteImport.update({
-  id: '/api/verify-payment',
-  path: '/api/verify-payment',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPrashnaRoute = ApiPrashnaRouteImport.update({
-  id: '/api/prashna',
-  path: '/api/prashna',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiKundaliMatchingRoute = ApiKundaliMatchingRouteImport.update({
-  id: '/api/kundali-matching',
-  path: '/api/kundali-matching',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiGenerateReportRoute = ApiGenerateReportRouteImport.update({
-  id: '/api/generate-report',
-  path: '/api/generate-report',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiFollowUpRoute = ApiFollowUpRouteImport.update({
-  id: '/api/follow-up',
-  path: '/api/follow-up',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiCreateOrderRoute = ApiCreateOrderRouteImport.update({
-  id: '/api/create-order',
-  path: '/api/create-order',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiBabyNameRoute = ApiBabyNameRouteImport.update({
-  id: '/api/baby-name',
-  path: '/api/baby-name',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -504,144 +504,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/vimshottari-dasha-calculator': {
-      id: '/vimshottari-dasha-calculator'
-      path: '/vimshottari-dasha-calculator'
-      fullPath: '/vimshottari-dasha-calculator'
-      preLoaderRoute: typeof VimshottariDashaCalculatorRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/tools': {
-      id: '/tools'
-      path: '/tools'
-      fullPath: '/tools'
-      preLoaderRoute: typeof ToolsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/terms-and-conditions': {
-      id: '/terms-and-conditions'
-      path: '/terms-and-conditions'
-      fullPath: '/terms-and-conditions'
-      preLoaderRoute: typeof TermsAndConditionsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/signup': {
-      id: '/signup'
-      path: '/signup'
-      fullPath: '/signup'
-      preLoaderRoute: typeof SignupRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/reports': {
-      id: '/reports'
-      path: '/reports'
-      fullPath: '/reports'
-      preLoaderRoute: typeof ReportsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/report-result': {
-      id: '/report-result'
-      path: '/report-result'
-      fullPath: '/report-result'
-      preLoaderRoute: typeof ReportResultRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/refund-policy': {
-      id: '/refund-policy'
-      path: '/refund-policy'
-      fullPath: '/refund-policy'
-      preLoaderRoute: typeof RefundPolicyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacy-policy': {
-      id: '/privacy-policy'
-      path: '/privacy-policy'
-      fullPath: '/privacy-policy'
-      preLoaderRoute: typeof PrivacyPolicyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/onboarding': {
-      id: '/onboarding'
-      path: '/onboarding'
-      fullPath: '/onboarding'
-      preLoaderRoute: typeof OnboardingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/my-chart': {
-      id: '/my-chart'
-      path: '/my-chart'
-      fullPath: '/my-chart'
-      preLoaderRoute: typeof MyChartRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/kundali-matching': {
-      id: '/kundali-matching'
-      path: '/kundali-matching'
-      fullPath: '/kundali-matching'
-      preLoaderRoute: typeof KundaliMatchingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/kaal-sarp-dosha-calculator': {
-      id: '/kaal-sarp-dosha-calculator'
-      path: '/kaal-sarp-dosha-calculator'
-      fullPath: '/kaal-sarp-dosha-calculator'
-      preLoaderRoute: typeof KaalSarpDoshaCalculatorRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/free-kundli': {
-      id: '/free-kundli'
-      path: '/free-kundli'
-      fullPath: '/free-kundli'
-      preLoaderRoute: typeof FreeKundliRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/disclaimer': {
-      id: '/disclaimer'
-      path: '/disclaimer'
-      fullPath: '/disclaimer'
-      preLoaderRoute: typeof DisclaimerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/chat': {
-      id: '/chat'
-      path: '/chat'
-      fullPath: '/chat'
-      preLoaderRoute: typeof ChatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/blog': {
-      id: '/blog'
-      path: '/blog'
-      fullPath: '/blog'
-      preLoaderRoute: typeof BlogRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/baby-name-by-date-of-birth': {
-      id: '/baby-name-by-date-of-birth'
-      path: '/baby-name-by-date-of-birth'
-      fullPath: '/baby-name-by-date-of-birth'
-      preLoaderRoute: typeof BabyNameByDateOfBirthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ai-prashna-kundli': {
-      id: '/ai-prashna-kundli'
-      path: '/ai-prashna-kundli'
-      fullPath: '/ai-prashna-kundli'
-      preLoaderRoute: typeof AiPrashnaKundliRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ai-astrology-website-free': {
-      id: '/ai-astrology-website-free'
-      path: '/ai-astrology-website-free'
-      fullPath: '/ai-astrology-website-free'
-      preLoaderRoute: typeof AiAstrologyWebsiteFreeRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ai-astrologer': {
@@ -651,95 +518,151 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AiAstrologerRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/ai-astrology-website-free': {
+      id: '/ai-astrology-website-free'
+      path: '/ai-astrology-website-free'
+      fullPath: '/ai-astrology-website-free'
+      preLoaderRoute: typeof AiAstrologyWebsiteFreeRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/blogs/': {
-      id: '/blogs/'
-      path: '/blogs'
-      fullPath: '/blogs/'
-      preLoaderRoute: typeof BlogsIndexRouteImport
+    '/ai-prashna-kundli': {
+      id: '/ai-prashna-kundli'
+      path: '/ai-prashna-kundli'
+      fullPath: '/ai-prashna-kundli'
+      preLoaderRoute: typeof AiPrashnaKundliRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/blogs/what-is-lagna-in-astrology': {
-      id: '/blogs/what-is-lagna-in-astrology'
-      path: '/blogs/what-is-lagna-in-astrology'
-      fullPath: '/blogs/what-is-lagna-in-astrology'
-      preLoaderRoute: typeof BlogsWhatIsLagnaInAstrologyRouteImport
+    '/baby-name-by-date-of-birth': {
+      id: '/baby-name-by-date-of-birth'
+      path: '/baby-name-by-date-of-birth'
+      fullPath: '/baby-name-by-date-of-birth'
+      preLoaderRoute: typeof BabyNameByDateOfBirthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/blogs/what-is-ai-astrologer': {
-      id: '/blogs/what-is-ai-astrologer'
-      path: '/blogs/what-is-ai-astrologer'
-      fullPath: '/blogs/what-is-ai-astrologer'
-      preLoaderRoute: typeof BlogsWhatIsAiAstrologerRouteImport
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/blogs/top-5-ai-astrology-platform-in-india': {
-      id: '/blogs/top-5-ai-astrology-platform-in-india'
-      path: '/blogs/top-5-ai-astrology-platform-in-india'
-      fullPath: '/blogs/top-5-ai-astrology-platform-in-india'
-      preLoaderRoute: typeof BlogsTop5AiAstrologyPlatformInIndiaRouteImport
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/blogs/how-ai-reads-your-birth-chart': {
-      id: '/blogs/how-ai-reads-your-birth-chart'
-      path: '/blogs/how-ai-reads-your-birth-chart'
-      fullPath: '/blogs/how-ai-reads-your-birth-chart'
-      preLoaderRoute: typeof BlogsHowAiReadsYourBirthChartRouteImport
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/blogs/arpit-uniyal': {
-      id: '/blogs/arpit-uniyal'
-      path: '/blogs/arpit-uniyal'
-      fullPath: '/blogs/arpit-uniyal'
-      preLoaderRoute: typeof BlogsArpitUniyalRouteImport
+    '/disclaimer': {
+      id: '/disclaimer'
+      path: '/disclaimer'
+      fullPath: '/disclaimer'
+      preLoaderRoute: typeof DisclaimerRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/vimshottari-dasha': {
-      id: '/api/vimshottari-dasha'
-      path: '/api/vimshottari-dasha'
-      fullPath: '/api/vimshottari-dasha'
-      preLoaderRoute: typeof ApiVimshottariDashaRouteImport
+    '/free-kundli': {
+      id: '/free-kundli'
+      path: '/free-kundli'
+      fullPath: '/free-kundli'
+      preLoaderRoute: typeof FreeKundliRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/verify-payment': {
-      id: '/api/verify-payment'
-      path: '/api/verify-payment'
-      fullPath: '/api/verify-payment'
-      preLoaderRoute: typeof ApiVerifyPaymentRouteImport
+    '/kaal-sarp-dosha-calculator': {
+      id: '/kaal-sarp-dosha-calculator'
+      path: '/kaal-sarp-dosha-calculator'
+      fullPath: '/kaal-sarp-dosha-calculator'
+      preLoaderRoute: typeof KaalSarpDoshaCalculatorRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/prashna': {
-      id: '/api/prashna'
-      path: '/api/prashna'
-      fullPath: '/api/prashna'
-      preLoaderRoute: typeof ApiPrashnaRouteImport
+    '/kundali-matching': {
+      id: '/kundali-matching'
+      path: '/kundali-matching'
+      fullPath: '/kundali-matching'
+      preLoaderRoute: typeof KundaliMatchingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/kundali-matching': {
-      id: '/api/kundali-matching'
-      path: '/api/kundali-matching'
-      fullPath: '/api/kundali-matching'
-      preLoaderRoute: typeof ApiKundaliMatchingRouteImport
+    '/my-chart': {
+      id: '/my-chart'
+      path: '/my-chart'
+      fullPath: '/my-chart'
+      preLoaderRoute: typeof MyChartRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/generate-report': {
-      id: '/api/generate-report'
-      path: '/api/generate-report'
-      fullPath: '/api/generate-report'
-      preLoaderRoute: typeof ApiGenerateReportRouteImport
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/follow-up': {
-      id: '/api/follow-up'
-      path: '/api/follow-up'
-      fullPath: '/api/follow-up'
-      preLoaderRoute: typeof ApiFollowUpRouteImport
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/refund-policy': {
+      id: '/refund-policy'
+      path: '/refund-policy'
+      fullPath: '/refund-policy'
+      preLoaderRoute: typeof RefundPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/report-result': {
+      id: '/report-result'
+      path: '/report-result'
+      fullPath: '/report-result'
+      preLoaderRoute: typeof ReportResultRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms-and-conditions': {
+      id: '/terms-and-conditions'
+      path: '/terms-and-conditions'
+      fullPath: '/terms-and-conditions'
+      preLoaderRoute: typeof TermsAndConditionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools': {
+      id: '/tools'
+      path: '/tools'
+      fullPath: '/tools'
+      preLoaderRoute: typeof ToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vimshottari-dasha-calculator': {
+      id: '/vimshottari-dasha-calculator'
+      path: '/vimshottari-dasha-calculator'
+      fullPath: '/vimshottari-dasha-calculator'
+      preLoaderRoute: typeof VimshottariDashaCalculatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/baby-name': {
+      id: '/api/baby-name'
+      path: '/api/baby-name'
+      fullPath: '/api/baby-name'
+      preLoaderRoute: typeof ApiBabyNameRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/create-order': {
@@ -749,11 +672,88 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiCreateOrderRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/baby-name': {
-      id: '/api/baby-name'
-      path: '/api/baby-name'
-      fullPath: '/api/baby-name'
-      preLoaderRoute: typeof ApiBabyNameRouteImport
+    '/api/follow-up': {
+      id: '/api/follow-up'
+      path: '/api/follow-up'
+      fullPath: '/api/follow-up'
+      preLoaderRoute: typeof ApiFollowUpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/generate-report': {
+      id: '/api/generate-report'
+      path: '/api/generate-report'
+      fullPath: '/api/generate-report'
+      preLoaderRoute: typeof ApiGenerateReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/kundali-matching': {
+      id: '/api/kundali-matching'
+      path: '/api/kundali-matching'
+      fullPath: '/api/kundali-matching'
+      preLoaderRoute: typeof ApiKundaliMatchingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/prashna': {
+      id: '/api/prashna'
+      path: '/api/prashna'
+      fullPath: '/api/prashna'
+      preLoaderRoute: typeof ApiPrashnaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/verify-payment': {
+      id: '/api/verify-payment'
+      path: '/api/verify-payment'
+      fullPath: '/api/verify-payment'
+      preLoaderRoute: typeof ApiVerifyPaymentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/vimshottari-dasha': {
+      id: '/api/vimshottari-dasha'
+      path: '/api/vimshottari-dasha'
+      fullPath: '/api/vimshottari-dasha'
+      preLoaderRoute: typeof ApiVimshottariDashaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blogs/': {
+      id: '/blogs/'
+      path: '/blogs'
+      fullPath: '/blogs/'
+      preLoaderRoute: typeof BlogsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blogs/arpit-uniyal': {
+      id: '/blogs/arpit-uniyal'
+      path: '/blogs/arpit-uniyal'
+      fullPath: '/blogs/arpit-uniyal'
+      preLoaderRoute: typeof BlogsArpitUniyalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blogs/how-ai-reads-your-birth-chart': {
+      id: '/blogs/how-ai-reads-your-birth-chart'
+      path: '/blogs/how-ai-reads-your-birth-chart'
+      fullPath: '/blogs/how-ai-reads-your-birth-chart'
+      preLoaderRoute: typeof BlogsHowAiReadsYourBirthChartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blogs/top-5-ai-astrology-platform-in-india': {
+      id: '/blogs/top-5-ai-astrology-platform-in-india'
+      path: '/blogs/top-5-ai-astrology-platform-in-india'
+      fullPath: '/blogs/top-5-ai-astrology-platform-in-india'
+      preLoaderRoute: typeof BlogsTop5AiAstrologyPlatformInIndiaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blogs/what-is-ai-astrologer': {
+      id: '/blogs/what-is-ai-astrologer'
+      path: '/blogs/what-is-ai-astrologer'
+      fullPath: '/blogs/what-is-ai-astrologer'
+      preLoaderRoute: typeof BlogsWhatIsAiAstrologerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blogs/what-is-lagna-in-astrology': {
+      id: '/blogs/what-is-lagna-in-astrology'
+      path: '/blogs/what-is-lagna-in-astrology'
+      fullPath: '/blogs/what-is-lagna-in-astrology'
+      preLoaderRoute: typeof BlogsWhatIsLagnaInAstrologyRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
