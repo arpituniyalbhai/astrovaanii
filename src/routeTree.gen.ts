@@ -32,6 +32,7 @@ import { Route as TermsAndConditionsRouteImport } from './routes/terms-and-condi
 import { Route as ToolsRouteImport } from './routes/tools'
 import { Route as VimshottariDashaCalculatorRouteImport } from './routes/vimshottari-dasha-calculator'
 import { Route as ApiBabyNameRouteImport } from './routes/api/baby-name'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as ApiCreateOrderRouteImport } from './routes/api/create-order'
 import { Route as ApiFollowUpRouteImport } from './routes/api/follow-up'
 import { Route as ApiGenerateReportRouteImport } from './routes/api/generate-report'
@@ -162,6 +163,11 @@ const ApiBabyNameRoute = ApiBabyNameRouteImport.update({
   path: '/api/baby-name',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiCreateOrderRoute = ApiCreateOrderRouteImport.update({
   id: '/api/create-order',
   path: '/api/create-order',
@@ -255,6 +261,7 @@ export interface FileRoutesByFullPath {
   '/tools': typeof ToolsRoute
   '/vimshottari-dasha-calculator': typeof VimshottariDashaCalculatorRoute
   '/api/baby-name': typeof ApiBabyNameRoute
+  '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/follow-up': typeof ApiFollowUpRoute
   '/api/generate-report': typeof ApiGenerateReportRoute
@@ -293,6 +300,7 @@ export interface FileRoutesByTo {
   '/tools': typeof ToolsRoute
   '/vimshottari-dasha-calculator': typeof VimshottariDashaCalculatorRoute
   '/api/baby-name': typeof ApiBabyNameRoute
+  '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/follow-up': typeof ApiFollowUpRoute
   '/api/generate-report': typeof ApiGenerateReportRoute
@@ -332,6 +340,7 @@ export interface FileRoutesById {
   '/tools': typeof ToolsRoute
   '/vimshottari-dasha-calculator': typeof VimshottariDashaCalculatorRoute
   '/api/baby-name': typeof ApiBabyNameRoute
+  '/api/chat': typeof ApiChatRoute
   '/api/create-order': typeof ApiCreateOrderRoute
   '/api/follow-up': typeof ApiFollowUpRoute
   '/api/generate-report': typeof ApiGenerateReportRoute
@@ -372,6 +381,7 @@ export interface FileRouteTypes {
     | '/tools'
     | '/vimshottari-dasha-calculator'
     | '/api/baby-name'
+    | '/api/chat'
     | '/api/create-order'
     | '/api/follow-up'
     | '/api/generate-report'
@@ -410,6 +420,7 @@ export interface FileRouteTypes {
     | '/tools'
     | '/vimshottari-dasha-calculator'
     | '/api/baby-name'
+    | '/api/chat'
     | '/api/create-order'
     | '/api/follow-up'
     | '/api/generate-report'
@@ -448,6 +459,7 @@ export interface FileRouteTypes {
     | '/tools'
     | '/vimshottari-dasha-calculator'
     | '/api/baby-name'
+    | '/api/chat'
     | '/api/create-order'
     | '/api/follow-up'
     | '/api/generate-report'
@@ -487,6 +499,7 @@ export interface RootRouteChildren {
   ToolsRoute: typeof ToolsRoute
   VimshottariDashaCalculatorRoute: typeof VimshottariDashaCalculatorRoute
   ApiBabyNameRoute: typeof ApiBabyNameRoute
+  ApiChatRoute: typeof ApiChatRoute
   ApiCreateOrderRoute: typeof ApiCreateOrderRoute
   ApiFollowUpRoute: typeof ApiFollowUpRoute
   ApiGenerateReportRoute: typeof ApiGenerateReportRoute
@@ -665,6 +678,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiBabyNameRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/create-order': {
       id: '/api/create-order'
       path: '/api/create-order'
@@ -783,6 +803,7 @@ const rootRouteChildren: RootRouteChildren = {
   ToolsRoute: ToolsRoute,
   VimshottariDashaCalculatorRoute: VimshottariDashaCalculatorRoute,
   ApiBabyNameRoute: ApiBabyNameRoute,
+  ApiChatRoute: ApiChatRoute,
   ApiCreateOrderRoute: ApiCreateOrderRoute,
   ApiFollowUpRoute: ApiFollowUpRoute,
   ApiGenerateReportRoute: ApiGenerateReportRoute,

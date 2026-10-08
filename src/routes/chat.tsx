@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
+import { Send } from "lucide-react";
 import { useState, useRef, useEffect, useLayoutEffect } from "react";
 import { z } from "zod";
 import { auth, onUserDoc } from "@/lib/firebase";
@@ -801,7 +802,7 @@ function ChatPage() {
                     </div>
                   </div>
                 ) : (
-                  <div className="flex gap-2">
+                  <div className="flex md:gap-2">
                     <div className="flex-1 relative">
                       <input
                         ref={inputRef}
@@ -810,15 +811,26 @@ function ChatPage() {
                         onChange={(e) => setInputValue(e.target.value)}
                         onKeyPress={handleKeyPress}
                         placeholder="Ask Vaanii anything..."
-                        className="w-full rounded-full border border-border bg-background px-6 py-3.5 text-base outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/10 transition-all md:py-2.5 md:text-sm"
+                        className="w-full rounded-full border border-border bg-background pl-5 pr-12 py-3.5 text-base outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/10 transition-all md:px-6 md:py-2.5 md:text-sm"
                       />
+                      {/* Inside input on mobile */}
+                      <button
+                        onClick={handleSendMessage}
+                        disabled={!inputValue.trim()}
+                        className="absolute right-1.5 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-sm hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all md:hidden"
+                        aria-label="Send message"
+                      >
+                        <Send className="h-4 w-4" />
+                      </button>
                     </div>
+                    {/* Separate button on desktop */}
                     <button
                       onClick={handleSendMessage}
                       disabled={!inputValue.trim()}
-                      className="rounded-full bg-primary px-6 py-4 text-base font-medium text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all md:px-5 md:py-2.5 md:text-sm"
+                      className="hidden md:flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                      aria-label="Send message"
                     >
-                      Send
+                      <Send className="h-4 w-4" />
                     </button>
                   </div>
                 )}

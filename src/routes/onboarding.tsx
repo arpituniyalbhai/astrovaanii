@@ -3,7 +3,6 @@ import { useEffect, useState, useRef } from "react";
 import { Reveal } from "@/components/landing/Reveal";
 import { auth, createUserDoc } from "@/lib/firebase";
 import { getChart } from "@/lib/chart-server";
-import vaaniiPersona from "@/assets/vaanii-persona.jpg";
 import brandIcon from "@/assets/astrovaanii-logo.png";
 
 interface GeoapifyFeature {
@@ -31,15 +30,6 @@ export const Route = createFileRoute("/onboarding")({
   component: OnboardingPage,
 });
 
-type OnboardingStep = "name" | "dob" | "time" | "location" | "gender" | "complete";
-
-interface Message {
-  id: string;
-  type: "bot" | "user";
-  content: string;
-  timestamp: Date;
-}
-
 interface UserData {
   name: string;
   dob: string;
@@ -49,12 +39,12 @@ interface UserData {
   longitude: number | null;
   gender: string;
   timezoneOffset?: number;
+  unknownTime: boolean;
 }
 
 function OnboardingPage() {
   const navigate = useNavigate();
-  const [currentStep, setCurrentStep] = useState<OnboardingStep>("name");
-  const [messages, setMessages] = useState<Message[]>([]);
+
   const [userData, setUserData] = useState<UserData>({
     name: "",
     dob: "",
@@ -63,260 +53,145 @@ function OnboardingPage() {
     latitude: null,
     longitude: null,
     gender: "",
+    unknownTime: false,
   });
-  const [inputValue, setInputValue] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [selectedDate, setSelectedDate] = useState("");
-  const [showTimePicker, setShowTimePicker] = useState(false);
-  const [selectedTime, setSelectedTime] = useState("");
+
+  const [step, setStep] = useState<1 | 2 | "saving">(1);
+  const [locationQuery, setLocationQuery] = useState("");
   const [locationSuggestions, setLocationSuggestions] = useState<GeoapifyFeature[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const hasInitialized = useRef(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSaving, setIsSaving] = useState(false);
+  const locationInputRef = useRef<HTMLInputElement>(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages, isTyping]);
-
+  // Redirect to signup if not authenticated
   useEffect(() => {
     const email = auth.currentUser?.email || JSON.parse(localStorage.getItem('userData') || '{}').email;
     if (!email) {
       navigate({ to: "/signup" });
-      return;
     }
   }, [navigate]);
 
+  // Debounced location autocomplete
   useEffect(() => {
-    if (hasInitialized.current) return;
-    hasInitialized.current = true;
-
-    // Initial greeting
-    const initialMessage: Message = {
-      id: "1",
-      type: "bot",
-      content: "Namaste! 🙏 I'm Vaanii, your personal AI astrologer. Let's get to know you better to provide accurate readings.",
-      timestamp: new Date(),
-    };
-    setMessages([initialMessage]);
-    
-    setTimeout(() => {
-      addBotMessage("First, what should I call you? Please share your name.");
-    }, 1500);
-  }, []);
-
-  const addBotMessage = (content: string) => {
-    setIsTyping(true);
-    setTimeout(() => {
-      setIsTyping(false);
-      const newMessage: Message = {
-        id: Date.now().toString(),
-        type: "bot",
-        content,
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, newMessage]);
-    }, 1000);
-  };
-
-  const addUserMessage = (content: string) => {
-    const newMessage: Message = {
-      id: Date.now().toString(),
-      type: "user",
-      content,
-      timestamp: new Date(),
-    };
-    setMessages((prev) => [...prev, newMessage]);
-  };
-
-  const handleNameSubmit = () => {
-    if (!inputValue.trim()) return;
-    
-    addUserMessage(inputValue);
-    setUserData((prev) => ({ ...prev, name: inputValue }));
-    setInputValue("");
-    setCurrentStep("dob");
-    
-    setTimeout(() => {
-      addBotMessage(`Nice to meet you, ${inputValue}! 🌟 Now, I need your exact date of birth to calculate your birth chart.`);
-      setTimeout(() => {
-        setShowDatePicker(true);
-      }, 1500);
-    }, 500);
-  };
-
-  const handleDobSubmit = (date: string) => {
-    addUserMessage(date);
-    setUserData((prev) => ({ ...prev, dob: date }));
-    setShowDatePicker(false);
-    setCurrentStep("time");
-    
-    setTimeout(() => {
-      addBotMessage("Great! What time were you born? This helps me calculate your planetary positions more accurately.");
-      setTimeout(() => {
-        setShowTimePicker(true);
-      }, 1500);
-    }, 500);
-  };
-
-  const handleTimeSubmit = (time: string) => {
-    addUserMessage(time);
-    setUserData((prev) => ({ ...prev, timeOfBirth: time }));
-    setShowTimePicker(false);
-    setCurrentStep("location");
-    
-    setTimeout(() => {
-      addBotMessage("Perfect! Now, where were you born? Please share your city or place of birth.");
-    }, 500);
-  };
-
-  const handleLocationSubmit = async (selectedLocation?: GeoapifyFeature) => {
-    const location = selectedLocation?.properties.formatted || inputValue;
-    if (!location.trim()) return;
-    
-    addUserMessage(location);
-    setInputValue("");
-    setShowSuggestions(false);
-    setLocationSuggestions([]);
-    
-    setIsTyping(true);
-    
-    try {
-      const resolved = selectedLocation ?? await fetchLocationSuggestion(location);
-      if (resolved) {
-        const tzOffsetSec = resolved.properties.timezone?.offset_sec;
-        setUserData((prev) => ({
-          ...prev,
-          location: resolved.properties.formatted,
-          latitude: resolved.properties.lat,
-          longitude: resolved.properties.lon,
-          timezoneOffset: tzOffsetSec != null ? tzOffsetSec / 3600 : undefined,
-        }));
-        setIsTyping(false);
-        addBotMessage(`Got it! ${resolved.properties.formatted} recorded. Now, what's your gender?`);
-        setCurrentStep("gender");
-      } else {
-        setIsTyping(false);
-        addBotMessage("I couldn't find that location. Could you please try with a more specific city name?");
-        setCurrentStep("location");
-      }
-    } catch (error) {
-      setIsTyping(false);
-      addBotMessage("There was an error finding your location. Please try again.");
-      setCurrentStep("location");
-    }
-  };
-
-  const fetchLocationSuggestion = async (query: string): Promise<GeoapifyFeature | null> => {
-    if (!query.trim()) return null;
-
-    const response = await fetch(
-      `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&apiKey=${GEOAPIFY_KEY}&limit=1`
-    );
-    const data = await response.json();
-    return data.features?.[0] ?? null;
-  };
-
-  const fetchLocationSuggestions = async (query: string) => {
-    if (!query.trim() || currentStep !== "location") {
+    if (!locationQuery.trim() || step !== 2) {
       setLocationSuggestions([]);
       setShowSuggestions(false);
       return;
     }
 
-    try {
-      const response = await fetch(
-        `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&apiKey=${GEOAPIFY_KEY}&limit=5`
-      );
-      const data = await response.json();
-      
-      if (data.features && data.features.length > 0) {
-        setLocationSuggestions(data.features);
-        setShowSuggestions(true);
-      } else {
+    const timer = setTimeout(async () => {
+      try {
+        const response = await fetch(
+          `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(locationQuery)}&apiKey=${GEOAPIFY_KEY}&limit=5`
+        );
+        const data = await response.json();
+        if (data.features?.length > 0) {
+          setLocationSuggestions(data.features);
+          setShowSuggestions(true);
+        } else {
+          setLocationSuggestions([]);
+          setShowSuggestions(false);
+        }
+      } catch {
         setLocationSuggestions([]);
         setShowSuggestions(false);
       }
-    } catch (error) {
-      setLocationSuggestions([]);
-      setShowSuggestions(false);
-    }
-  };
-
-  useEffect(() => {
-    const debounceTimer = setTimeout(() => {
-      if (currentStep === "location") {
-        fetchLocationSuggestions(inputValue);
-      }
     }, 300);
 
-    return () => clearTimeout(debounceTimer);
-  }, [inputValue, currentStep]);
+    return () => clearTimeout(timer);
+  }, [locationQuery, step]);
 
-  const handleGenderSubmit = (gender: string) => {
-    addUserMessage(gender);
-    setUserData((prev) => ({ ...prev, gender }));
-    setCurrentStep("complete");
-    
-    setTimeout(() => {
-      addBotMessage("Wonderful! ✨ I have all the information I need. Your birth chart is being prepared...");
-      setTimeout(() => {
-        addBotMessage("You're all set! Your profile is complete. Let's begin your astrological journey!");
-      }, 2000);
-    }, 500);
+  const selectLocation = (feature: GeoapifyFeature) => {
+    const tzOffsetSec = feature.properties.timezone?.offset_sec;
+    setUserData((prev) => ({
+      ...prev,
+      location: feature.properties.formatted,
+      latitude: feature.properties.lat,
+      longitude: feature.properties.lon,
+      timezoneOffset: tzOffsetSec != null ? tzOffsetSec / 3600 : undefined,
+    }));
+    setLocationQuery(feature.properties.formatted);
+    setShowSuggestions(false);
+    setLocationSuggestions([]);
+    setErrors((prev) => ({ ...prev, location: "" }));
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      if (currentStep === "name") {
-        handleNameSubmit();
-      } else if (currentStep === "location") {
-        handleLocationSubmit();
-      }
-    }
+  const validateStep1 = (): boolean => {
+    const newErrors: Record<string, string> = {};
+    if (!userData.name.trim()) newErrors.name = "Name is required";
+    if (!userData.dob) newErrors.dob = "Date of birth is required";
+    if (!userData.unknownTime && !userData.timeOfBirth) newErrors.time = "Time of birth is required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
-  const handleComplete = async () => {
+  const validateStep2 = (): boolean => {
+    const newErrors: Record<string, string> = {};
+    if (!userData.gender) newErrors.gender = "Please select your gender";
+    if (!userData.location || userData.latitude === null) newErrors.location = "Place of birth is required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleNext = () => {
+    if (!validateStep1()) return;
+    setErrors({});
+    setStep(2);
+  };
+
+  const handleBack = () => {
+    setErrors({});
+    setStep(1);
+  };
+
+  const handleSubmit = async () => {
+    if (!validateStep2()) return;
+
+    setIsSaving(true);
+    setStep("saving");
+
     const email = auth.currentUser?.email || JSON.parse(localStorage.getItem('userData') || '{}').email;
+
+    // If time is unknown, default to noon
+    const timeOfBirth = userData.unknownTime ? "12:00" : userData.timeOfBirth;
+    const finalUserData = { ...userData, timeOfBirth };
+
     if (email) {
       try {
-        const { timezoneOffset: _timezoneOffset, ...userDataWithoutTimezoneOffset } = userData;
-        const userDocPayload = {
-          ...userDataWithoutTimezoneOffset,
-          questionsRemaining: 2,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        };
+        const { timezoneOffset: _tz, unknownTime: _ut, ...userDocPayload } = finalUserData;
         await createUserDoc(email, {
           ...userDocPayload,
+          questionsRemaining: 1,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
         });
       } catch (error) {
         console.error("Failed to save user data to Firestore:", error);
       }
     }
-    const stored = { ...userData, email, questionsRemaining: 2 };
+
+    const stored = { ...finalUserData, email, questionsRemaining: 1 };
     localStorage.setItem("userData", JSON.stringify(stored));
 
-    if (userData.latitude != null && userData.longitude != null && userData.dob && userData.timeOfBirth) {
-      const [y, m, d] = userData.dob.split("-").map(Number);
-      const [h, min] = userData.timeOfBirth.split(":").map(Number);
-      const result = await getChart({ data: {
-        year: y,
-        month: m,
-        day: d,
-        hour: h || 12,
-        minute: min || 0,
-        latitude: userData.latitude,
-        longitude: userData.longitude,
-        timezoneOffset: userData.timezoneOffset,
-      }});
+    // Calculate chart
+    if (finalUserData.latitude != null && finalUserData.longitude != null && finalUserData.dob && timeOfBirth) {
+      const [y, m, d] = finalUserData.dob.split("-").map(Number);
+      const [h, min] = timeOfBirth.split(":").map(Number);
+      const result = await getChart({
+        data: {
+          year: y,
+          month: m,
+          day: d,
+          hour: h || 12,
+          minute: min || 0,
+          latitude: finalUserData.latitude,
+          longitude: finalUserData.longitude,
+          timezoneOffset: finalUserData.timezoneOffset,
+        },
+      });
       if (result.success) {
-        const chartData = result.chart;
-        const updated = { ...stored, email, chart: chartData };
+        const updated = { ...stored, email, chart: result.chart };
         localStorage.setItem("userData", JSON.stringify(updated));
       } else {
         console.error("Chart calculation failed:", (result as any).error);
@@ -324,6 +199,17 @@ function OnboardingPage() {
     }
 
     navigate({ to: "/dashboard" });
+  };
+
+  const genderOptions = [
+    { value: "Female", label: "Female", icon: "♀" },
+    { value: "Male", label: "Male", icon: "♂" },
+    { value: "Other", label: "Other", icon: "⚧" },
+  ];
+
+  const stepTitles = {
+    1: "Birth details",
+    2: "A bit more about you",
   };
 
   return (
@@ -338,199 +224,286 @@ function OnboardingPage() {
         </div>
         <div className="flex items-center gap-2">
           <div className="h-2 w-2 rounded-full bg-[color:var(--sage)] animate-pulse" />
-          <span className="text-sm text-muted-foreground">Step 2 of 3</span>
+          <span className="text-sm text-muted-foreground">Step {step === "saving" ? 2 : step} of 2</span>
         </div>
       </header>
 
-      <section className="relative z-10 mx-auto max-w-2xl px-6 py-10">
+      <section className="relative z-10 mx-auto max-w-xl px-6 pt-4 pb-12">
         <Reveal>
-          <div className="mx-auto w-full rounded-3xl border border-border bg-card/80 shadow-xl backdrop-blur-md overflow-hidden">
-            {/* Chat header */}
-            <div className="flex items-center gap-4 border-b border-border bg-gradient-to-r from-[color:var(--gold)]/10 via-card to-[color:var(--clay)]/10 px-6 py-4">
-              <div className="relative">
-                <div className="absolute inset-0 -m-1 rounded-full bg-primary/25 blur-md" />
-                <img
-                  src={vaaniiPersona}
-                  alt="Vaanii, AI astrologer"
-                  className="relative h-12 w-12 rounded-full border-2 border-background object-cover shadow-lg"
-                />
-                <span className="absolute -bottom-0.5 -right-0.5 flex h-3 w-3 items-center justify-center rounded-full border-2 border-card bg-[color:var(--sage)]">
-                  <span className="h-1.5 w-1.5 rounded-full bg-white" />
-                </span>
-              </div>
-              <div>
-                <div className="font-display text-lg text-primary">Vaanii AI</div>
-                <div className="text-xs text-muted-foreground">Online · Personalizing your experience</div>
-              </div>
-            </div>
+          {/* Heading */}
+          <div className="text-center mb-8">
+            <h1 className="font-display text-3xl md:text-4xl tracking-tight">
+              Create Your <em className="not-italic text-primary">Birth Chart</em>
+            </h1>
+            <p className="mt-2 text-muted-foreground text-sm">
+              Just a few quick steps to personalize your experience.
+            </p>
+          </div>
+        </Reveal>
 
-            {/* Chat messages */}
-            <div className="h-[500px] overflow-y-auto p-6 space-y-4">
-              {messages.map((message) => (
-                <div
-                  key={message.id}
-                  className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}
-                >
-                  <div
-                    className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm ${
-                      message.type === "bot"
-                        ? "rounded-tl-sm bg-background/70 text-foreground"
-                        : "rounded-tr-sm bg-primary text-primary-foreground"
-                    }`}
-                  >
-                    {message.content}
+        {/* ── Step 1: Name, DOB, Time ── */}
+        {step === 1 && (
+          <Reveal delay={100}>
+            <div className="mx-auto w-full rounded-3xl border border-border bg-card/80 shadow-xl backdrop-blur-md">
+              {/* Progress dots */}
+              <div className="flex items-center justify-center gap-2 pt-6">
+                <div className="h-2.5 w-2.5 rounded-full bg-primary" />
+                <div className="h-2.5 w-2.5 rounded-full bg-border" />
+              </div>
+
+              <div className="px-6 pt-5 pb-6 md:px-8">
+                <h2 className="font-display text-xl mb-6">{stepTitles[1]}</h2>
+
+                {/* Name input */}
+                <div className="mb-5">
+                  <label className="block text-sm font-medium mb-1.5">Your name</label>
+                  <div className={`flex items-center gap-3 rounded-xl border ${errors.name ? 'border-destructive' : 'border-border'} bg-background/70 px-4 py-3 focus-within:border-primary/60 transition-colors`}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-muted-foreground shrink-0">
+                      <circle cx="12" cy="8" r="4" />
+                      <path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6" />
+                    </svg>
+                    <input
+                      type="text"
+                      placeholder="Enter your name"
+                      value={userData.name}
+                      onChange={(e) => {
+                        setUserData((prev) => ({ ...prev, name: e.target.value }));
+                        if (errors.name) setErrors((prev) => ({ ...prev, name: "" }));
+                      }}
+                      className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                    />
                   </div>
+                  {errors.name && <p className="text-xs text-destructive mt-1">{errors.name}</p>}
                 </div>
-              ))}
-              
-              {isTyping && (
-                <div className="flex justify-start">
-                  <div className="rounded-2xl rounded-tl-sm bg-background/70 px-4 py-3 text-sm text-muted-foreground">
-                    <div className="flex gap-1">
-                      <span className="h-2 w-2 animate-bounce rounded-full bg-primary/60" />
-                      <span className="h-2 w-2 animate-bounce rounded-full bg-primary/60 delay-100" />
-                      <span className="h-2 w-2 animate-bounce rounded-full bg-primary/60 delay-200" />
-                    </div>
-                  </div>
-                </div>
-              )}
-              
-              <div ref={messagesEndRef} />
-            </div>
 
-            {/* Date picker */}
-            {showDatePicker && (
-              <div className="border-t border-border bg-background/50 px-6 py-4">
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Select your date of birth
-                </label>
-                <div className="flex gap-2">
-                  <input
-                    type="date"
-                    value={selectedDate}
-                    max={new Date().toISOString().split("T")[0]}
-                    className="flex-1 rounded-full border border-border bg-background/70 px-4 py-3 text-sm outline-none focus:border-primary/60"
-                    onChange={(e) => setSelectedDate(e.target.value)}
-                  />
-                  <button
-                    onClick={() => handleDobSubmit(selectedDate)}
-                    disabled={!selectedDate}
-                    className="rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    Continue
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* Time picker */}
-            {showTimePicker && (
-              <div className="border-t border-border bg-background/50 px-6 py-4">
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Select your time of birth
-                </label>
-                <div className="flex gap-2">
-                  <input
-                    type="time"
-                    value={selectedTime}
-                    className="flex-1 rounded-full border border-border bg-background/70 px-4 py-3 text-sm outline-none focus:border-primary/60"
-                    onChange={(e) => setSelectedTime(e.target.value)}
-                  />
-                  <button
-                    onClick={() => handleTimeSubmit(selectedTime)}
-                    disabled={!selectedTime}
-                    className="rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    Continue
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* Gender selection */}
-            {currentStep === "gender" && (
-              <div className="border-t border-border bg-background/50 px-6 py-4">
-                <div className="grid grid-cols-3 gap-2">
-                  {["Male", "Female", "Other"].map((gender) => (
-                    <button
-                      key={gender}
-                      onClick={() => handleGenderSubmit(gender)}
-                      className="rounded-full border border-border bg-background/70 px-4 py-3 text-sm font-medium hover:bg-card hover:border-primary/60 transition-colors"
-                    >
-                      {gender}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Input field */}
-            {(currentStep === "name" || currentStep === "location") && (
-              <div className="border-t border-border bg-background/50 px-6 py-4 relative">
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    onFocus={() => currentStep === "location" && inputValue && setShowSuggestions(true)}
-                    onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-                    placeholder={
-                      currentStep === "name"
-                        ? "Enter your name..."
-                        : "Enter your city or place of birth..."
-                    }
-                    className="flex-1 rounded-full border border-border bg-background/70 px-4 py-3 text-sm outline-none focus:border-primary/60"
-                  />
-                  <button
-                    onClick={() => {
-                      if (currentStep === "name") handleNameSubmit();
-                      else if (currentStep === "location") handleLocationSubmit();
-                    }}
-                    disabled={!inputValue.trim()}
-                    className="rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    Send
-                  </button>
-                </div>
-                
-                {/* Location suggestions dropdown */}
-                {showSuggestions && locationSuggestions.length > 0 && (
-                  <div className="absolute bottom-full left-6 right-6 mb-2 rounded-2xl border border-border bg-card shadow-xl max-h-60 overflow-y-auto z-10">
-                    {locationSuggestions.map((suggestion, index) => (
-                      <button
-                        key={index}
-                        onClick={() => {
-                          setInputValue(suggestion.properties.formatted);
-                          handleLocationSubmit(suggestion);
+                {/* DOB and Time row */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  {/* Date of birth */}
+                  <div>
+                    <label className="block text-sm font-medium mb-1.5">Date of birth</label>
+                    <div className={`flex items-center rounded-xl border ${errors.dob ? 'border-destructive' : 'border-border'} bg-background/70 px-3 py-3 focus-within:border-primary/60 transition-colors`}>
+                      <input
+                        type="date"
+                        value={userData.dob}
+                        max={new Date().toISOString().split("T")[0]}
+                        onChange={(e) => {
+                          setUserData((prev) => ({ ...prev, dob: e.target.value }));
+                          if (errors.dob) setErrors((prev) => ({ ...prev, dob: "" }));
                         }}
-                        className="w-full px-4 py-3 text-left text-sm hover:bg-background/50 transition-colors border-b border-border last:border-b-0"
+                        className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                      />
+                    </div>
+                    {errors.dob && <p className="text-xs text-destructive mt-1">{errors.dob}</p>}
+                  </div>
+
+                  {/* Time of birth */}
+                  <div>
+                    <label className="block text-sm font-medium mb-1.5">Time of birth</label>
+                    <div className={`flex items-center rounded-xl border ${errors.time ? 'border-destructive' : 'border-border'} bg-background/70 px-3 py-3 focus-within:border-primary/60 transition-colors ${userData.unknownTime ? 'opacity-50 pointer-events-none' : ''}`}>
+                      <input
+                        type="time"
+                        value={userData.timeOfBirth}
+                        disabled={userData.unknownTime}
+                        onChange={(e) => {
+                          setUserData((prev) => ({ ...prev, timeOfBirth: e.target.value }));
+                          if (errors.time) setErrors((prev) => ({ ...prev, time: "" }));
+                        }}
+                        className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                      />
+                    </div>
+                    {errors.time && <p className="text-xs text-destructive mt-1">{errors.time}</p>}
+                  </div>
+                </div>
+
+                {/* Unknown time checkbox */}
+                <label className="flex items-center gap-2 mb-2 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    checked={userData.unknownTime}
+                    onChange={(e) => {
+                      setUserData((prev) => ({
+                        ...prev,
+                        unknownTime: e.target.checked,
+                        timeOfBirth: e.target.checked ? "" : prev.timeOfBirth,
+                      }));
+                      if (e.target.checked) setErrors((prev) => ({ ...prev, time: "" }));
+                    }}
+                    className="h-4 w-4 rounded border-border accent-primary"
+                  />
+                  <span className="text-xs text-muted-foreground">I don't know my exact time of birth</span>
+                </label>
+
+                {/* Action row */}
+                <div className="flex items-center justify-between pt-4">
+                  <button
+                    onClick={() => navigate({ to: "/signup" })}
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    ← Back
+                  </button>
+                  <button
+                    onClick={handleNext}
+                    className="rounded-full bg-primary px-8 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-90 transition-opacity"
+                  >
+                    Next →
+                  </button>
+                </div>
+              </div>
+
+              {/* Privacy note */}
+              <div className="border-t border-border bg-background/30 px-6 py-3 text-center rounded-b-3xl">
+                <p className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="shrink-0">
+                    <rect x="4" y="10" width="16" height="10" rx="2" />
+                    <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+                  </svg>
+                  Your birth details are private and securely stored
+                </p>
+              </div>
+            </div>
+          </Reveal>
+        )}
+
+        {/* ── Step 2: Gender + Place of birth ── */}
+        {step === 2 && (
+          <Reveal delay={100}>
+            <div className="mx-auto w-full rounded-3xl border border-border bg-card/80 shadow-xl backdrop-blur-md">
+              {/* Progress dots */}
+              <div className="flex items-center justify-center gap-2 pt-6">
+                <div className="h-2.5 w-2.5 rounded-full bg-primary" />
+                <div className="h-2.5 w-2.5 rounded-full bg-primary" />
+              </div>
+
+              <div className="px-6 pt-5 pb-6 md:px-8">
+                <h2 className="font-display text-xl mb-6">{stepTitles[2]}</h2>
+
+                {/* Gender selection */}
+                <div className="mb-6">
+                  <label className="block text-sm font-medium mb-3">Gender</label>
+                  <div className="grid grid-cols-3 gap-3">
+                    {genderOptions.map((opt) => (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        onClick={() => {
+                          setUserData((prev) => ({ ...prev, gender: opt.value }));
+                          if (errors.gender) setErrors((prev) => ({ ...prev, gender: "" }));
+                        }}
+                        className={`rounded-xl border px-4 py-3 text-sm font-medium transition-all duration-200 ${
+                          userData.gender === opt.value
+                            ? "border-primary bg-primary/10 text-primary shadow-sm"
+                            : "border-border bg-background/70 text-foreground hover:border-primary/40 hover:bg-background"
+                        }`}
                       >
-                        <div className="font-medium text-foreground">{suggestion.properties.formatted}</div>
-                        <div className="text-xs text-muted-foreground mt-1">
-                          📍 {suggestion.properties.lat.toFixed(4)}°, {suggestion.properties.lon.toFixed(4)}°
-                        </div>
+                        <span className="mr-1.5">{opt.icon}</span>
+                        {opt.label}
                       </button>
                     ))}
                   </div>
-                )}
-              </div>
-            )}
+                  {errors.gender && <p className="text-xs text-destructive mt-1">{errors.gender}</p>}
+                </div>
 
-            {/* Complete button */}
-            {currentStep === "complete" && (
-              <div className="border-t border-border bg-background/50 px-6 py-4">
-                <button
-                  onClick={handleComplete}
-                  className="w-full rounded-full bg-primary py-3.5 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-90"
-                >
-                  Complete & Continue
-                </button>
+                {/* Place of birth — full width */}
+                <div className="relative mb-6">
+                  <label className="block text-sm font-medium mb-1.5">Place of birth</label>
+                  <div className={`flex items-center gap-2 rounded-xl border ${errors.location ? 'border-destructive' : 'border-border'} bg-background/70 px-3 py-3 focus-within:border-primary/60 transition-colors`}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-muted-foreground shrink-0">
+                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+                      <circle cx="12" cy="9" r="2.5" />
+                    </svg>
+                    <input
+                      ref={locationInputRef}
+                      type="text"
+                      placeholder="Search your city or place of birth..."
+                      value={locationQuery}
+                      onChange={(e) => {
+                        setLocationQuery(e.target.value);
+                        if (userData.location) {
+                          setUserData((prev) => ({ ...prev, location: "", latitude: null, longitude: null }));
+                        }
+                      }}
+                      onFocus={() => locationQuery && locationSuggestions.length > 0 && setShowSuggestions(true)}
+                      onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                      className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                    />
+                  </div>
+                  {errors.location && <p className="text-xs text-destructive mt-1">{errors.location}</p>}
+
+                  {/* Location suggestions dropdown */}
+                  {showSuggestions && locationSuggestions.length > 0 && (
+                    <div className="absolute top-full left-0 right-0 mt-1 rounded-xl border border-border bg-card shadow-2xl max-h-56 overflow-y-auto z-30">
+                      {locationSuggestions.map((suggestion, index) => (
+                        <button
+                          key={index}
+                          onClick={() => selectLocation(suggestion)}
+                          className="w-full px-4 py-3 text-left text-sm hover:bg-primary/5 transition-colors border-b border-border last:border-b-0"
+                        >
+                          <div className="flex items-start gap-2.5">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-primary shrink-0 mt-0.5">
+                              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+                              <circle cx="12" cy="9" r="2.5" />
+                            </svg>
+                            <span className="text-foreground leading-snug">{suggestion.properties.formatted}</span>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Action row */}
+                <div className="flex items-center justify-between pt-2">
+                  <button
+                    onClick={handleBack}
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    ← Back
+                  </button>
+                  <button
+                    onClick={handleSubmit}
+                    disabled={isSaving}
+                    className="rounded-full bg-primary px-8 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSaving ? "Creating chart..." : "Create my chart ✦"}
+                  </button>
+                </div>
               </div>
-            )}
-          </div>
-        </Reveal>
+
+              {/* Privacy note */}
+              <div className="border-t border-border bg-background/30 px-6 py-3 text-center rounded-b-3xl">
+                <p className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="shrink-0">
+                    <rect x="4" y="10" width="16" height="10" rx="2" />
+                    <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+                  </svg>
+                  Your birth details are private and securely stored
+                </p>
+              </div>
+            </div>
+          </Reveal>
+        )}
+
+        {/* ── Saving / Chart calculation ── */}
+        {step === "saving" && (
+          <Reveal>
+            <div className="mx-auto w-full max-w-sm rounded-3xl border border-border bg-card/80 shadow-xl backdrop-blur-md p-10 text-center">
+              {/* Animated chart loading */}
+              <div className="relative mx-auto mb-6 h-20 w-20">
+                <div className="absolute inset-0 rounded-full border-2 border-primary/20" />
+                <div className="absolute inset-0 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+                <div className="absolute inset-2 rounded-full border border-[color:var(--gold)]/30 border-b-transparent animate-spin" style={{ animationDuration: "3s", animationDirection: "reverse" }} />
+                <div className="absolute inset-4 rounded-full border border-[color:var(--clay)]/30 border-t-transparent animate-spin" style={{ animationDuration: "5s" }} />
+                <div className="absolute inset-0 flex items-center justify-center text-xl">✦</div>
+              </div>
+              <h3 className="font-display text-xl mb-2">Calculating your chart…</h3>
+              <p className="text-sm text-muted-foreground">
+                Mapping planetary positions for your birth moment.
+              </p>
+            </div>
+          </Reveal>
+        )}
       </section>
     </main>
   );
 }
+
