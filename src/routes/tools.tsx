@@ -35,6 +35,14 @@ export const Route = createFileRoute("/tools")({
 
 const tools = [
   {
+    title: "AI Pandit",
+    description:
+      "Get authentic Vedic astrology guidance for muhurat timing, dosha remedies, and spiritual practices. Calculate your kundali and ask one question free with Swiss Ephemeris accuracy.",
+    image: chatPreview,
+    link: "/ai-pandit",
+    features: ["Muhurat timing", "Dosha remedies", "Puja guidance", "Free kundali calculation"],
+  },
+  {
     title: "AI Prashna Kundli",
     description:
       "Ask one sincere question and receive a focused Vedic horary reading from the exact question time and your current location. No birth date or birth time is needed.",

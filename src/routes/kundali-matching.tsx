@@ -592,6 +592,9 @@ function SeoContent() {
           <p className="text-muted-foreground leading-relaxed mb-4">
             When two individuals decide to share their lives, Vedic astrology evaluates their cosmic compatibility through <strong>Kundali Matching</strong> (also known as <em>Patrika Milan</em> or <em>Ashtakoot Guna Milan</em>). Rooted in the ancient text <em>Brihat Parashara Hora Shastra</em>, this method analyzes the astronomical positions of the Moon and planets at the exact moment, date, and place of birth for both individuals.
           </p>
+          <p className="text-muted-foreground leading-relaxed mb-4">
+            For individual birth-chart guidance alongside compatibility, ask a question through <Link to="/ai-pandit" title="AI Pandit birth chart reading" className="text-primary underline underline-offset-4 hover:opacity-80">AI Pandit</Link>.
+          </p>
           <p className="text-muted-foreground leading-relaxed">
             Today, modern digital Kundali matching tools replace tedious manual Ephemeris calculations with algorithms based on NASA's Swiss Ephemeris data. Before diving into matching, you can generate individual birth charts using our <Link to="/free-kundli" className="text-primary underline underline-offset-4 hover:opacity-80">free Kundli generator</Link> to understand your own planetary positions. Where the Rahu–Ketu axis is a concern, use the <Link to="/kaal-sarp-dosha-calculator" className="text-primary underline underline-offset-4 hover:opacity-80">Kaal Sarp Dosha calculator</Link> to review that factor alongside the matching result. This article explores how a digital Kundali matching tool operates, the mathematical foundation of the 36 Gunas, key exceptions, and essential FAQs.
           </p>

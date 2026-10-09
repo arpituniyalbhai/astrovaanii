@@ -692,6 +692,10 @@ function AiPrashnaKundliPage() {
               terms.
             </p>
             <p className="mt-5 leading-8 text-muted-foreground">
+              If you have your birth date, time, and place and want guidance based on your natal chart,
+              use <Link to="/ai-pandit" title="AI Pandit birth chart guidance" className="text-primary underline underline-offset-4">AI Pandit</Link> to calculate your kundali and ask a question about it.
+            </p>
+            <p className="mt-5 leading-8 text-muted-foreground">
               Relationship compatibility is another separate question. A concern about whether a
               current conversation will progress can be asked here. A comparison of two birth charts
               belongs in the{" "}

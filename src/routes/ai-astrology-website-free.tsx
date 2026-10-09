@@ -416,7 +416,8 @@ function AiAstrologyWebsiteGuide() {
               “Vedic astrology” is not a sufficient technical description by itself. A useful
               service should identify details such as the sidereal zodiac, ayanamsa, chart format,
               house convention, and Dasha system it uses. AstroVaanii&apos;s tools use sidereal
-              chart calculations with Lahiri ayanamsa and Swiss Ephemeris data.
+              chart calculations with Lahiri ayanamsa and Swiss Ephemeris data. For a personalized
+              reading that explains your birth chart, try <Link to="/ai-pandit" title="AI Pandit Vedic astrology guidance" className="text-primary underline underline-offset-4 hover:opacity-80">AI Pandit</Link>.
             </p>
             <p className="mt-4 leading-relaxed text-muted-foreground">
               Birth time deserves special attention because the Ascendant and houses can change

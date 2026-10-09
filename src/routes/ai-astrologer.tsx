@@ -7,6 +7,20 @@ import vaaniiPersona from "@/assets/vaanii-persona.jpg";
 import chatPreview from "@/assets/chat-preview.jpg";
 import { AstrologyHighlightedText } from "@/components/AstrologyHighlightedText";
 
+const GEOAPIFY_KEY = import.meta.env.VITE_GEOAPIFY_API_KEY || "d629479cf35f491ebfb531d15f16dbfc";
+
+interface GeoapifyFeature {
+  properties: {
+    formatted: string;
+    city?: string;
+    state?: string;
+    country?: string;
+    lat: number;
+    lon: number;
+    timezone?: { offset_sec: number };
+  };
+}
+
 
 const faqs = [
   { q: "What is an AI Astrologer?", a: "An AI Astrologer is a software system that generates astrological readings using algorithms, chart calculations, and symbolic interpretation to provide insights based on your birth data and current planetary positions." },
@@ -118,7 +132,7 @@ function AiAstrologerPage() {
   const [longitude, setLongitude] = useState<number | null>(null);
   const [timezoneOffset, setTimezoneOffset] = useState<number | undefined>();
   const [gender, setGender] = useState("");
-  const [locationSuggestions, setLocationSuggestions] = useState<any[]>([]);
+  const [locationSuggestions, setLocationSuggestions] = useState<GeoapifyFeature[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [error, setError] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
@@ -269,11 +283,11 @@ function AiAstrologerPage() {
     }
     try {
       const response = await fetch(
-        `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(query)}&key=e6856ce2163d420dbae7d5adb0a104ec&limit=5`
+        `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&apiKey=${GEOAPIFY_KEY}&limit=5`
       );
       const data = await response.json();
-      if (data.results && data.results.length > 0) {
-        setLocationSuggestions(data.results);
+      if (data.features && data.features.length > 0) {
+        setLocationSuggestions(data.features);
         setShowSuggestions(true);
       } else {
         setLocationSuggestions([]);
@@ -290,11 +304,11 @@ function AiAstrologerPage() {
     return () => clearTimeout(timer);
   }, [location]);
 
-  const selectSuggestion = (s: any) => {
-    setLocation(s.formatted);
-    setLatitude(s.geometry.lat);
-    setLongitude(s.geometry.lng);
-    const tz = s.annotations?.timezone?.offset_sec;
+  const selectSuggestion = (s: GeoapifyFeature) => {
+    setLocation(s.properties.formatted);
+    setLatitude(s.properties.lat);
+    setLongitude(s.properties.lon);
+    const tz = s.properties.timezone?.offset_sec;
     setTimezoneOffset(tz != null ? tz / 3600 : undefined);
     setShowSuggestions(false);
     setLocationSuggestions([]);
@@ -305,14 +319,14 @@ function AiAstrologerPage() {
     if (location && latitude === null) {
       try {
         const response = await fetch(
-          `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(location)}&key=e6856ce2163d420dbae7d5adb0a104ec&limit=1`
+          `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(location)}&apiKey=${GEOAPIFY_KEY}&limit=1`
         );
         const data = await response.json();
-        if (data.results && data.results.length > 0) {
-          const { lat, lng } = data.results[0].geometry;
-          const tz = data.results[0].annotations?.timezone?.offset_sec;
+        if (data.features && data.features.length > 0) {
+          const { lat, lon } = data.features[0].properties;
+          const tz = data.features[0].properties.timezone?.offset_sec;
           setLatitude(lat);
-          setLongitude(lng);
+          setLongitude(lon);
           setTimezoneOffset(tz != null ? tz / 3600 : undefined);
         }
       } catch {}
@@ -515,9 +529,9 @@ function AiAstrologerPage() {
                           onMouseDown={() => selectSuggestion(s)}
                           className="w-full px-4 py-3 text-left text-sm hover:bg-background/50 transition-colors border-b border-border last:border-b-0"
                         >
-                          <div className="font-medium text-foreground">{s.formatted}</div>
+                          <div className="font-medium text-foreground">{s.properties.formatted}</div>
                           <div className="text-xs text-muted-foreground mt-1">
-                            {s.geometry.lat.toFixed(4)}°, {s.geometry.lng.toFixed(4)}°
+                            {s.properties.lat.toFixed(4)}°, {s.properties.lon.toFixed(4)}°
                           </div>
                         </button>
                       ))}
@@ -771,7 +785,7 @@ const seoContent: ({
 })[] = [
   {
     title: "AI Astrologer: The Union of Ancient Cosmic Wisdom and Precision Technology",
-    content: <>For thousands of years, seeking clarity through the stars meant finding a trusted Jyotishi, sitting down with a hand-drawn birth chart, and waiting for an intuitive interpretation of planetary movements. Astrology has always been equal parts astronomical mathematics and deep human empathy. Today, we stand at a fascinating convergence. An AI Astrologer brings the incredible speed and precision of modern computing to the sacred art of Vedic astrology (Jyotish). Rather than replacing the soul of traditional wisdom, true AI astrology serves as a bridge, giving you immediate, personal access to your own <Link to="/free-kundli" className="text-primary underline underline-offset-4 hover:opacity-80">Janam Kundli</Link> 24 hours a day. It also performs <Link to="/kundali-matching" className="text-primary underline underline-offset-4 hover:opacity-80">Kundli matching</Link> for marriage compatibility by comparing two birth charts. If you do not know your birth time and have one immediate concern, you can instead ask our <Link to="/ai-prashna-kundli" className="text-primary underline underline-offset-4 hover:opacity-80">AI Prashna Kundli</Link>, which casts a Vedic question chart for the moment you ask. If you have ever asked yourself how a computer can understand your karmic path, or how modern tools interpret planetary transits in real time, this guide breaks down everything you need to know about AI astrology.</>,
+    content: <>For thousands of years, seeking clarity through the stars meant finding a trusted Jyotishi, sitting down with a hand-drawn birth chart, and waiting for an intuitive interpretation of planetary movements. Astrology has always been equal parts astronomical mathematics and deep human empathy. Today, we stand at a fascinating convergence. An AI Astrologer brings the incredible speed and precision of modern computing to the sacred art of Vedic astrology (Jyotish). Rather than replacing the soul of traditional wisdom, true AI astrology serves as a bridge, giving you immediate, personal access to your own <Link to="/free-kundli" className="text-primary underline underline-offset-4 hover:opacity-80">Janam Kundli</Link> 24 hours a day. For a focused interpretation of your chart and a free question, explore <Link to="/ai-pandit" title="AI Pandit Vedic astrology guidance" className="text-primary underline underline-offset-4 hover:opacity-80">AI Pandit</Link>. It also performs <Link to="/kundali-matching" className="text-primary underline underline-offset-4 hover:opacity-80">Kundli matching</Link> for marriage compatibility by comparing two birth charts. If you do not know your birth time and have one immediate concern, you can instead ask our <Link to="/ai-prashna-kundli" className="text-primary underline underline-offset-4 hover:opacity-80">AI Prashna Kundli</Link>, which casts a Vedic question chart for the moment you ask. If you have ever asked yourself how a computer can understand your karmic path, or how modern tools interpret planetary transits in real time, this guide breaks down everything you need to know about AI astrology.</>,
   },
   {
     title: "What is an AI Astrologer?",
