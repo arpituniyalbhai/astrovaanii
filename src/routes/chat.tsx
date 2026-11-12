@@ -303,6 +303,7 @@ function ChatPage() {
 
     console.log("Starting to read stream...");
 
+    let firstChunk = true;
     while (true) {
       const { done, value } = await reader.read();
       if (done) {
@@ -311,6 +312,11 @@ function ChatPage() {
         break;
       }
       buffer += decoder.decode(value, { stream: true });
+
+      if (firstChunk) {
+        console.log("First chunk received, buffer:", buffer);
+        firstChunk = false;
+      }
 
       const parts = buffer.split("\n\n");
       buffer = parts.pop() || "";
@@ -326,6 +332,7 @@ function ChatPage() {
           }
           try {
             const json = JSON.parse(data);
+            console.log("Full JSON structure:", JSON.stringify(json, null, 2));
             const token = json.choices?.[0]?.delta?.content;
             if (token) {
               tokenCount++;
@@ -333,7 +340,9 @@ function ChatPage() {
               console.log("Token", tokenCount, ":", token);
               onToken(full);
             } else {
-              console.log("No content in delta, full JSON:", json);
+              console.log("No content in delta");
+              console.log("Delta object:", json.choices?.[0]?.delta);
+              console.log("Full choices array:", json.choices);
             }
           } catch (e) {
             console.error("Error parsing stream data:", data, e);
