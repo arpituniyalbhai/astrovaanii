@@ -429,7 +429,7 @@ async function handleStream(request: Request) {
   }
 
   const API_KEY = process.env.AI_GATEWAY_API_KEY;
-  const MODEL = "nvidia/nemotron-3.5-lightning-free";
+  const MODEL = "google/gemini-2.5-flash-lite";
   const ENDPOINT = "https://ai-gateway.vercel.sh/v1/chat/completions";
 
   const controller = new AbortController();
