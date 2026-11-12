@@ -299,10 +299,17 @@ function ChatPage() {
     const decoder = new TextDecoder();
     let buffer = "";
     let full = "";
+    let tokenCount = 0;
+
+    console.log("Starting to read stream...");
 
     while (true) {
       const { done, value } = await reader.read();
-      if (done) break;
+      if (done) {
+        console.log("Stream completed. Total tokens:", tokenCount, "Final content length:", full.length);
+        console.log("Final content:", full);
+        break;
+      }
       buffer += decoder.decode(value, { stream: true });
 
       const parts = buffer.split("\n\n");
@@ -313,15 +320,24 @@ function ChatPage() {
         for (const line of lines) {
           if (!line.startsWith("data: ")) continue;
           const data = line.slice(6).trim();
-          if (data === "[DONE]") continue;
+          if (data === "[DONE]") {
+            console.log("Received [DONE] signal");
+            continue;
+          }
           try {
             const json = JSON.parse(data);
             const token = json.choices?.[0]?.delta?.content;
             if (token) {
+              tokenCount++;
               full += token;
+              console.log("Token", tokenCount, ":", token);
               onToken(full);
+            } else {
+              console.log("No content in delta, full JSON:", json);
             }
-          } catch {}
+          } catch (e) {
+            console.error("Error parsing stream data:", data, e);
+          }
         }
       }
     }

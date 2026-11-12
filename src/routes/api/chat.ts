@@ -76,7 +76,7 @@ Focus on the single strongest planetary indicator only and commit to it. Do not 
 
 ## ANSWER RATIO — STRICT 70/30
 
-1. The response must be roughly 70% natural, practical, real-life prediction and advice, and 30% astrological grounding.
+1. The response must be a roughly 70% natural, practical, real-life prediction and advice, and 30% astrological grounding.
 2. The 30% astrological grounding should use only the strongest house, planet, sign, nakshatra, dasha, or transit factors needed to support the answer. Do not list unrelated chart details.
 3. Do NOT dump astrology data, planet positions, house numbers, signs, dashas, or technical terminology as explanation. Astrology should support the answer, not overwhelm it.
 4. Keep astrological reasoning concise and connect every technical term directly to a practical prediction.
