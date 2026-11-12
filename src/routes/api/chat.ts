@@ -429,7 +429,7 @@ async function handleStream(request: Request) {
   }
 
   const API_KEY = process.env.AI_GATEWAY_API_KEY;
-  const MODEL = "openai/gpt-5-nano";
+  const MODEL = "nvidia/nemotron-3.5-lightning-free";
   const ENDPOINT = "https://ai-gateway.vercel.sh/v1/chat/completions";
 
   const controller = new AbortController();
@@ -446,7 +446,7 @@ async function handleStream(request: Request) {
         model: MODEL,
         messages: [...systemMessages, ...messages],
         temperature: 0.4,
-        max_completion_tokens: isTarotReading ? 520 : 400,
+        max_tokens: isTarotReading ? 520 : 400,
         stream: true,
       }),
       signal: controller.signal,
