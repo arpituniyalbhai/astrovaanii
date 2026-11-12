@@ -58,27 +58,12 @@ function ChatPage() {
   const isFirstAnswerRef = useRef(true);
   const currentQuestionRef = useRef(initialQuestion);
   const typingStartRef = useRef(0);
-  const MIN_LOADING_MS = 3000;
   const [isFreeUser, setIsFreeUser] = useState(false);
   const [hasUsedFreeChat, setHasUsedFreeChat] = useState(false);
 
   const [followUpSuggestions, setFollowUpSuggestions] = useState<Record<string, string[]>>({});
   const [activeMessageId, setActiveMessageId] = useState<string | null>(null);
 
-  const setMinLoading = (show: boolean) => {
-    if (show) {
-      typingStartRef.current = Date.now();
-      setIsTyping(true);
-    } else {
-      const elapsed = Date.now() - typingStartRef.current;
-      const remaining = MIN_LOADING_MS - elapsed;
-      if (remaining > 0) {
-        setTimeout(() => setIsTyping(false), remaining);
-      } else {
-        setIsTyping(false);
-      }
-    }
-  };
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [activeConversationId, setActiveConversationId] = useState<string | null>(null);
   const messagesRef = useRef<Message[]>([]);
@@ -359,13 +344,13 @@ function ChatPage() {
     setActiveMessageId(userMessage.id);
     setMessages([userMessage]);
 
-    setMinLoading(true);
+    setIsTyping(true);
     const botIdRef = { current: null as string | null };
 
     streamToVaanii(initialQuestion, [], convId, (full) => {
       if (!botIdRef.current) {
         botIdRef.current = (Date.now() + 1).toString();
-        setMinLoading(false);
+        setIsTyping(false);
         setMessages((prev) => [
           ...prev,
           { id: botIdRef.current!, type: "bot", content: stripMarkdown(full), timestamp: new Date() },
@@ -389,7 +374,7 @@ function ChatPage() {
     }).catch((err) => {
       console.error("Chat error:", err);
       isSendingRef.current = false;
-      setMinLoading(false);
+      setIsTyping(false);
       const name = userNameRef.current;
       if (err.message === "NO_CREDITS") return;
       const errorMsg = `Thank you for your question, ${name}! I'm analyzing your birth chart to provide you with an accurate reading. This may take a moment...`;
@@ -429,14 +414,14 @@ function ChatPage() {
     setInputValue("");
     
     const currentHistory = messages;
-    
+
     const botIdRef = { current: null as string | null };
-    
-    setMinLoading(true);
+
+    setIsTyping(true);
     streamToVaanii(userMessage.content, currentHistory, convId, (full) => {
       if (!botIdRef.current) {
         botIdRef.current = (Date.now() + 1).toString();
-        setMinLoading(false);
+        setIsTyping(false);
         setMessages((prev) => [
           ...prev,
           { id: botIdRef.current!, type: "bot", content: stripMarkdown(full), timestamp: new Date() },
@@ -461,7 +446,7 @@ function ChatPage() {
       })
       .catch((err) => {
         console.error("Chat error:", err);
-        setMinLoading(false);
+        setIsTyping(false);
         isSendingRef.current = false;
         const name = userNameRef.current;
         if (err.message === "NO_CREDITS") {
