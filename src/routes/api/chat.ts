@@ -428,7 +428,7 @@ async function handleStream(request: Request) {
   }
 
   const API_KEY = process.env.AI_GATEWAY_API_KEY;
-  const MODEL = "alibaba/qwen-3-235b";
+  const MODEL = "openai/gpt-5-nano";
   const ENDPOINT = "https://ai-gateway.vercel.sh/v1/chat/completions";
 
   const controller = new AbortController();
@@ -444,8 +444,8 @@ async function handleStream(request: Request) {
       body: JSON.stringify({
         model: MODEL,
         messages: [...systemMessages, ...messages],
-        temperature: 0.4,
-        max_tokens: isTarotReading ? 520 : 450,
+        reasoning_effort: "low",
+        max_completion_tokens: isTarotReading ? 520 : 450,
         stream: true,
       }),
       signal: controller.signal,
