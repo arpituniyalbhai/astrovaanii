@@ -4,6 +4,7 @@ import brandIcon from "@/assets/astrovaanii-logo.png";
 import kundliImage from "@/assets/free-kundlai-generator.webp";
 import chatPreview from "@/assets/chat-preview.jpg";
 import dashaWheelImage from "@/assets/vimshottari-dasha-wheel.webp";
+import lagnaImage from "@/assets/what-is-lagna-in-astrology.webp";
 
 export const Route = createFileRoute("/tools")({
   head: () => ({
@@ -57,6 +58,14 @@ const tools = [
     image: kundliImage,
     link: "/free-kundli",
     features: ["North Indian chart format", "Planet positions & houses", "Vimshottari Dasha timeline", "Lahiri Ayanamsa"],
+  },
+  {
+    title: "Free Lagna Calculator",
+    description:
+      "Find your exact Vedic Ascendant (Lagna) sign, precise degrees, and Lagna Lord (Lagnesh). View your rising sign archetype, Nakshatra, and full North Indian Lagna chart computed with Swiss Ephemeris.",
+    image: lagnaImage,
+    link: "/lagna-calculator",
+    features: ["Exact Ascendant degrees", "Lagna Lord placement", "Lagna Nakshatra & Pada", "Interactive D1 Chart"],
   },
   {
     title: "AI Astrologer",

@@ -427,32 +427,34 @@ async function handleStream(request: Request) {
     systemMessages.push({ role: "system", content: lines.join("\n") });
   }
 
-  const API_KEY = process.env.MISTRAL_API_KEY;
-  const MODEL = "ministral-14b-latest";
-  const ENDPOINT = "https://api.mistral.ai/v1/chat/completions";
+  const API_KEY = process.env.AI_GATEWAY_API_KEY;
+  const MODEL = "alibaba/qwen-3-235b";
+  const ENDPOINT = "https://ai-gateway.vercel.sh/v1/chat/completions";
 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 25000);
 
   try {
-    const mistralRes = await fetch(ENDPOINT, {
+    const gatewayRes = await fetch(ENDPOINT, {
       method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${API_KEY}` },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
       body: JSON.stringify({
         model: MODEL,
         messages: [...systemMessages, ...messages],
         temperature: 0.4,
         max_tokens: isTarotReading ? 520 : 450,
-        safe_prompt: false,
         stream: true,
       }),
       signal: controller.signal,
     });
     clearTimeout(timeout);
 
-    if (!mistralRes.ok) {
-      const text = await mistralRes.text();
-      // Refund credit on Mistral API error
+    if (!gatewayRes.ok) {
+      const text = await gatewayRes.text();
+      // Refund credit on AI Gateway API error
       if (userRef) {
         try {
           await updateDoc(userRef, { questionsRemaining: increment(1) });
@@ -460,7 +462,7 @@ async function handleStream(request: Request) {
           /* non-critical */
         }
       }
-      return new Response(text, { status: mistralRes.status });
+      return new Response(text, { status: gatewayRes.status });
     }
 
     if (reasoningContextRef && reasoning) {
@@ -491,10 +493,10 @@ async function handleStream(request: Request) {
       "X-Credits-Remaining": String(questionsRemaining),
     };
 
-    return new Response(mistralRes.body, { headers });
+    return new Response(gatewayRes.body, { headers });
   } catch (err) {
     clearTimeout(timeout);
-    console.error("Mistral API error:", err);
+    console.error("AI Gateway API error:", err);
     // Refund credit on network/fetch error
     if (userRef) {
       try {

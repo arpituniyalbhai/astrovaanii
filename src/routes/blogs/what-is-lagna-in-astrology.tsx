@@ -63,7 +63,7 @@ const faqs = [
   },
   {
     q: "How do I know my Lagna sign?",
-    a: "To find your Lagna sign, you need your exact date of birth, exact time of birth (to the minute), and city of birth. Entering these details into a high-precision Swiss Ephemeris calculator will reveal your exact Lagna degrees and First House sign.",
+    a: "To find your Lagna sign, you need your exact date of birth, exact time of birth (to the minute), and city of birth. Entering these details into our free Lagna Calculator (powered by high-precision Swiss Ephemeris) will instantly reveal your exact Lagna degrees, Lagnesh (ruler planet), and First House sign.",
   },
   {
     q: "Is Lagna the same as the rising sign?",
@@ -680,12 +680,35 @@ function WhatIsLagnaPage() {
           </p>
         </section>
 
+        {/* Free Lagna Calculator In-Content Bridge */}
+        <div className="my-8 rounded-2xl border border-primary/40 bg-gradient-to-r from-primary/15 via-primary/5 to-transparent p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+          <div>
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-primary">Free Interactive Astrology Tool</span>
+            <h3 className="font-display text-lg font-semibold text-foreground mt-0.5">
+              Calculate Your Exact Lagna Sign & Rising Degree Online
+            </h3>
+            <p className="text-xs text-muted-foreground mt-1 max-w-xl">
+              Don&apos;t guess your rising sign. Compute your exact Vedic Ascendant degree, Lagna Lord (Lagnesh), and Nakshatra with our free Swiss Ephemeris calculator.
+            </p>
+          </div>
+          <Link
+            to="/lagna-calculator"
+            className="shrink-0 rounded-full bg-primary px-5 py-2.5 text-xs font-semibold text-primary-foreground hover:opacity-90 shadow transition-transform hover:scale-105"
+          >
+            Open Lagna Calculator &rarr;
+          </Link>
+        </div>
+
         {/* Article Body Prose (2,000+ words) */}
         <article className="prose prose-stone dark:prose-invert max-w-none space-y-8 text-foreground/90 leading-relaxed text-base">
           <p>
             Lagna (Ascendant or Rising Sign) in Vedic astrology is the exact zodiac sign ascending
             on the eastern horizon at your birth moment, forming the foundation of your entire
-            horoscope. When you step into traditional Vedic astrology (Jyotish), one word comes up
+            horoscope. (You can calculate yours right now with our{" "}
+            <Link to="/lagna-calculator" className="text-primary font-semibold underline underline-offset-4">
+              Free Lagna Calculator
+            </Link>
+            ). When you step into traditional Vedic astrology (Jyotish), one word comes up
             constantly: <strong>Lagna</strong>. While Western astrology popularized Sun signs
             through monthly horoscopes, classical Vedic scriptures like{" "}
             <em>Brihat Parashara Hora Shastra (BPHS)</em> treat your Lagna as the true anchor of
@@ -1109,41 +1132,44 @@ function WhatIsLagnaPage() {
               Calculate Your Exact Lagna Sign Instantly
             </h3>
             <p className="text-sm text-muted-foreground max-w-xl mx-auto">
-              Generate your full North Indian or South Indian birth chart using precise Swiss
-              Ephemeris algorithms. Then use our{" "}
+              Find your exact Vedic Ascendant degree, Lagna Lord (Lagnesh), and Nakshatra with our{" "}
+              <Link to="/lagna-calculator" className="text-primary font-semibold underline underline-offset-4">
+                Free Lagna Calculator
+              </Link>
+              , or generate your complete birth chart with our{" "}
+              <Link
+                to="/free-kundli"
+                className="text-primary underline underline-offset-4 hover:opacity-80"
+              >
+                free Kundli tool
+              </Link>{" "}
+              and analyze marriage compatibility with our{" "}
               <Link
                 to="/kundali-matching"
                 className="text-primary underline underline-offset-4 hover:opacity-80"
               >
                 Kundli matching tool
-              </Link>{" "}
-              for marriage compatibility analysis or check the Rahu and Ketu axis with our{" "}
-              <Link
-                to="/kaal-sarp-dosha-calculator"
-                className="text-primary underline underline-offset-4 hover:opacity-80"
-              >
-                Kaal Sarp Dosha calculator
               </Link>
               .
             </p>
             <div className="flex flex-wrap justify-center gap-4 pt-2">
               <Link
-                to="/free-kundli"
-                className="rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90 transition-opacity shadow-md"
+                to="/lagna-calculator"
+                className="rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90 transition-transform hover:scale-105 shadow-md"
               >
-                Generate Free Kundli
+                Open Free Lagna Calculator
               </Link>
               <Link
-                to="/ai-astrologer"
+                to="/free-kundli"
+                className="rounded-full border border-border bg-background px-6 py-3 text-sm font-semibold text-foreground hover:bg-accent transition-colors"
+              >
+                Generate Full Kundli
+              </Link>
+              <Link
+                to="/signup"
                 className="rounded-full border border-border bg-background px-6 py-3 text-sm font-semibold text-foreground hover:opacity-90 transition-colors"
               >
                 Ask Vaanii AI
-              </Link>
-              <Link
-                to="/kundali-matching"
-                className="rounded-full border border-border bg-background px-6 py-3 text-sm font-semibold text-foreground hover:bg-accent transition-colors"
-              >
-                Kundli Matching
               </Link>
             </div>
           </div>

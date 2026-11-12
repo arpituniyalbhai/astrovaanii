@@ -22,6 +22,7 @@ import { Route as DisclaimerRouteImport } from './routes/disclaimer'
 import { Route as FreeKundliRouteImport } from './routes/free-kundli'
 import { Route as KaalSarpDoshaCalculatorRouteImport } from './routes/kaal-sarp-dosha-calculator'
 import { Route as KundaliMatchingRouteImport } from './routes/kundali-matching'
+import { Route as LagnaCalculatorRouteImport } from './routes/lagna-calculator'
 import { Route as MyChartRouteImport } from './routes/my-chart'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
@@ -112,6 +113,11 @@ const KaalSarpDoshaCalculatorRoute = KaalSarpDoshaCalculatorRouteImport.update({
 const KundaliMatchingRoute = KundaliMatchingRouteImport.update({
   id: '/kundali-matching',
   path: '/kundali-matching',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LagnaCalculatorRoute = LagnaCalculatorRouteImport.update({
+  id: '/lagna-calculator',
+  path: '/lagna-calculator',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MyChartRoute = MyChartRouteImport.update({
@@ -263,6 +269,7 @@ export interface FileRoutesByFullPath {
   '/free-kundli': typeof FreeKundliRoute
   '/kaal-sarp-dosha-calculator': typeof KaalSarpDoshaCalculatorRoute
   '/kundali-matching': typeof KundaliMatchingRoute
+  '/lagna-calculator': typeof LagnaCalculatorRoute
   '/my-chart': typeof MyChartRoute
   '/onboarding': typeof OnboardingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -304,6 +311,7 @@ export interface FileRoutesByTo {
   '/free-kundli': typeof FreeKundliRoute
   '/kaal-sarp-dosha-calculator': typeof KaalSarpDoshaCalculatorRoute
   '/kundali-matching': typeof KundaliMatchingRoute
+  '/lagna-calculator': typeof LagnaCalculatorRoute
   '/my-chart': typeof MyChartRoute
   '/onboarding': typeof OnboardingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -346,6 +354,7 @@ export interface FileRoutesById {
   '/free-kundli': typeof FreeKundliRoute
   '/kaal-sarp-dosha-calculator': typeof KaalSarpDoshaCalculatorRoute
   '/kundali-matching': typeof KundaliMatchingRoute
+  '/lagna-calculator': typeof LagnaCalculatorRoute
   '/my-chart': typeof MyChartRoute
   '/onboarding': typeof OnboardingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -389,6 +398,7 @@ export interface FileRouteTypes {
     | '/free-kundli'
     | '/kaal-sarp-dosha-calculator'
     | '/kundali-matching'
+    | '/lagna-calculator'
     | '/my-chart'
     | '/onboarding'
     | '/privacy-policy'
@@ -430,6 +440,7 @@ export interface FileRouteTypes {
     | '/free-kundli'
     | '/kaal-sarp-dosha-calculator'
     | '/kundali-matching'
+    | '/lagna-calculator'
     | '/my-chart'
     | '/onboarding'
     | '/privacy-policy'
@@ -471,6 +482,7 @@ export interface FileRouteTypes {
     | '/free-kundli'
     | '/kaal-sarp-dosha-calculator'
     | '/kundali-matching'
+    | '/lagna-calculator'
     | '/my-chart'
     | '/onboarding'
     | '/privacy-policy'
@@ -513,6 +525,7 @@ export interface RootRouteChildren {
   FreeKundliRoute: typeof FreeKundliRoute
   KaalSarpDoshaCalculatorRoute: typeof KaalSarpDoshaCalculatorRoute
   KundaliMatchingRoute: typeof KundaliMatchingRoute
+  LagnaCalculatorRoute: typeof LagnaCalculatorRoute
   MyChartRoute: typeof MyChartRoute
   OnboardingRoute: typeof OnboardingRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
@@ -632,6 +645,13 @@ declare module '@tanstack/react-router' {
       path: '/kundali-matching'
       fullPath: '/kundali-matching'
       preLoaderRoute: typeof KundaliMatchingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lagna-calculator': {
+      id: '/lagna-calculator'
+      path: '/lagna-calculator'
+      fullPath: '/lagna-calculator'
+      preLoaderRoute: typeof LagnaCalculatorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/my-chart': {
@@ -833,6 +853,7 @@ const rootRouteChildren: RootRouteChildren = {
   FreeKundliRoute: FreeKundliRoute,
   KaalSarpDoshaCalculatorRoute: KaalSarpDoshaCalculatorRoute,
   KundaliMatchingRoute: KundaliMatchingRoute,
+  LagnaCalculatorRoute: LagnaCalculatorRoute,
   MyChartRoute: MyChartRoute,
   OnboardingRoute: OnboardingRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,

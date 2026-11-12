@@ -1148,6 +1148,7 @@ function Footer() {
             title="Tools"
             links={[
               { to: "/ai-astrologer", label: "Free AI Astrologer" },
+              { to: "/lagna-calculator", label: "Free Lagna Calculator" },
               { to: "/free-kundli", label: "Kundli Generator" },
               { to: "/kundali-matching", label: "Kundali Matching" },
               { to: "/vimshottari-dasha-calculator", label: "Dasha Calculator" },
