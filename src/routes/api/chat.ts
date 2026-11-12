@@ -445,7 +445,7 @@ async function handleStream(request: Request) {
       body: JSON.stringify({
         model: MODEL,
         messages: [...systemMessages, ...messages],
-        reasoning_effort: "low",
+        temperature: 0.4,
         max_completion_tokens: isTarotReading ? 520 : 400,
         stream: true,
       }),

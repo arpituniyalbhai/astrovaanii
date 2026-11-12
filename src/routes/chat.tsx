@@ -302,10 +302,7 @@ function ChatPage() {
 
     while (true) {
       const { done, value } = await reader.read();
-      if (done) {
-        console.log("Stream completed");
-        break;
-      }
+      if (done) break;
       buffer += decoder.decode(value, { stream: true });
 
       const parts = buffer.split("\n\n");
@@ -316,10 +313,7 @@ function ChatPage() {
         for (const line of lines) {
           if (!line.startsWith("data: ")) continue;
           const data = line.slice(6).trim();
-          if (data === "[DONE]") {
-            console.log("Received [DONE] signal");
-            continue;
-          }
+          if (data === "[DONE]") continue;
           try {
             const json = JSON.parse(data);
             const token = json.choices?.[0]?.delta?.content;
@@ -327,9 +321,7 @@ function ChatPage() {
               full += token;
               onToken(full);
             }
-          } catch (e) {
-            console.error("Error parsing stream data:", data, e);
-          }
+          } catch {}
         }
       }
     }
