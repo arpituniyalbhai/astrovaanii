@@ -302,7 +302,10 @@ function ChatPage() {
 
     while (true) {
       const { done, value } = await reader.read();
-      if (done) break;
+      if (done) {
+        console.log("Stream completed");
+        break;
+      }
       buffer += decoder.decode(value, { stream: true });
 
       const parts = buffer.split("\n\n");
@@ -313,7 +316,10 @@ function ChatPage() {
         for (const line of lines) {
           if (!line.startsWith("data: ")) continue;
           const data = line.slice(6).trim();
-          if (data === "[DONE]") continue;
+          if (data === "[DONE]") {
+            console.log("Received [DONE] signal");
+            continue;
+          }
           try {
             const json = JSON.parse(data);
             const token = json.choices?.[0]?.delta?.content;
@@ -321,7 +327,9 @@ function ChatPage() {
               full += token;
               onToken(full);
             }
-          } catch {}
+          } catch (e) {
+            console.error("Error parsing stream data:", data, e);
+          }
         }
       }
     }
@@ -361,6 +369,7 @@ function ChatPage() {
         );
       }
     }).then(() => {
+      console.log("Stream completed successfully");
       isSendingRef.current = false;
       const lastBotMsg = messagesRef.current.filter(m => m.type === "bot").at(-1);
       const lastUserMsg = messagesRef.current.filter(m => m.type === "user").at(-1);
@@ -388,6 +397,9 @@ function ChatPage() {
           { id: (Date.now() + 1).toString(), type: "bot", content: errorMsg, timestamp: new Date() },
         ]);
       }
+    }).finally(() => {
+      console.log("Stream promise resolved (finally)");
+      isSendingRef.current = false;
     });
   }, [initialQuestion]);
 
@@ -433,6 +445,7 @@ function ChatPage() {
       }
     })
       .then(() => {
+        console.log("Stream completed successfully");
         isSendingRef.current = false;
         const lastBotMsg = messagesRef.current.filter(m => m.type === "bot").at(-1);
         const lastUserMsg = messagesRef.current.filter(m => m.type === "user").at(-1);
@@ -463,6 +476,10 @@ function ChatPage() {
             { id: (Date.now() + 1).toString(), type: "bot", content: errorMsg, timestamp: new Date() },
           ]);
         }
+      })
+      .finally(() => {
+        console.log("Stream promise resolved (finally)");
+        isSendingRef.current = false;
       });
   };
 
