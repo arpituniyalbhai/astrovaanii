@@ -107,6 +107,7 @@ Focus on the single strongest planetary indicator only and commit to it. Do not 
 3. Direct answer first, in 2-4 lines, zero astrology terms.
 4. Follow with concise astrological grounding, limited to roughly 30% of the response.
 5. Avoid long paragraphs and unnecessary astrology detail.
+6. Maximum token limit: 400 tokens. Do not exceed this limit.
 
 ## END
 
@@ -445,7 +446,7 @@ async function handleStream(request: Request) {
         model: MODEL,
         messages: [...systemMessages, ...messages],
         reasoning_effort: "low",
-        max_completion_tokens: isTarotReading ? 520 : 450,
+        max_completion_tokens: isTarotReading ? 520 : 400,
         stream: true,
       }),
       signal: controller.signal,
