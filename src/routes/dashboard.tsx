@@ -9,8 +9,15 @@ import vaaniiPersona from "@/assets/vaanii-persona.jpg";
 import brandIcon from "@/assets/astrovaanii-logo.png";
 import { FreeTools, FreeToolsNavButton } from "@/components/free-Tools";
 import { VedicTarotNavButton, VedicTarotReading } from "@/components/VedicTarotReading";
-import { FileText, Send } from "lucide-react";
+import { ArrowUp, FileText } from "lucide-react";
 import { PricingDialog } from "@/components/PricingDialog";
+
+const suggestedQuestions = [
+  "When does my chart open up for marriage?",
+  "What is Saturn doing to my chart right now?",
+  "Is a change of field worth it for me this year?",
+  "What is my running mahadasha bringing over the next year?",
+];
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -77,7 +84,7 @@ function DashboardPage() {
 
   const handleDailyPredictionClick = () => {
     handlePopupClose();
-    navigate({ to: "/chat", search: { question: "Hey vaani tell my today predictions" } });
+    navigate({ to: "/chat", search: { draft: "Hey vaani tell my today predictions" } });
   };
 
   const handleSignOut = async () => {
@@ -136,14 +143,18 @@ function DashboardPage() {
   }, []);
 
   const handleSendMessage = () => {
-    if (!inputValue.trim()) return;
-    navigate({ to: "/chat", search: { question: inputValue } });
+    const draft = inputValue.trim();
+    if (!draft) return;
+    navigate({ to: "/chat", search: { draft } });
     setInputValue("");
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      handleSendMessage();
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      const draft = inputValue.trim();
+      if (!draft) return;
+      navigate({ to: "/chat", search: { draft } });
     }
   };
 
@@ -156,7 +167,7 @@ function DashboardPage() {
     : undefined;
 
   const askAboutDasha = (question: string) => {
-    navigate({ to: "/chat", search: { question } });
+    navigate({ to: "/chat", search: { draft: question } });
   };
 
   return (
@@ -587,69 +598,23 @@ function DashboardPage() {
 
         {/* Main content */}
         <div className="flex-1 flex flex-col">
-          {/* Header */}
-          <header className="flex min-h-16 items-center gap-2 border-b border-primary/20 bg-primary/10 px-3 py-2 backdrop-blur-md md:gap-4 md:px-6">
-            <button
-              onClick={() => setIsSidebarOpen(true)}
-              aria-label="Open navigation"
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-background/50 hover:text-foreground md:hidden"
+          {/* Mobile nav toggle (header removed) */}
+          <button
+            onClick={() => setIsSidebarOpen(true)}
+            aria-label="Open navigation"
+            className="fixed left-4 top-4 z-40 flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/95 text-muted-foreground shadow-lg backdrop-blur-md transition-colors hover:text-foreground md:hidden"
+          >
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
             >
-              <svg
-                width="23"
-                height="23"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path d="M3 12h18M3 6h18M3 18h18" />
-              </svg>
-            </button>
-            <PricingDialog
-              aria-label={`${userName}, get 10 Credits for Just Rs. 139`}
-              className="min-w-0 flex-1 text-center font-medium text-foreground transition-colors hover:text-primary"
-            >
-              <span className="hidden text-sm md:inline">
-                <span className="mr-1.5 text-primary">&#10022;</span>
-                {userName}, get 10 Credits for Just Rs. 139.
-                <span className="ml-2 whitespace-nowrap text-primary hover:underline">
-                  Get offer &rarr;
-                </span>
-              </span>
-              <span className="flex flex-col items-center leading-tight md:hidden">
-                <span className="max-w-full truncate text-xs">
-                  <span className="mr-1 text-primary">&#10022;</span>
-                  {userName}, 10 personalized questions
-                </span>
-                <span className="mt-1 text-sm font-semibold text-primary">
-                  Just Rs. 139{" "}
-                  <span className="ml-1 underline underline-offset-2">Get offer &rarr;</span>
-                </span>
-              </span>
-            </PricingDialog>
-            <button
-              onClick={() => {
-                void handleSignOut();
-              }}
-              aria-label="Sign out"
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-background/50 hover:text-foreground md:h-auto md:w-auto md:rounded-none md:text-sm"
-            >
-              <svg
-                className="md:hidden"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                aria-hidden="true"
-              >
-                <path d="M10 17l5-5-5-5M15 12H3" />
-                <path d="M14 3h5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-5" />
-              </svg>
-              <span className="hidden md:inline">Sign out</span>
-            </button>
-          </header>
+              <path d="M3 12h18M3 6h18M3 18h18" />
+            </svg>
+          </button>
 
           {/* Content area */}
           <div
@@ -658,54 +623,60 @@ function DashboardPage() {
             }`}
           >
             {activeTab === "chat" && (
-              <div className="w-full max-w-2xl">
+              <div className="w-full max-w-3xl">
                 {/* Welcome message */}
                 <div className="text-center mb-8">
-                  <div className="relative inline-block mb-4">
-                    <div className="absolute inset-0 -m-2 rounded-full bg-primary/25 blur-xl" />
-                    <img
-                      src={vaaniiPersona}
-                      alt="Vaanii, AI astrologer"
-                      className="relative h-20 w-20 rounded-full border-4 border-background object-cover shadow-2xl"
-                    />
-                  </div>
-                  <h2 className="font-display text-3xl text-primary mb-2">
-                    Welcome, {userName}. What would you like to know?
+                  <h2 className="font-display text-3xl text-foreground sm:text-4xl md:text-5xl">
+                    What do you want to know?
                   </h2>
-                  <p className="text-sm text-muted-foreground/70">
-                    Personalized answers based on your Vedic birth chart
+                  <p className="mt-3 text-sm text-muted-foreground">
+                    Welcome, {userName} — answers grounded in your Vedic birth chart
                   </p>
                 </div>
 
                 {/* Input area */}
                 <div className="relative">
-                  <div className="mb-2 flex justify-center">
-                    <div className="rounded-full bg-red-50 border border-red-200 px-4 py-2">
-                      <span className="text-sm font-medium text-red-500">
-                        {questionsRemaining} question{questionsRemaining !== 1 ? "s" : ""} remaining
-                      </span>
-                      <PricingDialog className="ml-2 text-sm font-medium text-primary hover:underline">
-                        Get more
-                      </PricingDialog>
-                    </div>
-                  </div>
-                  <div className="relative">
-                    <input
-                      type="text"
+                  <div className="rounded-3xl border border-border bg-card/80 p-2 shadow-lg shadow-primary/10 transition-all focus-within:border-primary/60 focus-within:ring-2 focus-within:ring-primary/10">
+                    <textarea
+                      rows={4}
                       value={inputValue}
                       onChange={(e) => setInputValue(e.target.value)}
-                      onKeyPress={handleKeyPress}
-                      placeholder="Ask Vaanii anything..."
-                      className="w-full rounded-2xl border border-border bg-card/80 px-4 py-3.5 pr-14 text-base outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/10 transition-all shadow-lg shadow-primary/20 sm:px-6 sm:py-4 sm:pr-20"
+                      onKeyDown={handleKeyPress}
+                      placeholder="Ask about your career, marriage, or the timing of a decision..."
+                      className="w-full resize-none bg-transparent px-4 pt-4 pb-2 text-base text-foreground placeholder:text-muted-foreground/60 outline-none"
                     />
-                    <button
-                      onClick={handleSendMessage}
-                      disabled={!inputValue.trim()}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-xl bg-primary p-2.5 text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all sm:p-3"
-                      aria-label="Send message"
-                    >
-                      <Send className="h-4 w-4 sm:h-5 sm:w-5" />
-                    </button>
+                    <div className="flex flex-wrap items-center justify-end gap-2 px-2 pb-2">
+                      <div className="flex items-center overflow-hidden rounded-full border border-gold/50 bg-gold/15 text-[11px] font-semibold uppercase tracking-wider">
+                        <span className="px-3 py-1.5 text-foreground/80">
+                          {questionsRemaining} question{questionsRemaining !== 1 ? "s" : ""} left
+                        </span>
+                        <PricingDialog className="border-l border-gold/50 px-3 py-1.5 text-primary transition-colors hover:bg-gold/20">
+                          Buy more
+                        </PricingDialog>
+                      </div>
+                      <button
+                        onClick={handleSendMessage}
+                        disabled={!inputValue.trim()}
+                        className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                        aria-label="Send message"
+                      >
+                        <ArrowUp className="h-5 w-5" />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Suggested prompts */}
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                    {suggestedQuestions.map((question) => (
+                      <button
+                        key={question}
+                        type="button"
+                        onClick={() => askAboutDasha(question)}
+                        className="rounded-2xl border border-border bg-card/60 px-5 py-4 text-left font-display text-base leading-snug text-foreground transition-colors hover:border-primary/40 hover:bg-card sm:text-lg"
+                      >
+                        {question}
+                      </button>
+                    ))}
                   </div>
 
                   {currentDasha && (

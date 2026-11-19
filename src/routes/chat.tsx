@@ -11,6 +11,7 @@ import { AstrologyHighlightedText } from "@/components/AstrologyHighlightedText"
 
 const chatSearchSchema = z.object({
   question: z.string().optional(),
+  draft: z.string().optional(),
 });
 
 export const Route = createFileRoute("/chat")({
@@ -44,7 +45,7 @@ const FREE_CHAT_USED_KEY = "vaanii_free_chat_used";
 
 function ChatPage() {
   const navigate = useNavigate();
-  const { question: initialQuestion } = useSearch({ from: "/chat" });
+  const { question: initialQuestion, draft: initialDraft } = useSearch({ from: "/chat" });
 
 
   const [messages, setMessages] = useState<Message[]>([]);
@@ -330,6 +331,17 @@ function ChatPage() {
       }
     }
   };
+
+  useEffect(() => {
+    if (!initialDraft) return;
+    setInputValue(initialDraft);
+    requestAnimationFrame(() => {
+      const el = inputRef.current;
+      if (!el) return;
+      el.focus();
+      el.setSelectionRange(el.value.length, el.value.length);
+    });
+  }, [initialDraft]);
 
   useEffect(() => {
     if (!initialQuestion) return;
